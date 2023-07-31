@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PixelChat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+    <div class="limiter">
+        <div class="logo">
+            PixelChat
+        </div>
+        <div class="navbar">
+            <a href="index.html" class="navbar-item">Home</a>
+            <a href="login.html" class="navbar-item">Login</a>
+            <a href="register.html" class="navbar-item">Register</a>
+        </div>
+        <div class="container-login">
+            <div class="wrap-login">
+                <div class="login-pic">
+                    <img src="images/img-01.png" alt="IMG">
+                </div>
+                <form id="loginForm" class="login-form validate-form">
+                    <span class="login-form-title">
+                        Member Login
+                    </span>
+                    <div class="wrap-input validate-input" data-validate="Please enter a valid email address in the format: yourname@example.com">
+                        <input class="input" type="text" name="email" placeholder="Email">
+                        <span class="focus-input"></span>
+                        <span class="symbol-input">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input validate-input" data-validate="Password is required: Minimum 8 characters">
+                        <input class="input" type="password" name="pass" placeholder="Password">
+                        <span class="focus-input"></span>
+                        <span class="symbol-input">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+
+                    <div class="container-login-form-btn">
+                        <button class="login-form-btn" href="login2.html">
+                            Login
+                        </button>
+                    </div>
+                    <div class="text-center p-t-12">
+                        <span class="data1">
+                            Forgot
+                        </span>
+                        <a class="data2" href="#">
+                            Password?
+                        </a>
+                    </div>
+                    <div class="text-center p-t-50">
+                        <a class="data2" href="register.html">
+                            Create your Account
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+            // Find the login form element by its ID
+var loginForm = document.getElementById('loginForm');
+
+// Attach an event listener to the form's submit event
+loginForm.addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  // Perform the email and password validation here
+  var email = document.getElementsByName('email')[0].value;
+  var password = document.getElementsByName('pass')[0].value;
+
+  // Example: Check if email and password are valid (you can replace this with your validation logic)
+  var isValidCredentials = validateCredentials(email, password);
+  console.log(isValidCredentials);
+
+  // If credentials are valid, redirect to login2.html
+  if (isValidCredentials) {
+    window.location.href = 'login2.html';
+  }
+});
+
+function validateCredentials(email, password) {
+  // Example validation: Check if email is not empty and password has at least 8 characters
+  return email.trim() !== '' && password.length >= 8;
+}
+    </script>
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
