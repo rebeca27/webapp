@@ -115,7 +115,7 @@
       var selectedColor = $(this).attr('data-color');
       $('#colorInput').val(selectedColor);
   });
-  
 
+    
   })();
   

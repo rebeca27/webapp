@@ -2,9 +2,11 @@ package com.pixelchat.controller;
 
 import com.pixelchat.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.pixelchat.service.UserService;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestParam("email") String email,
+    public ResponseEntity<?> registerUser(@RequestParam("email") String email,
                                              @RequestParam("password") String password,
                                              @RequestParam("color") String color,
                                              @RequestParam("profileImage") MultipartFile profileImage) {
@@ -28,8 +30,8 @@ public class UserController {
         // Check if a user with the given email already exists
         User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
-            // User already exists, return a bad request response
-            return ResponseEntity.badRequest().build();
+            // User already exists, return a bad request response with a descriptive message
+            return ResponseEntity.badRequest().body("Email is already in use.");
         }
 
         // Process the uploaded image, if needed
@@ -55,6 +57,12 @@ public class UserController {
 
         // Return the saved user in the response body with a status of 200 OK
         return ResponseEntity.ok(savedUser);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exc) {
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+                .body("File size is too large! Please upload a smaller file.");
     }
 }
 

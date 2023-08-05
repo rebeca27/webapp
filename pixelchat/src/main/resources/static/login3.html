@@ -23,16 +23,28 @@
         </div>
         <div class="container-login">
             <div class="wrap-login">
-                <form class="login-form validate-form">
+                <form class="login-form validate-form" name="loginForm" action="/login" method="post" enctype="multipart/form-data">
                     <span class="login-form-title">
                         Member Login
                     </span>
 
                     <div class="container-register-form-btn">
                         <div class="input-file-container">
-                            <input class="input-file" id="photoUpload" type="file" accept="image/*" hidden>
+                            <input class="input-file" type="file" id="share1" name="share1" accept="image/*" required hidden>
                             <label tabindex="0" for="photoUpload" class="input-file-trigger login-form-btn">
-                                Choose a Photo
+                                Upload Share1:
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Add the file-return element to display the selected file name -->
+                    <p class="file-return"></p>
+
+                    <div class="container-register-form-btn">
+                        <div class="input-file-container">
+                            <input class="input-file" type="file" id="share2" name="share2" accept="image/*" required hidden>
+                            <label tabindex="0" for="photoUpload" class="input-file-trigger login-form-btn">
+                                Upload Share2:
                             </label>
                         </div>
                     </div>
@@ -41,8 +53,8 @@
                     <p class="file-return"></p>
 
                     <div class="container-login-form-btn">
-                        <button id="nextBtn" class="login2-form-btn" disabled>
-                            Next
+                        <button type="button" onclick="validateAndSubmitForm()" id="nextBtn" class="login-form-btn">
+                            Login
                         </button>
                     </div>
 
