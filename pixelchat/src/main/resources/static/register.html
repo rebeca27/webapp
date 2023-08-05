@@ -34,7 +34,7 @@
                         </span>
                     </div>
                     <div class="wrap-input validate-input" data-validate="Password is required: Minimum 8 characters">
-                        <input id="passwordInput" class="input" type="password" name="pass" placeholder="Password">
+                        <input id="passwordInput" class="input" type="password" name="password" placeholder="Password">
                         <span class="focus-input"></span>
                         <span class="symbol-input">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -58,10 +58,12 @@
                         </div>
                     </div>
 
+                    <form action="/register" method="post" enctype="multipart/form-data">
+
                     <!-- Photo Upload -->
                     <div class="container-register-form-btn">
                         <div class="input-file-container">
-                            <input class="input-file" id="photoUpload" name="file" type="file" accept="image/*">
+                            <input class="input-file" id="photoUpload" name="file" type="file" accept="image/*" hidden>
                             <label tabindex="0" for="photoUpload" class="input-file-trigger login-form-btn">
                                 Choose a Photo
                             </label>

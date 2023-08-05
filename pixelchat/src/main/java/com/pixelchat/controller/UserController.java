@@ -1,36 +1,60 @@
 package com.pixelchat.controller;
 
 import com.pixelchat.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.pixelchat.service.UserService;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 public class UserController {
+    private final UserService userService;
 
-    UserService userService;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User existingUser = userService.findByEmail(user.getEmail());
+    public ResponseEntity<User> registerUser(@RequestParam("email") String email,
+                                             @RequestParam("password") String password,
+                                             @RequestParam("color") String color,
+                                             @RequestParam("profileImage") MultipartFile profileImage) {
+
+
+        // Check if a user with the given email already exists
+        User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
-            // User already exists
+            // User already exists, return a bad request response
             return ResponseEntity.badRequest().build();
         }
 
-        User savedUser = userService.save(user);
-        return ResponseEntity.ok(savedUser);
-    }
-
-    @GetMapping("/user")
-    public ResponseEntity<User> getUser(@RequestParam String email) {
-        User user = userService.findByEmail(email);
-        if (user == null) {
-            // User not found
-            return ResponseEntity.notFound().build();
+        // Process the uploaded image, if needed
+        byte[] profileImageData = null;
+        if (!profileImage.isEmpty()) {
+            try {
+                profileImageData = profileImage.getBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception appropriately, e.g., return an error response
+            }
         }
 
-        return ResponseEntity.ok(user);
+        // Create a new user object and set the attributes
+        User newUser = new User();
+        newUser.setPassword(password);
+        newUser.setEmail(email);
+        newUser.setColor(color);
+        newUser.setProfileImage(profileImageData);
+
+        // Save the user to the database
+        User savedUser = userService.save(newUser);
+
+        // Return the saved user in the response body with a status of 200 OK
+        return ResponseEntity.ok(savedUser);
     }
 }
 

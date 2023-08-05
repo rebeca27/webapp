@@ -1,12 +1,31 @@
 package com.pixelchat.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
+
+    @jakarta.persistence.Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String color;
+    @Lob
+    private byte[] profileImage;
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
+
 
     public Long getId() {
         return id;
@@ -40,20 +59,5 @@ public class User {
         this.color = color;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String email;
-    private String password;
-    private String color;
-    private String photo;
 
 }

@@ -16,9 +16,10 @@ public class ViewController {
         return "login";
     }
 
-    @GetMapping("/")
-    public String indexPage() {
+    @GetMapping("/index")
+    public String homePage() {
         return "index";
     }
+
 }
 
