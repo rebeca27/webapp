@@ -38,23 +38,31 @@ let color = document.querySelector('#colorInput').value;
         body: formData
     })
     .then(response => {
-        console.log("Received response from server");  // <-- Add this line
-
-        if (!response.ok) {
-            console.log("Response was not OK");  // <-- Add this line
-            throw new Error("Error: " + response.statusText);
-        } else {
-            console.log("Response was OK");  // <-- Add this line
-            return response.text();
-        }
-    })
-    .then(data => {
-        console.log("Processing returned data", data);  // <-- Add this line
-        window.location.href = '/login';
-    })
-    .catch((error) => {
-        console.error('Fetch had an error:', error);  // <-- Modify this line
-    });
+      console.log("Received response from server");
+  
+      if (!response.ok) {
+          console.log("Response was not OK");
+          return response.text().then(errorText => {
+              throw new Error(errorText);
+          });
+      } else {
+          console.log("Response was OK");
+          return response.text();
+      }
+  })
+  .then(data => {
+      console.log("Processing returned data", data);
+      window.location.href = '/login';
+  })
+  .catch((error) => {
+      console.error('Fetch had an error:', error.message);
+      if (error.message === "Email is already in use.") {
+          alert("The email you entered is already associated with an account.");
+      } else {
+          alert("There was an error during registration. Please try again.");
+      }
+  });
+  
 }
 
 });
