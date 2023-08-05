@@ -56,7 +56,7 @@ public class UserController {
         User savedUser = userService.save(newUser);
 
         // Return the saved user in the response body with a status of 200 OK
-        return ResponseEntity.ok(savedUser);
+        return ResponseEntity.ok("User registration successful");
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

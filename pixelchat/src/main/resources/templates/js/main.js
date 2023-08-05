@@ -19,7 +19,7 @@ document.querySelector('.validate-form').addEventListener('submit', function (ev
 
     let email = document.querySelector('#emailInput').value;
     let password = document.querySelector('#passwordInput').value;
-let color = document.querySelector('#colorInput').value;
+    let color = document.querySelector('#colorPopupBtn').style.backgroundColor;
     let profileImage = document.querySelector('#photoUpload').files[0];
 
     // Gather your form data here...

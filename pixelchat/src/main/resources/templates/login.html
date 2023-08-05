@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-
 </head>
 <body>
     <div class="limiter">
@@ -21,79 +20,84 @@
             <a href="login.html" class="navbar-item">Login</a>
             <a href="register.html" class="navbar-item">Register</a>
         </div>
-        <div class="container-register">
-            <div class="wrap-register">
-                <form class="login-form validate-form" id="registerForm" action="/register" method="post" enctype="multipart/form-data">
+        <div class="container-login">
+            <div class="wrap-login">
+                <div class="login-pic">
+                    <img src="images/img-01.png" alt="IMG">
+                </div>
+                <form id="loginForm" class="login-form validate-form">
                     <span class="login-form-title">
-                        Member Register
+                        Member Login
                     </span>
                     <div class="wrap-input validate-input" data-validate="Please enter a valid email address in the format: yourname@example.com">
-                        <input id="emailInput" class="input" type="email" name="email" placeholder="Email" required>
+                        <input class="input" type="text" name="email" placeholder="Email">
                         <span class="focus-input"></span>
                         <span class="symbol-input">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </span>
                     </div>
                     <div class="wrap-input validate-input" data-validate="Password is required: Minimum 8 characters">
-                        <input id="passwordInput" class="input" type="password" name="password" placeholder="Password">
+                        <input class="input" type="password" name="pass" placeholder="Password">
                         <span class="focus-input"></span>
                         <span class="symbol-input">
                             <i class="fa fa-lock" aria-hidden="true"></i>
                         </span>
                     </div>
 
-                    
-                    <!-- Color Selection -->
-                    <input type="hidden" id="colorInput" name="color">
-
-                    <div class="container-register-form-btn">
-                        <button id="colorPopupBtn" class="login-form-btn register-form-btn" type="button">
-                        Choose a Color
-                        </button>
-                        <div id="colorPopup" class="color-popup">
-                        <div class="color-options-container">
-                            <div class="color-option" style="background-color: #cb0101;" data-color="#cb0101"></div>
-                            <div class="color-option" style="background-color: #1100ff;" data-color="#1100ff"></div>
-                            <div class="color-option" style="background-color: #00a400;" data-color="#00a400"></div>
-                        </div>
-                        </div>
-                    </div>
-
-                    <!-- Photo Upload -->
-                    <div class="container-register-form-btn">
-                        <div class="input-file-container">
-                            <input class="input-file" id="photoUpload" name="profileImage" type="file" accept="image/*" hidden>
-                            <label tabindex="0" for="photoUpload" class="input-file-trigger login-form-btn">
-                                Choose a Photo
-                            </label>
-                        </div>
-                    </div>
-                    
-
-                    <p class="file-return"></p>
-
                     <div class="container-login-form-btn">
-                        <button type="submit" id="nextBtn" class="login-form-btn">
-                            Register
+                        <button class="login-form-btn" href="login2.html">
+                            Login
                         </button>
                     </div>
                     <div class="text-center p-t-12">
                         <span class="data1">
                             Forgot
                         </span>
-                        <a class="data2" href="recoverAccount.html">
+                        <a class="data2" href="#">
                             Password?
+                        </a>
+                    </div>
+                    <div class="text-center p-t-50">
+                        <a class="data2" href="register.html">
+                            Create your Account
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                         </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+            // Find the login form element by its ID
+var loginForm = document.getElementById('loginForm');
+
+// Attach an event listener to the form's submit event
+loginForm.addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  // Perform the email and password validation here
+  var email = document.getElementsByName('email')[0].value;
+  var password = document.getElementsByName('pass')[0].value;
+
+  // Example: Check if email and password are valid (you can replace this with your validation logic)
+  var isValidCredentials = validateCredentials(email, password);
+  console.log(isValidCredentials);
+
+  // If credentials are valid, redirect to login2.html
+  if (isValidCredentials) {
+    window.location.href = 'login2.html';
+  }
+});
+
+function validateCredentials(email, password) {
+  // Example validation: Check if email is not empty and password has at least 8 characters
+  return email.trim() !== '' && password.length >= 8;
+}
+    </script>
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="vendor/bootstrap/js/popper.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/select2/select2.min.js"></script>
     <script src="js/main.js"></script>
-    
 </body>
 </html>
