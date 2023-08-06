@@ -16,6 +16,7 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -48,7 +49,7 @@ public class UserController {
 
         // Create a new user object and set the attributes
         User newUser = new User();
-        newUser.setPassword(password);
+        newUser.setPassword(userService.hashPassword(password));
         newUser.setEmail(email);
         newUser.setColor(color);
         newUser.setProfileImage(profileImageData);
@@ -60,11 +61,26 @@ public class UserController {
         return ResponseEntity.ok("User registration successful");
     }
 
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exc) {
-        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
-                .body("File size is too large! Please upload a smaller file.");
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestParam("email") String email,
+                                       @RequestParam("password") String password) {
+
+        // Fetch the user by email
+        User user = userService.findByEmail(email);
+
+        // If user doesn't exist or password is incorrect, return unauthorized
+        if (user == null || !userService.isPasswordValid(password, user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
+        }
+
+        // If the user exists and the password matches, you might want to generate a JWT or a session token here
+        // ... token generation logic ...
+
+        // Return a successful login response
+        return ResponseEntity.ok("Login successful");
+        // Optionally: return ResponseEntity.ok().body(new AuthenticationResponse(token));
     }
+
 }
 
 

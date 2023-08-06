@@ -30,14 +30,14 @@
                         Member Login
                     </span>
                     <div class="wrap-input validate-input" data-validate="Please enter a valid email address in the format: yourname@example.com">
-                        <input class="input" type="text" name="email" placeholder="Email">
+                        <input id="emailInput" class="input" type="text" name="email" placeholder="Email">
                         <span class="focus-input"></span>
                         <span class="symbol-input">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </span>
                     </div>
                     <div class="wrap-input validate-input" data-validate="Password is required: Minimum 8 characters">
-                        <input class="input" type="password" name="pass" placeholder="Password">
+                        <input id="passwordInput" class="input" type="password" name="password" placeholder="Password">
                         <span class="focus-input"></span>
                         <span class="symbol-input">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -67,37 +67,10 @@
             </div>
         </div>
     </div>
-    <script>
-            // Find the login form element by its ID
-var loginForm = document.getElementById('loginForm');
-
-// Attach an event listener to the form's submit event
-loginForm.addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent the default form submission behavior
-
-  // Perform the email and password validation here
-  var email = document.getElementsByName('email')[0].value;
-  var password = document.getElementsByName('pass')[0].value;
-
-  // Example: Check if email and password are valid (you can replace this with your validation logic)
-  var isValidCredentials = validateCredentials(email, password);
-  console.log(isValidCredentials);
-
-  // If credentials are valid, redirect to login2.html
-  if (isValidCredentials) {
-    window.location.href = 'login2.html';
-  }
-});
-
-function validateCredentials(email, password) {
-  // Example validation: Check if email is not empty and password has at least 8 characters
-  return email.trim() !== '' && password.length >= 8;
-}
-    </script>
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="vendor/bootstrap/js/popper.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/select2/select2.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
