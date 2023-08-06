@@ -18,6 +18,7 @@ for (var i = 0; i < inputs.length; i++) {
 if (isValid) {
   event.preventDefault(); // Prevent default form submission if validation passes
 
+  console.log("rebeca");
   let email = document.querySelector('#emailInput').value;
   let password = document.querySelector('#passwordInput').value;
 
@@ -53,10 +54,10 @@ if (isValid) {
 })
 .catch((error) => {
     console.error('Fetch had an error:', error.message);
-    if (error.message === "Email is already in use.") {
-        alert("The email you entered is already associated with an account.");
+    if (error.message === "Invalid email or password.") {
+        alert("Invalid email or password.");
     } else {
-        alert("There was an error during registration. Please try again.");
+      alert("There was an error during registration. Please try again.");
     }
 });
 
