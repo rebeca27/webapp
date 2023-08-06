@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @RestController
 public class UserController {
+    @Autowired
     private final UserService userService;
 
     @Autowired
