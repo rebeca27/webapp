@@ -6,13 +6,16 @@ import com.pixelchat.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.util.Map;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     public User save(User user) {
@@ -25,4 +28,9 @@ public class UserService {
     public boolean isPasswordValid(String rawPassword, String hashedPasswordFromDB) {
         return hashPassword(rawPassword).equals(hashedPasswordFromDB);
     }
-}
+    public String fetchTargetColorByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(User::getColor)
+                .orElse(null);
+    }
+    }

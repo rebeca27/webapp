@@ -32,34 +32,43 @@ if (isValid) {
   console.log(formData);
   
   fetch('/login', {
-      method: 'POST',
-      body: formData
-  })
-  .then(response => {
+    method: 'POST',
+    body: formData
+})
+.then(response => {
     console.log("Received response from server");
 
     if (!response.ok) {
         console.log("Response was not OK");
-        return response.text().then(errorText => {
-            throw new Error(errorText);
+        return response.json().then(data => {
+            throw new Error(data.message || "Unknown error");
         });
     } else {
         console.log("Response was OK");
-        return response.text();
+        return response.json();
     }
 })
 .then(data => {
     console.log("Processing returned data", data);
-    window.location.href = '/login2';
+
+    if (data.message === "Login successful") {
+        // Store the email for later use
+        sessionStorage.setItem("loggedInEmail", data.email);
+        // Redirect to login2 page
+        window.location.href = '/login2';
+    } else {
+        throw new Error(data.message || "Unknown error");
+    }
 })
 .catch((error) => {
     console.error('Fetch had an error:', error.message);
     if (error.message === "Invalid email or password.") {
         alert("Invalid email or password.");
     } else {
-      alert("There was an error during registration. Please try again.");
+        alert("There was an error during login. Please try again.");
     }
 });
+
 
 }
 

@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.pixelchat.service.UserService;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -77,9 +78,29 @@ public class UserController {
         // ... token generation logic ...
 
         // Return a successful login response
-        return ResponseEntity.ok("Login successful");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Login successful");
+        response.put("email", email);
+        return ResponseEntity.ok(response);
+
         // Optionally: return ResponseEntity.ok().body(new AuthenticationResponse(token));
     }
+
+    @GetMapping("/target-color/{email}")
+    public ResponseEntity<Map<String, String>> getTargetColor(@PathVariable String email) {
+        String targetColor = userService.fetchTargetColorByEmail(email);
+
+        if (targetColor == null) {
+            // Handle case when color doesn't exist, you can return a default color or an error response
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Map<String, String> response = new HashMap<>();
+        response.put("targetColor", targetColor);
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }
 
