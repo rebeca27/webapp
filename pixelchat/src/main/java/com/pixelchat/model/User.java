@@ -15,15 +15,10 @@ public class User {
     @Column(nullable = false)
     private String color;
     @Lob
-    private byte[] profileImage;
+    private byte[] share1;
+    @Lob
+    private byte[] share2;
 
-    public byte[] getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(byte[] profileImage) {
-        this.profileImage = profileImage;
-    }
 
 
     public Long getId() {
@@ -58,5 +53,19 @@ public class User {
         this.color = color;
     }
 
+    public byte[] getShare1() {
+        return share1;
+    }
 
+    public void setShare1(byte[] share1) {
+        this.share1 = share1;
+    }
+
+    public byte[] getShare2() {
+        return share2;
+    }
+
+    public void setShare2(byte[] share2) {
+        this.share2 = share2;
+    }
 }

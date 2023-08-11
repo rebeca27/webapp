@@ -18,7 +18,6 @@ for (var i = 0; i < inputs.length; i++) {
 if (isValid) {
   event.preventDefault(); // Prevent default form submission if validation passes
 
-  console.log("rebeca");
   let email = document.querySelector('#emailInput').value;
   let password = document.querySelector('#passwordInput').value;
 

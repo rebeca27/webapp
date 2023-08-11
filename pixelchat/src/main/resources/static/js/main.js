@@ -30,8 +30,7 @@ let color = document.querySelector('#colorInput').value;
     formData.append('profileImage', profileImage);
 
 
-    console.log("About to fetch data");  // <-- Add this line
-    console.log(formData);
+    console.log("About to fetch data");  
     
     fetch('/register', {
         method: 'POST',
@@ -40,20 +39,46 @@ let color = document.querySelector('#colorInput').value;
     .then(response => {
       console.log("Received response from server");
   
+      // First, let's determine if the response is JSON or not
+      const contentType = response.headers.get("content-type");
+      
       if (!response.ok) {
-          console.log("Response was not OK");
-          return response.text().then(errorText => {
-              throw new Error(errorText);
-          });
+          if (contentType && contentType.includes("application/json")) {
+              return response.json().then(errorData => {
+                  throw new Error(errorData.message); 
+              });
+          } else {
+              return response.text().then(errorText => {
+                  throw new Error(errorText); 
+              });
+          }
       } else {
-          console.log("Response was OK");
-          return response.text();
+          if (contentType && contentType.includes("application/json")) {
+              return response.json();
+          } else {
+              throw new Error("Invalid content type received");
+          }
       }
-  })
+  })  
   .then(data => {
-      console.log("Processing returned data", data);
-      window.location.href = '/login';
-  })
+    console.log("Processing returned data", data);
+
+    let downloadShare = (filename, content) => {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:image/png;base64,' + content);
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    
+    downloadShare('share1.png', data.share1);
+    downloadShare('share2.png', data.share2);
+
+    window.location.href = '/login';
+})
   .catch((error) => {
       console.error('Fetch had an error:', error.message);
       if (error.message === "Email is already in use.") {
