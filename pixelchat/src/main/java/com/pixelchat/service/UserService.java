@@ -88,4 +88,10 @@ public class UserService {
         return hexString.toString();
     }
 
+    public byte[] fetchShareByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(User::getShare1)
+                .orElse(null);
     }
+
+}

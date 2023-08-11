@@ -1,6 +1,7 @@
 package com.pixelchat.controller;
 
 import com.pixelchat.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -103,40 +104,27 @@ public class UserController {
         return ResponseEntity.ok(response);
         // Optionally: return ResponseEntity.ok().body(new AuthenticationResponse(token));
     }
-    @PostMapping("/login3")
-    public ResponseEntity<?> loginUser(@RequestParam("email") String email,
-                                       @RequestParam("password") String password,
-                                       @RequestParam("share1") MultipartFile share1) {
+    @GetMapping("/target-share")
+    public ResponseEntity<Map<String, String>> getTargetShare(HttpSession session) {
+        String email = (String) session.getAttribute("loggedInEmail");
 
-        User user = userService.findByEmail(email);
-        if (user == null || !userService.isPasswordValid(password, user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
+        if(email == null) {
+            // Handle the case where the email isn't in the session
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "No email found in session."));
         }
 
-        byte[] uploadedShare1Bytes;
-        try {
-            uploadedShare1Bytes = share1.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing share.");
+        // Retrieve the image share based on the email
+        byte[] shareFromDb = userService.fetchShareByEmail(email);
+        if (shareFromDb == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        // Convert uploaded share1 to Base64 encoded string
-        String uploadedShare1Base64 = Base64.getEncoder().encodeToString(uploadedShare1Bytes);
-
-        // Convert share1 from DB to Base64 encoded string
-        String share1FromDbBase64 = Base64.getEncoder().encodeToString(user.getShare1());
-
-        if (!uploadedShare1Base64.equals(share1FromDbBase64)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid share.");
-        }
-
-        // Generate token or session info if required
+        String shareBase64 = Base64.getEncoder().encodeToString(shareFromDb);
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Login successful");
-        response.put("email", email);
+        response.put("targetShare", shareBase64);
         return ResponseEntity.ok(response);
     }
+
 
 
     private BufferedImage convertByteArrayToBufferedImage(byte[] imageData) throws IOException {

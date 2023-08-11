@@ -9,7 +9,6 @@
             .then(response => response.json())
             .then(data => data.targetColor);
     }
-    
 
     var colorPopupLogin = document.getElementById('colorPopupLogin');
     var colorPopupVisibleLogin = false;

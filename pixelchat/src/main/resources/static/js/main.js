@@ -175,8 +175,8 @@ let color = document.querySelector('#colorInput').value;
     });
     
     fileInput.addEventListener("change", function (event) {
-        var fileName = this.value;
-        var fileReturn = document.querySelector(".file-return");
+      var fileName = this.value.split("\\").pop(); 
+      var fileReturn = document.querySelector(".file-return");
         fileReturn.innerHTML = fileName;
     
         // Enable the "Next" button when a file is selected

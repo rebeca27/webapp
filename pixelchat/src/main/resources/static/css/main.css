@@ -228,6 +228,9 @@ button:hover {
   align-items: center;
 }
 
+.file-return {
+  padding-left: 170px;
+}
 
 .logo i {
   font-size: 28px;
