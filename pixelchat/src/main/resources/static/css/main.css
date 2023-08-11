@@ -162,11 +162,10 @@ button:hover {
 }
 
 
-
 .wrap-register,
 .wrap-login {
   width: 960px;
-  background: rgba(255, 255, 255, 0.9); /* Use rgba format with alpha value (0.9 for 90% opacity) */
+  background: rgba(255, 255, 255, 0.9); 
   border-radius: 10px;
   overflow: hidden;
 
@@ -199,10 +198,9 @@ button:hover {
   background-position: center center;
 }
 
-
 .wrap-index{
   width: 960px;
-  background: rgba(255, 255, 255, 0.8); /* Use rgba format with alpha value (0.9 for 90% opacity) */
+  background: rgba(255, 255, 255, 0.8); 
   border-radius: 10px;
   overflow: hidden;
 
@@ -222,7 +220,7 @@ button:hover {
   left: 10px;
   font-size: 24px;
   color: #333333;
-  font-family: "Helvetica Neue", sans-serif; /* You can change the font-family to your preference */
+  font-family: "Helvetica Neue", sans-serif; 
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -271,33 +269,13 @@ button:hover {
   left: 0;
   width: 100%;
   background-color: #ffffff84;
-  font-family: "Helvetica Neue", sans-serif; /* You can change the font-family to your preference */
+  font-family: "Helvetica Neue", sans-serif; 
   display: flex;
   align-items: center;
   padding: 10px 0;
   justify-content: right;
   padding-right: 40px;
   z-index: 999; 
-}
-
-@media (max-width: 768px) {
-  .logo {
-    font-size: 24px;
-    top: 5px;
-    left: 10px;
-  }
-  
-  .navbar {
-    justify-content: center;
-    padding: 10px;
-    padding-right: 0;
-    justify-content: right;
-  }
-  
-  .navbar-item {
-    margin: 0 5px;
-    font-size: 14px;
-  }
 }
 
 
@@ -337,15 +315,13 @@ button:hover {
   align-items: center;
 }
 
-
-/* CSS rule for the selected color options */
 .color-option.selected {
   border: 3px solid black;
 }
 
 
 .selected {
-  border: 5px solid black; /* Add a border to selected colors */
+  border: 5px solid black; 
 }
 
 
@@ -487,9 +463,8 @@ button:hover {
 }
 
 .login2-form-btn:disabled {
-  background: #ccc; /* Change the background color to a gray shade or any other color you prefer */
-  cursor: not-allowed; /* Change the cursor to indicate that the button is not clickable */
-  /* You can add more styles as needed to visually indicate that the button is disabled */
+  background: #ccc; 
+  cursor: not-allowed; 
 }
 
 .login-form-btn:hover, .login2-form-btn:hover {
@@ -500,8 +475,8 @@ button:hover {
   font-family: Montserrat-Bold;
   font-size: 12px;
   line-height: 1.5;
-  background-color: #007bff; /* Change the background color to a blue shade */
-  color: #fff; /* Change the text color to white */
+  background-color: #007bff; 
+  color: #fff; 
   text-transform: uppercase;
 
   width: 60%;
@@ -524,39 +499,6 @@ button:hover {
   margin: 0 auto;
 }
 
-@media (max-width: 992px) {
-  .wrap-login {
-    padding: 177px 90px 33px 85px;
-  }
-
-  .login-pic {
-    width: 35%;
-  }
-
-  .login-form {
-    width: 50%;
-  }
-}
-
-@media (max-width: 768px) {
-  .wrap-login {
-    padding: 100px 80px 33px 80px;
-  }
-
-  .login-pic {
-    display: none;
-  }
-
-  .login-form {
-    width: 100%;
-  }
-}
-
-@media (max-width: 576px) {
-  .wrap-login {
-    padding: 100px 15px 33px 15px;
-  }
-}
 
 .validate-input {
   position: relative;
@@ -616,8 +558,60 @@ button:hover {
 }
 
 @media (max-width: 992px) {
+  .wrap-login {
+    padding: 177px 90px 33px 85px;
+  }
+
+  .login-pic {
+    width: 35%;
+  }
+
+  .login-form {
+    width: 50%;
+  }
+
   .alert-validate::before {
     visibility: visible;
     opacity: 1;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 24px;
+    top: 5px;
+    left: 10px;
+  }
+  
+  .navbar {
+    justify-content: center;
+    padding: 10px;
+    padding-right: 0;
+    justify-content: right;
+  }
+  
+  .navbar-item {
+    margin: 0 5px;
+    font-size: 14px;
+  }
+
+  .wrap-login {
+    padding: 100px 80px 33px 80px;
+  }
+
+  .login-pic {
+    display: none;
+  }
+
+  .login-form {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .wrap-login {
+    padding: 100px 15px 33px 15px;
   }
 }
