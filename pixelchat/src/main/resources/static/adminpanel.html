@@ -3,42 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PixelChat Control Center</title>
-    <script src="https://threejs.org/build/three.js"></script>
-    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <title>PixelChat Control Center</title>  
     <link rel="stylesheet" href="css/adminpanel.css">
 </head>
 <body>
 
 <div class="dashboard">
+    
+    <div class="space-background">
+        <div class="shooting-star"></div>
+    </div>
     <div class="globe">
         <canvas id="globeCanvas"></canvas>
     </div>
+    <div class="joystick" id="joystick"></div>
 
     <ul class="nav-controls">
-        <li class="pod" style="--i:1">Chatroom 1</li>
-        <li class="pod" style="--i:2">Chatroom 2</li>
-        <li class="pod" style="--i:3">Friend Requests</li>
-        <li class="pod" style="--i:4">User Reports</li>
+        <li class="section" data-url="chatroom1.html" style="--i:1">Chatroom 1</li>
+        <li class="section" data-url="chatroom2.html" style="--i:2">Chatroom 2</li>
+        <li class="section" data-url="friendrequests.html" style="--i:3">Friend Requests</li>
+        <li class="section" data-url="userreports.html" style="--i:4">User Reports</li>
     </ul>
 
     <div class="message-monitor">
         <h2>Message Traffic</h2>
-        <!-- Include details or statistics about message traffic here -->
+        <ul>
+            <li><strong>Sent Messages:</strong> 1,235</li>
+            <li><strong>Received Messages:</strong> 1,180</li>
+            <li><strong>Peak Traffic Time:</strong> 2 PM - 3 PM</li>
+        </ul>
     </div>
-    <div class="space-background">
-        <!-- For the shooting stars or viral content representation -->
-        <div class="shooting-star"></div>
-    </div>
+    
 
     <div class="ai-box">
         <h4>Orion AI Assistant</h4>
         <div class="chat-window"></div>
         <input type="text" placeholder="Ask Orion...">
     </div>
+    
+<div class="media-galaxy">
 </div>
 
-<script> src="js/custom.js"</script>
-
+<script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>    
+<script src="js/adminpanel.js"></script>
 </body>
 </html>
