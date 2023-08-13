@@ -27,9 +27,21 @@ public class ViewController {
     }
 
     @GetMapping("/index")
-    public String homePage() {
+    public String indexPage() {
         return "index";
     }
+    @GetMapping("/home")
+    public String homePage() {
+        return "home";
+    }
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 
+    @GetMapping("/dashboard")
+    public String dashboardPage() {
+        return "dashboard";
+    }
 }
 

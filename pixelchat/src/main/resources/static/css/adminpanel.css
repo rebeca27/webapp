@@ -1,0 +1,145 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.space-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center fixed;    background-size: cover;
+    z-index: -1;
+}
+
+
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: white;
+    animation: shootAcross 5s infinite;
+}
+
+@keyframes shootAcross {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.ai-box {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    background: rgba(66, 66, 66, 0.904);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-window {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+.globe {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Earth_from_Space.jpg/2048px-Earth_from_Space.jpg'); /* Replace with a 3D globe image or use WebGL */
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-size: cover;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+}
+
+.nav-controls {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+}
+
+.joystick {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #e1e1e6;
+    border-radius: 50%;
+    background-color: #4e4e8f;
+}
+
+.message-monitor {
+    position: absolute;
+    top: 20%;
+    right: 10%;
+}
+
+.chat-pods {
+    list-style-type: none;
+}
+
+.pod {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #4e4e8f;
+    border-radius: 5px;
+}
+
+/* ... previous styles ... */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+.dashboard {
+    animation: fadeIn 1s forwards;
+}
+
+.globe {
+    animation: slideInFromLeft 1s forwards;
+}
+
+.nav-controls {
+    animation: slideInFromLeft 1.2s forwards;
+}
+
+.message-monitor {
+    animation: slideInFromRight 1s forwards;
+}
+
+.pod {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+    animation-delay: calc(0.3s * var(--i));
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

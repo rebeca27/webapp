@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelChat Control Center</title>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="globe">
+        <canvas id="globeCanvas"></canvas>
+    </div>
+
+    <ul class="nav-controls">
+        <li class="pod" style="--i:1">Chatroom 1</li>
+        <li class="pod" style="--i:2">Chatroom 2</li>
+        <li class="pod" style="--i:3">Friend Requests</li>
+        <li class="pod" style="--i:4">User Reports</li>
+    </ul>
+
+    <div class="message-monitor">
+        <h2>Message Traffic</h2>
+        <!-- Include details or statistics about message traffic here -->
+    </div>
+    <div class="space-background">
+        <!-- For the shooting stars or viral content representation -->
+        <div class="shooting-star"></div>
+    </div>
+
+    <div class="ai-box">
+        <h4>Orion AI Assistant</h4>
+        <div class="chat-window"></div>
+        <input type="text" placeholder="Ask Orion...">
+    </div>
+</div>
+
+<script> src="custom.js"</script>
+
+</body>
+</html>

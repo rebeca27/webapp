@@ -54,7 +54,7 @@
                 console.log(data);
                 if (data && data.message && data.message.includes('matches')) {
                     console.log("Uploaded share matches!");
-                   // window.location.href = '/dashboard';
+                    window.location.href = 'adminpanel.html';
                 } else {
                     console.log("Uploaded share does not match.");
                 }
