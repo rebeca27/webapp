@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlobe();
     initOrbs();
     initJoystickControls();
+    initOrbHoverEffects();
     initOrbClickEvents();
     startStarGenerator();
     initMenuToggle();
@@ -64,26 +65,53 @@ function initOrbs() {
         orb.setAttribute('data-url', data.url);
 
         // Tooltip creation
-        const tooltip = document.createElement('div');
-        tooltip.classList.add('tooltip');
-        tooltip.innerText = data.tooltip;
-        orb.appendChild(tooltip);
 
+        // Add the event listeners here
         orb.addEventListener('mouseenter', function() {
-            tooltip.style.visibility = 'visible';
+            // Check if orb is near the upper boundary and adjust tooltip position if needed
+            if (parseInt(orb.style.top, 10) < 15) {  
+                orb.classList.add('top-boundary');
+            }
+        });
+        
+        orb.addEventListener('mouseleave', function() {
+            orb.classList.remove('top-boundary');
+        });
+        
+
+        // Now, append the orb to mediaGalaxy
+        mediaGalaxy.appendChild(orb);
+    });
+}
+
+function initOrbHoverEffects() {
+    const orbs = document.querySelectorAll('.media-orb');
+    orbs.forEach(orb => {
+        orb.addEventListener('mouseenter', function() {
+            orb.classList.add('hovered');
+            if (parseInt(orb.style.top, 10) < 15) {  
+                orb.classList.add('top-boundary');
+            }
         });
 
         orb.addEventListener('mouseleave', function() {
-            tooltip.style.visibility = 'hidden';
+            orb.classList.remove('hovered', 'top-boundary');
         });
+    });
+}
 
-        mediaGalaxy.appendChild(orb);
+function initOrbClickEvents() {
+    const orbs = document.querySelectorAll('.media-orb');
+    orbs.forEach(orb => {
+        orb.addEventListener('click', function() {
+            orb.classList.toggle('expanded');
+        });
     });
 }
 
 function initJoystickControls() {
     const joystick = document.getElementById('joystick');
-    const sections = document.querySelectorAll('.nav-controls .section');
+    const sections = document.querySelectorAll('.menu-list li');
     let isDragging = false;
 
     joystick.addEventListener('mousedown', function(e) {
@@ -108,20 +136,35 @@ function initJoystickControls() {
     function closestSection() {
         let closest = null;
         let closestDistance = Infinity;
-
+    
         sections.forEach(section => {
             const sectionRect = section.getBoundingClientRect();
             const joystickRect = joystick.getBoundingClientRect();
-            const distance = Math.abs(joystickRect.top - sectionRect.top);
-
+            
+            const sectionCenter = {
+                x: sectionRect.left + sectionRect.width / 2,
+                y: sectionRect.top + sectionRect.height / 2
+            };
+            
+            const joystickCenter = {
+                x: joystickRect.left + joystickRect.width / 2,
+                y: joystickRect.top + joystickRect.height / 2
+            };
+    
+            const distance = Math.sqrt(
+                Math.pow(joystickCenter.x - sectionCenter.x, 2) + 
+                Math.pow(joystickCenter.y - sectionCenter.y, 2)
+            );
+    
             if (distance < closestDistance) {
                 closestDistance = distance;
                 closest = section;
             }
         });
-
+    
         return closest;
     }
+    
 
     joystick.addEventListener('dblclick', function() {
         const selectedSection = closestSection();
@@ -153,30 +196,31 @@ function startStarGenerator() {
 }
 
 function initMenuToggle() {
+    const items = document.querySelectorAll(".menu-list li");
+    const toggle = document.querySelector(".menu-button");
     document.getElementById("menu-toggle").addEventListener("click", function() {
-        const items = document.querySelectorAll(".menu-list li");
-        const toggle = document.querySelector(".menu-button");
         const isOpen = toggle.classList.contains("open");
-        console.log("Menu button clicked!");
 
         if (isOpen) {
-            items.forEach((item, i) => {
-                item.style.transform = "none";
+            items.forEach((item) => {
+                item.style.transform = "scale(0) translateY(-100px)";
                 item.style.opacity = "0";
             });
             toggle.classList.remove("open");
         } else {
-            const radius = 150; // Change to desired value
+            const radius = 180;
             items.forEach((item, i, arr) => {
-                const angle = (i / (arr.length / 2)) * Math.PI; // spread in half circle
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
+                const angle = (i / arr.length) * Math.PI *2; 
+                const x = radius * Math.cos(angle - Math.PI / 2); // -PI/2 to start from the top
+                const y = radius * Math.sin(angle - Math.PI / 2);
 
-                item.style.transform = `translate(${x}px, ${y}px)`;
+                item.style.left = `50%`;
+                item.style.bottom = `50%`;
+                item.style.transform = `translate(${x}px, ${y}px) scale(1)`;
                 item.style.opacity = "1";
-                item.style.pointerEvents = "all";
             });
             toggle.classList.add("open");
         }
     });
 }
+

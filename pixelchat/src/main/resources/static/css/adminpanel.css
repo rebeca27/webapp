@@ -57,29 +57,76 @@ button:hover, .interactive-element:hover {
 .media-galaxy {
     position: relative;
     width: 100%;
-    height: 300px; /* adjust as needed */
+    height: 600px; /* adjust as needed */
     overflow: hidden;
 }
 
 
 .media-orb:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     opacity: 1;
+    z-index: 10; /* Ensure the orb is above other elements when hovered */
 }
+
+
+.media-orb.hovered::before,
+.media-orb.hovered::after { /* <-- This ::after selector is for the tooltip arrow */
+    content: '';
+    position: absolute;
+    transition: all 0.3s ease-in-out; /* Smoother transitions */
+    pointer-events: none;
+}
+
 .media-orb.hovered::before {
     content: attr(data-tooltip);
     position: absolute;
-    background: #000;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
     color: #fff;
     border-radius: 5px;
     padding: 5px 10px;
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
-    white-space: nowrap; /* Ensures the tooltip doesn't wrap to the next line */
-    pointer-events: none; /* Ensures the tooltip doesn't interfere with other interactions */
-    margin-bottom: 5px; /* Spacing between tooltip and orb */
+    white-space: nowrap;
+    pointer-events: none;
+    margin-bottom: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Soft white border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
 }
+
+.media-orb.hovered::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    background: rgba(0, 0, 0, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.media-orb.top-boundary:hover::before {
+    bottom: auto;
+    top: 100%;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.media-orb.top-boundary:hover::after {
+    bottom: auto;
+    top: -5px;
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+
 
 
 @keyframes float {
@@ -132,6 +179,8 @@ button:hover, .interactive-element:hover {
     margin-top: -10px; /* To move it a little bit above the hovered item */
     transition: opacity 0.3s;
     pointer-events: none; /* So it doesn't interfere with other interactions */
+    z-index: 9999;
+
 }
 
 .ai-box {
@@ -196,6 +245,8 @@ button:hover, .interactive-element:hover {
     -webkit-user-select: none; /* Safari 3.1+ */
     -moz-user-select: none; /* Firefox 2+ */
     -ms-user-select: none; /* IE 10+ */
+    left: 150px;  /* Move it 10 pixels from the left of its positioned parent */
+    bottom: 150px;   /* Move it 10 pixels from the top of its positioned parent */
 
 }
 
@@ -284,69 +335,113 @@ button:hover, .interactive-element:hover {
     }
 }
 
-.selected {
-    background-color: #ddd;
-}
-
-.nav-controls .section.highlighted {
-    background-color: #4e4e8f;
-    color: white;
-}
 
 /* Radial Menu Styling */
 
+
 .radial-menu {
-    position: fixed;
-    bottom: 10%;
+    position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    z-index: 10000;
 }
 
 .menu-button {
-    background-color: #1c1c1c; /* Dark Gray */
-    border: none;
-    color: #FFFFFF; /* White */
+    background-color: #1c1c1c;
+    border: 3px solid #9b30ff;
+    color: #FFFFFF;
     border-radius: 50%;
+    width: 100%;
+    padding: 20px 0;
     cursor: pointer;
-    padding: 15px 30px;
-    transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.5s;
+    box-shadow: 0 0 25px rgba(155, 48, 255, 0.6);
+    animation: pulse 1.5s infinite alternate;
 }
 
-.menu-button:hover {
-    background-color: #292929; /* Slightly Lighter Gray on Hover */
-    transform: scale(1.05); /* Slight growth for interaction feedback */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 10px #9b30ff;
+    }
+    100% {
+        box-shadow: 0 0 25px #9b30ff, 0 0 35px #9b30ff;
+    }
 }
 
-.menu-button.open {
-    background-color: #00FFFF; /* Cyan */
+.menu-button:active {
+    transform: scale(0.95);
+    animation: none;
+    box-shadow: 0 0 35px #9b30ff;
 }
 
-.menu-list {
+.radial-menu .menu-list {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     list-style-type: none;
-    padding: 0;
-    margin: 0;
+    padding-left: 0;
+    margin-top: 20px;
+    width: 400px;
+    height: 250px;
+    pointer-events: none;
 }
-
 .menu-list li {
     position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.5s, opacity 0.5s, background-color 0.3s;
-    cursor: pointer;
-    background-color: #1c1c1c;
+    background-color: rgba(155, 48, 255, 0.5);
+    color: #FFFFFF;
+    border-radius: 10px;
     padding: 10px 20px;
-    border-radius: 8px; /* Slightly rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform-origin: bottom center;
+    transform: scale(0) translateY(-100px);
+    transition: opacity 0.5s, transform 0.5s;
+    cursor: pointer;
+    will-change: transform, opacity;
+    box-shadow: 0 0 15px rgba(155, 48, 255, 0.6);
 }
+
+/* Specific positions for the list items in a semi-circular layout */
+.menu-list li:nth-child(1) { left: 10%; bottom: 10%; }
+.menu-list li:nth-child(2) { left: 30%; bottom: 5%; }
+.menu-list li:nth-child(3) { left: 50%; bottom: 0; }
+.menu-list li:nth-child(4) { right: 30%; bottom: 5%; }
+.menu-list li:nth-child(5) { right: 20%; bottom: 20%; }
+.menu-list li:nth-child(6) { transform: translate(-280px, 3px) scale(1) !important;}
+
+.menu-list li:nth-child(7) { bottom: 83%!important ; top: 0% !important; left:30% !important; transform: translate(-100.73px, -62.228px) !important }
 
 .menu-list li:hover {
-    background-color: #292929;
+    background-color: rgba(155, 48, 255, 0.8);
+    transform: scale(1.05);
 }
 
-.menu-button.open + .menu-list li {
+
+.menu-button.open ~ .menu-list {
+    display: block;
+}
+
+.menu-button.open ~ .menu-list li {
     opacity: 1;
+    transform: scale(1) translateY(0);
     pointer-events: auto;
 }
 
+
+/* stagger the animation of list items */
+.menu-button.open ~ .menu-list li:nth-child(1) { transition-delay: 0.2s; }
+.menu-button.open ~ .menu-list li:nth-child(2) { transition-delay: 0.3s; }
+.menu-button.open ~ .menu-list li:nth-child(3) { transition-delay: 0.4s; }
+.menu-button.open ~ .menu-list li:nth-child(4) { transition-delay: 0.5s; }
+.menu-button.open ~ .menu-list li:nth-child(5) { transition-delay: 0.6s; }
+.menu-button.open ~ .menu-list li:nth-child(6) { transition-delay: 0.7s; }
+.menu-button.open ~ .menu-list li:nth-child(7) { transition-delay: 0.8s; }
+
+.menu-list li.highlighted {
+    animation: pulse 1.5s infinite alternate;
+    background-color: rgba(155, 48, 255, 0.8);
+}

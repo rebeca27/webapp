@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PixelChat Control Center</title>  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/adminpanel.css">
 </head>
 <body>
@@ -16,10 +17,9 @@
     <div class="globe">
         <canvas id="globeCanvas"></canvas>
     </div>
-    <div class="joystick" id="joystick"></div>
 
-    <!-- Radial Menu -->
-    <div class="radial-menu">
+     <!-- Radial Menu -->
+     <div class="radial-menu">
         <button class="menu-button" id="menu-toggle">Menu</button>
         <ul class="menu-list">
             <li data-url="chatroom1.html">Chatroom 1</li>
@@ -30,7 +30,11 @@
             <li data-url="pictures.html">Pictures</li>
             <li data-url="staff.html">Staff</li>
         </ul>
-    </div>
+    </div> 
+
+    <div class="joystick" id="joystick"></div>
+
+   
 
     <div class="message-monitor">
         <h2>Message Traffic</h2>
