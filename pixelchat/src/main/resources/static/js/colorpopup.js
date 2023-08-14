@@ -98,10 +98,16 @@
             console.log(`Are the colors shades of ${targetColorFromBackend}?`, isTargetShade ? "Yes" : "No");
             if (isTargetShade) {
                 window.location.href = 'login3.html';
+            } else {
+                mockSendEmail(email);
             }
         }
     }
 
+    function mockSendEmail(email) {
+        console.log(`Email sent to ${email} about a potential unauthorized login attempt.`);
+    }
+    
     function updateColorOptions() {
         var colorOptionsLogin = document.querySelectorAll('#colorPopupLogin .color-option');
         for (var i = 0; i < colorOptionsLogin.length; i++) {
@@ -117,8 +123,9 @@
     }
 
     function checkNextButton() {
+        var isTargetShade = checkColorShade(selectedColors);
         var nextBtn = document.getElementById('nextBtn');
-        nextBtn.disabled = selectedColors.length !== 3;
+        nextBtn.disabled = selectedColors.length !== 3 || !isTargetShade;
         nextBtn.style.background = '';
     }
 
@@ -138,7 +145,7 @@
     });
 
     var targetHues = {
-        "#cb010": 15,
+        "#cb0101": 15,
         "#00a400": 120,
         "#1100ff": 240
     };

@@ -1,9 +1,11 @@
 (function () {
     "use strict";
 
-    // Function to fetch the target color from backend
-    function fetchTargetColorFromBackend() {
-        return fetch(`/target-color`)
+    var email = sessionStorage.getItem("loggedInEmail") || "fallback@example.com";
+    var APIemail='/target-color/'+email;
+
+    function fetchTargetColorFromBackend(email) {
+        return fetch(APIemail)
             .then(response => response.json())
             .then(data => data.targetColor);
     }
@@ -95,7 +97,7 @@
             var isTargetShade = checkColorShade(selectedColors);
             console.log(`Are the colors shades of ${targetColorFromBackend}?`, isTargetShade ? "Yes" : "No");
             if (isTargetShade) {
-                window.location.href = 'login3.html';
+                //window.location.href = 'login3.html';
             }
         }
     }
@@ -136,14 +138,15 @@
     });
 
     var targetHues = {
-        "red": 15,
-        "green": 120,
-        "blue": 240
+        "#cb010": 15,
+        "#00a400": 120,
+        "#1100ff": 240
     };
 
     function checkColorShade(colors) {
         var targetHue = targetHues[targetColorFromBackend];
         var hueThreshold = 20;
+        console.log('targetColorFromBackend: ', targetColorFromBackend, 'targetHue:', targetHue);
 
         for (var i = 0; i < colors.length; i++) {
             var selectedColorHSL = parseHSL(colors[i]);
@@ -159,12 +162,6 @@
     document.querySelector('.login-form').addEventListener('submit', function (event) {
         event.preventDefault();
     });
-
-    var targetColorFromBackend = null;
-    fetchTargetColorFromBackend().then(color => {
-        targetColorFromBackend = color;
-    });
-
 
     generateRandomColorsLogin();
 })();

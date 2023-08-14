@@ -2,6 +2,10 @@ html, body {
     margin: 0;
     padding: 0;
 }
+body {
+    font-family: 'Roboto', Arial, sans-serif; /* Use Futura for a more futuristic feel */
+    background-color: #111; /* Dark background for a sleek look */
+}
 
 body, div, ul, li, h2, h4 {
     z-index: 1;
@@ -117,6 +121,18 @@ button:hover, .interactive-element:hover {
     }
 }
 
+.tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    visibility: hidden;
+    transform: translate(-50%, -100%);
+    margin-top: -10px; /* To move it a little bit above the hovered item */
+    transition: opacity 0.3s;
+    pointer-events: none; /* So it doesn't interfere with other interactions */
+}
 
 .ai-box {
     position: fixed;
@@ -175,7 +191,7 @@ button:hover, .interactive-element:hover {
     border-radius: 50%;
     background-color: #4e4e8f;
     pointer-events: auto;
-    z-index: 1001; /* or any value higher than other overlapping elements */
+    z-index: 10; /* or any value higher than other overlapping elements */
     user-select: none; /* Standard syntax */
     -webkit-user-select: none; /* Safari 3.1+ */
     -moz-user-select: none; /* Firefox 2+ */
@@ -277,4 +293,60 @@ button:hover, .interactive-element:hover {
     color: white;
 }
 
+/* Radial Menu Styling */
+
+.radial-menu {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.menu-button {
+    background-color: #1c1c1c; /* Dark Gray */
+    border: none;
+    color: #FFFFFF; /* White */
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 15px 30px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.menu-button:hover {
+    background-color: #292929; /* Slightly Lighter Gray on Hover */
+    transform: scale(1.05); /* Slight growth for interaction feedback */
+}
+
+.menu-button.open {
+    background-color: #00FFFF; /* Cyan */
+}
+
+.menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-list li {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s, opacity 0.5s, background-color 0.3s;
+    cursor: pointer;
+    background-color: #1c1c1c;
+    padding: 10px 20px;
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.menu-list li:hover {
+    background-color: #292929;
+}
+
+.menu-button.open + .menu-list li {
+    opacity: 1;
+    pointer-events: auto;
+}
 

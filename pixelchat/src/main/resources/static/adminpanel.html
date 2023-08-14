@@ -18,12 +18,19 @@
     </div>
     <div class="joystick" id="joystick"></div>
 
-    <ul class="nav-controls">
-        <li class="section" data-url="chatroom1.html" style="--i:1">Chatroom 1</li>
-        <li class="section" data-url="chatroom2.html" style="--i:2">Chatroom 2</li>
-        <li class="section" data-url="friendrequests.html" style="--i:3">Friend Requests</li>
-        <li class="section" data-url="userreports.html" style="--i:4">User Reports</li>
-    </ul>
+    <!-- Radial Menu -->
+    <div class="radial-menu">
+        <button class="menu-button" id="menu-toggle">Menu</button>
+        <ul class="menu-list">
+            <li data-url="chatroom1.html">Chatroom 1</li>
+            <li data-url="chatroom2.html">Chatroom 2</li>
+            <li data-url="friendrequests.html">Friend Requests</li>
+            <li data-url="userreports.html">User Reports</li>
+            <li data-url="blogposts.html">Blog Posts</li>
+            <li data-url="pictures.html">Pictures</li>
+            <li data-url="staff.html">Staff</li>
+        </ul>
+    </div>
 
     <div class="message-monitor">
         <h2>Message Traffic</h2>
@@ -34,14 +41,14 @@
         </ul>
     </div>
     
-<!-- 
+    <!-- 
     <div class="ai-box">
         <h4>Orion AI Assistant</h4>
         <div class="chat-window"></div>
         <input type="text" placeholder="Ask Orion...">
     </div> -->
     
-<div class="media-galaxy">
+    <div class="media-galaxy">
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
