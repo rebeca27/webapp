@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     "use strict";
 
-
-
     // var email = sessionStorage.getItem("loggedInEmail") || "fallback@example.com";
     // var APIemail = '/target-color/' + email;
 
@@ -32,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     var emailEncrypted = sessionStorage.getItem("loggedInEmail");    
     var email = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
-    console.log(emailEncrypted)
 
     var APIemail = '/target-color/' + email;
 

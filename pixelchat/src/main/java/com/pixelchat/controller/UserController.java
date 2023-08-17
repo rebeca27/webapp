@@ -42,7 +42,7 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestParam("email") String email,
                                           @RequestParam("password") String password,
                                           @RequestParam("color") String color,
-                                          @RequestParam("profileImage") MultipartFile profileImage) throws IOException {
+                                          @RequestParam("profileImage") MultipartFile profileImage) throws Exception {
 
         // Email validation
         if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
@@ -58,6 +58,10 @@ public class UserController {
         // Profile image check (size, for example, limited to 5MB)
         if (profileImage.getSize() > 5 * 1024 * 1024) {
             return ResponseEntity.badRequest().body("Profile image should be less than 5MB.");
+        }
+
+        if (profileImage == null || profileImage.isEmpty()) {
+            return ResponseEntity.badRequest().body("No profile image provided.");
         }
 
         // Existing user check
@@ -77,6 +81,11 @@ public class UserController {
                 }
 
                 profileImageData = profileImage.getBytes();
+
+
+                if (profileImageData.length == 0) {
+                    return ResponseEntity.badRequest().body("Profile image data is empty.");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing image.");
