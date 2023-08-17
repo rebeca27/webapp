@@ -1,8 +1,40 @@
-(function () {
+document.addEventListener("DOMContentLoaded", function() {
     "use strict";
 
-    var email = sessionStorage.getItem("loggedInEmail") || "fallback@example.com";
-    var APIemail='/target-color/'+email;
+
+
+    // var email = sessionStorage.getItem("loggedInEmail") || "fallback@example.com";
+    // var APIemail = '/target-color/' + email;
+
+    /**
+     * The 'secretKey' variable below is an encryption key used to encrypt and decrypt the email 
+     * stored in the session storage. Encrypting the email ensures that even if an unauthorized 
+     * individual gains access to the session storage, they cannot easily discern the actual email 
+     * unless they possess the encryption key.
+     * 
+     * IMPORTANT NOTE FOR PRODUCTION:
+     * Never store the secret key directly in the JavaScript code as anyone who can view the 
+     * source code can retrieve it. In real-world applications:
+     *   - The secret key should be securely stored on the server-side.
+     *   - For client-side secrets (like API keys), consider using environment variables or 
+     *     server-side configurations.
+     *   - In advanced setups, consider using a secure key management system.
+     * 
+     * For the purpose of this educational example, we're simplifying things by placing the key 
+     * in the code, but it's imperative to understand that this method isn't suitable for a 
+     * production environment.
+     */
+
+    var secretKey = "rebeca27";
+    function decrypt(text) {
+        var bytes = CryptoJS.AES.decrypt(text, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
+    var emailEncrypted = sessionStorage.getItem("loggedInEmail");    
+    var email = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
+    console.log(emailEncrypted)
+
+    var APIemail = '/target-color/' + email;
 
     function fetchTargetColorFromBackend(email) {
         return fetch(APIemail)
@@ -97,10 +129,28 @@
             var isTargetShade = checkColorShade(selectedColors);
             console.log(`Are the colors shades of ${targetColorFromBackend}?`, isTargetShade ? "Yes" : "No");
             if (isTargetShade) {
-                //window.location.href = 'login3.html';
+                window.location.href = 'login3.html';
+            } else {
+                mockSendEmail(email);
             }
         }
     }
+
+    function mockSendEmail(email) {
+        fetch('/api/send-alert-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(error => console.error('Error sending email:', error));
+    }
+    
 
     function updateColorOptions() {
         var colorOptionsLogin = document.querySelectorAll('#colorPopupLogin .color-option');
@@ -117,8 +167,9 @@
     }
 
     function checkNextButton() {
+        var isTargetShade = checkColorShade(selectedColors);
         var nextBtn = document.getElementById('nextBtn');
-        nextBtn.disabled = selectedColors.length !== 3;
+        nextBtn.disabled = selectedColors.length !== 3 || !isTargetShade;
         nextBtn.style.background = '';
     }
 
@@ -138,7 +189,7 @@
     });
 
     var targetHues = {
-        "#cb010": 15,
+        "#cb0101": 15,
         "#00a400": 120,
         "#1100ff": 240
     };
@@ -164,4 +215,4 @@
     });
 
     generateRandomColorsLogin();
-})();
+});

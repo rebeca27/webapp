@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>PixelChat</title>
     <meta charset="UTF-8">
@@ -9,8 +10,8 @@
     <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-
 </head>
+
 <body>
     <div class="limiter">
         <div class="logo">
@@ -23,11 +24,13 @@
         </div>
         <div class="container-register">
             <div class="wrap-register">
-                <form class="login-form validate-form" id="registerForm" action="/register" method="post" enctype="multipart/form-data">
+                <form class="login-form validate-form" id="registerForm" action="/register" method="post"
+                    enctype="multipart/form-data">
                     <span class="login-form-title">
                         Member Register
                     </span>
-                    <div class="wrap-input validate-input" data-validate="Please enter a valid email address in the format: yourname@example.com">
+                    <div class="wrap-input validate-input"
+                        data-validate="Please enter a valid email address in the format: yourname@example.com">
                         <input id="emailInput" class="input" type="email" name="email" placeholder="Email" required>
                         <span class="focus-input"></span>
                         <span class="symbol-input">
@@ -42,33 +45,34 @@
                         </span>
                     </div>
 
-                    
+
                     <!-- Color Selection -->
                     <input type="hidden" id="colorInput" name="color">
 
                     <div class="container-register-form-btn">
                         <button id="colorPopupBtn" class="login-form-btn register-form-btn" type="button">
-                        Choose a Color
+                            Choose a Color
                         </button>
                         <div id="colorPopup" class="color-popup">
-                        <div class="color-options-container">
-                            <div class="color-option" style="background-color: #cb0101;" data-color="#cb0101"></div>
-                            <div class="color-option" style="background-color: #1100ff;" data-color="#1100ff"></div>
-                            <div class="color-option" style="background-color: #00a400;" data-color="#00a400"></div>
-                        </div>
+                            <div class="color-options-container">
+                                <div class="color-option" style="background-color: #cb0101;" data-color="#cb0101"></div>
+                                <div class="color-option" style="background-color: #1100ff;" data-color="#1100ff"></div>
+                                <div class="color-option" style="background-color: #00a400;" data-color="#00a400"></div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Photo Upload -->
                     <div class="container-register-form-btn">
                         <div class="input-file-container">
-                            <input class="input-file" id="photoUpload" name="profileImage" type="file" accept="image/*" hidden>
+                            <input class="input-file" id="photoUpload" name="profileImage" type="file" accept="image/*"
+                                hidden>
                             <label tabindex="0" for="photoUpload" class="input-file-trigger login-form-btn">
                                 Choose a Photo
                             </label>
                         </div>
                     </div>
-                    
+
 
                     <p class="file-return"></p>
 
@@ -94,6 +98,7 @@
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/select2/select2.min.js"></script>
     <script src="js/main.js"></script>
-    
+
 </body>
+
 </html>

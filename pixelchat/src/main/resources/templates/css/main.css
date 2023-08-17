@@ -1,79 +1,86 @@
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../fonts/poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Montserrat-Bold;
-  src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
+  src: url('../fonts/montserrat/Montserrat-Bold.ttf');
 }
 
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: Poppins-Regular, sans-serif;
 }
 
 
 a {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
 }
 
 a:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
   color: #467fb8;
 }
 
 
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
 }
 
 p {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
 }
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+ul,
+li {
+  margin: 0px;
+  list-style-type: none;
 }
 
 
 
 input {
-	outline: none;
-	border: none;
+  outline: none;
+  border: none;
 }
 
 textarea {
@@ -81,18 +88,19 @@ textarea {
   border: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
 button {
-	outline: none !important;
-	border: none;
-	background: transparent;
+  outline: none !important;
+  border: none;
+  background: transparent;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .data1 {
@@ -133,9 +141,21 @@ button:hover {
 }
 
 @keyframes rotating {
-  0% { opacity: 0; transform: translateY(-20px); }
-  20%, 80% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(20px); }
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  20%,
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }
 
 .rotating-message {
@@ -162,11 +182,10 @@ button:hover {
 }
 
 
-
 .wrap-register,
 .wrap-login {
   width: 960px;
-  background: rgba(255, 255, 255, 0.9); /* Use rgba format with alpha value (0.9 for 90% opacity) */
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   overflow: hidden;
 
@@ -199,10 +218,9 @@ button:hover {
   background-position: center center;
 }
 
-
-.wrap-index{
+.wrap-index {
   width: 960px;
-  background: rgba(255, 255, 255, 0.8); /* Use rgba format with alpha value (0.9 for 90% opacity) */
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   overflow: hidden;
 
@@ -222,12 +240,15 @@ button:hover {
   left: 10px;
   font-size: 24px;
   color: #333333;
-  font-family: "Helvetica Neue", sans-serif; /* You can change the font-family to your preference */
+  font-family: "Helvetica Neue", sans-serif;
   z-index: 1000;
   display: flex;
   align-items: center;
 }
 
+.file-return {
+  padding-left: 170px;
+}
 
 .logo i {
   font-size: 28px;
@@ -268,33 +289,13 @@ button:hover {
   left: 0;
   width: 100%;
   background-color: #ffffff84;
-  font-family: "Helvetica Neue", sans-serif; /* You can change the font-family to your preference */
+  font-family: "Helvetica Neue", sans-serif;
   display: flex;
   align-items: center;
   padding: 10px 0;
   justify-content: right;
   padding-right: 40px;
-  z-index: 999; 
-}
-
-@media (max-width: 768px) {
-  .logo {
-    font-size: 24px;
-    top: 5px;
-    left: 10px;
-  }
-  
-  .navbar {
-    justify-content: center;
-    padding: 10px;
-    padding-right: 0;
-    justify-content: right;
-  }
-  
-  .navbar-item {
-    margin: 0 5px;
-    font-size: 14px;
-  }
+  z-index: 999;
 }
 
 
@@ -334,15 +335,13 @@ button:hover {
   align-items: center;
 }
 
-
-/* CSS rule for the selected color options */
 .color-option.selected {
   border: 3px solid black;
 }
 
 
 .selected {
-  border: 5px solid black; /* Add a border to selected colors */
+  border: 5px solid black;
 }
 
 
@@ -412,10 +411,10 @@ button:hover {
   width: 100%;
   height: 100%;
   box-shadow: 0px 0px 0px 0px;
-  color: rgba(87,184,70, 0.8);
+  color: rgba(87, 184, 70, 0.8);
 }
 
-.input:focus + .focus-input {
+.input:focus+.focus-input {
   -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
   animation: anim-shadow 0.5s ease-in-out forwards;
 }
@@ -435,7 +434,7 @@ button:hover {
 }
 
 
-.input:focus + .focus-input + .symbol-input {
+.input:focus+.focus-input+.symbol-input {
   color: #57b846;
   padding-left: 28px;
 }
@@ -450,7 +449,7 @@ button:hover {
   flex-wrap: nowrap;
   justify-content: center;
   padding-top: 20px;
-  gap: 10px; 
+  gap: 10px;
 
 }
 
@@ -484,12 +483,12 @@ button:hover {
 }
 
 .login2-form-btn:disabled {
-  background: #ccc; /* Change the background color to a gray shade or any other color you prefer */
-  cursor: not-allowed; /* Change the cursor to indicate that the button is not clickable */
-  /* You can add more styles as needed to visually indicate that the button is disabled */
+  background: #ccc;
+  cursor: not-allowed;
 }
 
-.login-form-btn:hover, .login2-form-btn:hover {
+.login-form-btn:hover,
+.login2-form-btn:hover {
   background: #6195d1;
 }
 
@@ -497,8 +496,8 @@ button:hover {
   font-family: Montserrat-Bold;
   font-size: 12px;
   line-height: 1.5;
-  background-color: #007bff; /* Change the background color to a blue shade */
-  color: #fff; /* Change the text color to white */
+  background-color: #007bff;
+  color: #fff;
   text-transform: uppercase;
 
   width: 60%;
@@ -521,39 +520,6 @@ button:hover {
   margin: 0 auto;
 }
 
-@media (max-width: 992px) {
-  .wrap-login {
-    padding: 177px 90px 33px 85px;
-  }
-
-  .login-pic {
-    width: 35%;
-  }
-
-  .login-form {
-    width: 50%;
-  }
-}
-
-@media (max-width: 768px) {
-  .wrap-login {
-    padding: 100px 80px 33px 80px;
-  }
-
-  .login-pic {
-    display: none;
-  }
-
-  .login-form {
-    width: 100%;
-  }
-}
-
-@media (max-width: 576px) {
-  .wrap-login {
-    padding: 100px 15px 33px 15px;
-  }
-}
 
 .validate-input {
   position: relative;
@@ -612,9 +578,94 @@ button:hover {
   opacity: 1;
 }
 
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 25%;
+  background-color: #f7f7f7;
+  padding: 1em;
+}
+
+.user-profile .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.main-content {
+  width: 75%;
+  padding: 1em;
+}
+
+.chat-window {
+  border-top: 1px solid #ccc;
+  padding: 1em;
+}
+
+.notifications,
+.settings {
+  display: none;
+}
+
+
 @media (max-width: 992px) {
+  .wrap-login {
+    padding: 177px 90px 33px 85px;
+  }
+
+  .login-pic {
+    width: 35%;
+  }
+
+  .login-form {
+    width: 50%;
+  }
+
   .alert-validate::before {
     visibility: visible;
     opacity: 1;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 24px;
+    top: 5px;
+    left: 10px;
+  }
+
+  .navbar {
+    justify-content: center;
+    padding: 10px;
+    padding-right: 0;
+    justify-content: right;
+  }
+
+  .navbar-item {
+    margin: 0 5px;
+    font-size: 14px;
+  }
+
+  .wrap-login {
+    padding: 100px 80px 33px 80px;
+  }
+
+  .login-pic {
+    display: none;
+  }
+
+  .login-form {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .wrap-login {
+    padding: 100px 15px 33px 15px;
   }
 }

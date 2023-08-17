@@ -10,8 +10,16 @@
     const nextBtn = document.querySelector("#nextBtn");
 
     if(uploadButton && fileInput && nextBtn) {  // Checking existence of the DOM elements
+        fileInput.addEventListener("change", function (event) {
+            var fileName = this.value.split("\\").pop(); 
+            var fileReturn = document.querySelector(".file-return");
+            fileReturn.innerHTML = fileName;
+        
+            // Enable the "Next" button when a file is selected
+            nextBtn.disabled = false;
+        });
 
-        uploadButton.addEventListener('click', function() {
+        nextBtn.addEventListener('click', function() {
             console.log("Upload button clicked.");
 
             const email = sessionStorage.getItem('loggedInEmail');
@@ -43,10 +51,10 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data); // Add this line to inspect the data
+                console.log(data);
                 if (data && data.message && data.message.includes('matches')) {
                     console.log("Uploaded share matches!");
-                   // window.location.href = '/dashboard';
+                    window.location.href = 'adminpanel.html';
                 } else {
                     console.log("Uploaded share does not match.");
                 }

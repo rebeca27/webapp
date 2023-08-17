@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import com.pixelchat.service.UserService;
 import com.pixelchat.service.ImageService;
@@ -25,7 +27,10 @@ public class UserController {
     private final UserService userService;
 
     @Autowired
-    private final ImageService imageService;  // Assuming you have an ImageService bean
+    private final ImageService imageService;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     public UserController(UserService userService, ImageService imageService) {
@@ -39,15 +44,38 @@ public class UserController {
                                           @RequestParam("color") String color,
                                           @RequestParam("profileImage") MultipartFile profileImage) throws IOException {
 
+        // Email validation
+        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
+            return ResponseEntity.badRequest().body("Invalid email format.");
+        }
+
+        // Password strength check
+        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$")) {
+            return ResponseEntity.badRequest().body("Password must be at least 8 characters, contain a lowercase letter, uppercase letter, digit, and special character.");
+        }
+
+
+        // Profile image check (size, for example, limited to 5MB)
+        if (profileImage.getSize() > 5 * 1024 * 1024) {
+            return ResponseEntity.badRequest().body("Profile image should be less than 5MB.");
+        }
+
         // Existing user check
         User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
             return ResponseEntity.badRequest().body("Email is already in use.");
         }
 
+        String salt = UserService.generateSalt();
+
         byte[] profileImageData = null;
         if (!profileImage.isEmpty()) {
             try {
+                String contentType = profileImage.getContentType();
+                if(!Arrays.asList("image/jpeg", "image/png", "image/gif").contains(contentType)) {
+                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Invalid file type.");
+                }
+
                 profileImageData = profileImage.getBytes();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -61,7 +89,8 @@ public class UserController {
         byte[] share2 = convertBufferedImageToByteArray(imageShares.get(1));
 
         User newUser = new User();
-        newUser.setPassword(userService.hashPassword(password));
+        newUser.setSalt(salt);  // store the salt
+        newUser.setPassword(userService.hashWithSalt(password, salt));  // use salted password hashing
         newUser.setEmail(email);
         newUser.setColor(color);
         newUser.setShare1(share1);
@@ -86,17 +115,34 @@ public class UserController {
         return baos.toByteArray();
     }
 
+
+
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam("email") String email,
-                                       @RequestParam("password") String password) {
-        // Fetch the user by email
-        User user = userService.findByEmail(email);
-        // If user doesn't exist or password is incorrect, return unauthorized
-        if (user == null || !userService.isPasswordValid(password, user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
+    public ResponseEntity<?> loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+
+        //  Input Validation
+        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
+            return ResponseEntity.badRequest().body("Invalid input format.");
         }
-        // If the user exists and the password matches, you might want to generate a JWT or a session token here
-        // ... token generation logic ...
+
+        User user = userService.findByEmail(email);
+        if (user == null) {
+            //  Avoid Revealing Specific Failures
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
+
+
+        String userSalt = user.getSalt();
+        System.out.println("DB Salt: " + userSalt);
+        System.out.println("DB Hashed Password: " + user.getPassword());
+        System.out.println("Entered Password (hashed with salt): " + userService.hashWithSalt(password, userSalt));
+
+
+        if (!userService.isPasswordValid(password, userSalt, user.getPassword())) {
+            //  Avoid Revealing Specific Failures
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
+
         // Return a successful login response
         Map<String, String> response = new HashMap<>();
         response.put("message", "Login successful");
@@ -104,6 +150,7 @@ public class UserController {
         return ResponseEntity.ok(response);
         // Optionally: return ResponseEntity.ok().body(new AuthenticationResponse(token));
     }
+
     @GetMapping("/target-share")
     public ResponseEntity<Map<String, String>> getTargetShare(HttpSession session) {
         String email = (String) session.getAttribute("loggedInEmail");
@@ -184,6 +231,25 @@ public class UserController {
             response.put("uploadedShare", uploadedShareBase64);
             response.put("shareFromDatabase", share1FromDbBase64);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+
+    @PostMapping("/send-alert-email")
+    public ResponseEntity<String> sendAlertEmail(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Unauthorized Login Attempt");
+        message.setText("There was an unauthorized login attempt on your account.");
+
+        try {
+            mailSender.send(message);
+            return ResponseEntity.ok("{\"message\":\"Email sent successfully\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\":\"Error sending email\"}");
         }
     }
 

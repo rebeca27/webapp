@@ -1,101 +1,139 @@
-(function () {
+document.addEventListener("DOMContentLoaded", function() {
   "use strict";
 
- 
-// Get all input fields that need validation
-var inputs = document.querySelectorAll('.validate-input .input');
+  // Get all input fields that need validation
+  var inputs = document.querySelectorAll('.validate-input .input');
 
-document.querySelector('.validate-form').addEventListener('submit', function (event) {
-var isValid = true;
+  /**
+   * The 'secretKey' variable below is an encryption key used to encrypt and decrypt the email 
+   * stored in the session storage. Encrypting the email ensures that even if an unauthorized 
+   * individual gains access to the session storage, they cannot easily discern the actual email 
+   * unless they possess the encryption key.
+   * 
+   * IMPORTANT NOTE FOR PRODUCTION:
+   * Never store the secret key directly in the JavaScript code as anyone who can view the 
+   * source code can retrieve it. In real-world applications:
+   *   - The secret key should be securely stored on the server-side.
+   *   - For client-side secrets (like API keys), consider using environment variables or 
+   *     server-side configurations.
+   *   - In advanced setups, consider using a secure key management system.
+   * 
+   * For the purpose of this educational example, we're simplifying things by placing the key 
+   * in the code, but it's imperative to understand that this method isn't suitable for a 
+   * production environment.
+   */
 
-for (var i = 0; i < inputs.length; i++) {
-  if (!validate(inputs[i])) {
-    showValidate(inputs[i]);
-    isValid = false;
+  var secretKey = "rebeca27";
+
+
+  document.querySelector('.validate-form').addEventListener('submit', function (event) {
+    var isValid = true;
+
+    for (var i = 0; i < inputs.length; i++) {
+      if (!validate(inputs[i])) {
+        showValidate(inputs[i]);
+        isValid = false;
+      }
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+      return;
+    }
+
+    let email = document.querySelector('#emailInput').value;
+    let password = document.querySelector('#passwordInput').value;
+
+    if (!isValidEmail(email)) {
+      alert('Please enter a valid email.');
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      alert('Password must be at least 8 characters, contain a number and a special character.');
+      return;
+    }
+
+    let formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+
+    fetch('/login', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        console.log("Received response from server");
+
+        // First, let's determine if the response is JSON or not
+        const contentType = response.headers.get("content-type");
+
+        if (!response.ok) {
+          if (contentType && contentType.includes("application/json")) {
+            return response.json().then(errorData => {
+              throw new Error(errorData.message);
+            });
+          } else {
+            return response.text().then(errorText => {
+              throw new Error(errorText);
+            });
+          }
+        } else {
+          if (contentType && contentType.includes("application/json")) {
+            return response.json();
+          } else {
+            throw new Error("Invalid content type received");
+          }
+        }
+      })
+      .then(data => {
+        console.log("Processing returned data", data);
+
+        if (data.message === "Login successful") {
+          //    sessionStorage.setItem("loggedInEmail", data.email);
+          var encryptedEmail = encrypt(data.email);
+          // console.log(encryptedEmail)
+          sessionStorage.setItem("loggedInEmail", encryptedEmail);
+          //console.log("Email set in sessionStorage: ", sessionStorage.getItem("loggedInEmail"));
+          window.location.href = '/login2';
+        } else {
+          throw new Error(data.message || "Unknown error");
+        }
+      })
+      .catch((error) => {
+        console.error('Fetch had an error:', error.message);
+        alert(error.message);
+      });
+
+  });
+
+  function encrypt(text) {
+    return CryptoJS.AES.encrypt(text, secretKey).toString();
   }
-}
 
-if (isValid) {
-  event.preventDefault(); // Prevent default form submission if validation passes
+  // Ensure email is valid
+  function isValidEmail(email) {
+    const re = /^[\w\.-]+@[\w\.-]+\.\w+$/;
+    return re.test(email);
+  }
 
-  let email = document.querySelector('#emailInput').value;
-  let password = document.querySelector('#passwordInput').value;
-
-  // Gather your form data here...
-  let formData = new FormData();
-  formData.append('email', email);
-  formData.append('password', password);
-
-
-  console.log("About to fetch data");  // <-- Add this line
-  console.log(formData);
-  
-  fetch('/login', {
-    method: 'POST',
-    body: formData
-})
-.then(response => {
-    console.log("Received response from server");
-
-    if (!response.ok) {
-        console.log("Response was not OK");
-        return response.json().then(data => {
-            throw new Error(data.message || "Unknown error");
-        });
-    } else {
-        console.log("Response was OK");
-        return response.json();
-    }
-})
-.then(data => {
-    console.log("Processing returned data", data);
-
-    if (data.message === "Login successful") {
-        // Store the email for later use
-        sessionStorage.setItem("loggedInEmail", data.email);
-        // Redirect to login2 page
-        window.location.href = '/login2';
-    } else {
-        throw new Error(data.message || "Unknown error");
-    }
-})
-.catch((error) => {
-    console.error('Fetch had an error:', error.message);
-    if (error.message === "Invalid email or password.") {
-        alert("Invalid email or password.");
-    } else {
-        alert("There was an error during login. Please try again.");
-    }
-});
-
-
-}
-
-});
-
-  // Attach a focus event listener to each input field to hide validation error indicators
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('focus', function () {
-      hideValidate(this);
-    });
+  // Check password strength
+  function isValidPassword(password) {
+    // At least 12 characters long, contains a number, an uppercase letter, a lowercase letter, and a special character
+    const re = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    return re.test(password);
   }
 
   // Validation function to check input fields
   function validate(input) {
     if (input.type === 'email' || input.name === 'email') {
-      if (!input.value.trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/)) {
-        return false;
-      }
+      return isValidEmail(input.value.trim());
     } else if (input.type === 'password' || input.name === 'pass') {
-      if (input.value.trim().length < 8) {
-        return false;
-      }
+      return isValidPassword(input.value.trim());
     } else {
-      if (input.value.trim() === '') {
-        return false;
-      }
+      return input.value.trim() !== '';
     }
-    return true;
+
   }
 
   // Function to show validation error indicators
@@ -109,5 +147,12 @@ if (isValid) {
     var parent = input.parentElement;
     parent.classList.remove('alert-validate');
   }
-  
-})();
+
+  // Attach a focus event listener to each input field to hide validation error indicators
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('focus', function () {
+      hideValidate(this);
+    });
+  }
+
+});

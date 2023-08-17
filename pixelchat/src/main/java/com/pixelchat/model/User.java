@@ -12,6 +12,9 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String salt;
     @Column(nullable = false)
     private String color;
     @Lob
@@ -67,5 +70,13 @@ public class User {
 
     public void setShare2(byte[] share2) {
         this.share2 = share2;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
