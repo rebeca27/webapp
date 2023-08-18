@@ -39,6 +39,10 @@ public class ViewController {
         return "home";
     }
 
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin";
+    }
     @GetMapping("/dashboard")
     public String dashboardPage() {
         return "dashboard";

@@ -62,11 +62,13 @@
 }
 
 .divframer-fo478h a,
+.pframer-text a,
 .pframer-text1 a,
 .pframer-text2 a,
 .pframer-text3 a,
 .pframer-text4 a,
-.pframer-text5 a {
+.pframer-text5 a,
+.divframer-p78w1h a {
   text-decoration: none;
   color: inherit;
   display: block;
@@ -77,10 +79,13 @@
 .pframer-text2 a:hover,
 .pframer-text3 a:hover,
 .pframer-text4 a:hover,
-.pframer-text5 a:hover {
+.pframer-text5 a:hover,
+.divframer-p78w1h a:hover {
   transform: scale(1.05);
   color: #7fa8d7;
 }
+
+
 
 .pframer-text2,
 .pframer-text3,
