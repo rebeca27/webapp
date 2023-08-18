@@ -243,6 +243,25 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Boolean>> logout(HttpSession session) {
+        try {
+            // Invalidate the session to log out the user
+            session.invalidate();
+
+            // Optionally, send a notification to the tech team or perform other actions
+
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("success", true);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("success", false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
 
     @PostMapping("/send-alert-email")
     public ResponseEntity<String> sendAlertEmail(@RequestBody Map<String, String> payload) {
