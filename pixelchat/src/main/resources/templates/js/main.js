@@ -219,5 +219,18 @@
     $('#colorInput').val(selectedColor);
   });
 
+  document.getElementById('togglePassword').addEventListener('click', function() {
+    const passwordInput = document.getElementById('passwordInput');
+
+    // Check the current type of the input field
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text'; // Change the input type to 'text' to show the password
+        this.textContent = 'Hide';   // Update the button text
+    } else {
+        passwordInput.type = 'password'; // Change the input type back to 'password' to hide it
+        this.textContent = 'Show';       // Update the button text
+    }
+});
+
 
 })();

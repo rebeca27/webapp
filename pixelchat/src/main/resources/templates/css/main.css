@@ -669,3 +669,38 @@ button:hover {
     padding: 100px 15px 33px 15px;
   }
 }
+
+.password-toggle-btn {
+  background: transparent;
+  border: 2px solid #007BFF; /* Slightly thicker border for emphasis */
+  border-radius: 30px;
+  color: #007BFF;
+  font-size: 0.9em;
+  font-weight: 600; /* Slightly bolder font for emphasis */
+  padding: 8px 24px; /* Increased padding for better appearance */
+  cursor: pointer;
+  outline: none;
+  transition: all 0.4s ease; /* Slightly longer transition for smoothness */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-top: 5px; /* Separation from the input field */
+}
+
+.password-toggle-btn:hover {
+  background: linear-gradient(135deg, #007BFF, #003f7f); /* Gradient background for modern look */
+  color: #FFFFFF;
+  border: 2px solid transparent; /* Remove border on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+  transform: translateY(-1px); /* Subtle lift effect on hover */
+}
+
+.password-toggle-btn:active {
+  background: linear-gradient(135deg, #0056b3, #002f4f); /* Darker gradient for the active state */
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Slightly reduced shadow on active */
+  transform: translateY(1px); /* Subtle press effect on active state */
+}
+
+
+
+
+

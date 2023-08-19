@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function mockSendEmail(email) {
-        fetch('/api/send-alert-email', {
+        fetch('/send-alert-email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -192,7 +192,11 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     function checkColorShade(colors) {
+
+
         var targetHue = targetHues[targetColorFromBackend];
+
+
         var hueThreshold = 20;
         console.log('targetColorFromBackend: ', targetColorFromBackend, 'targetHue:', targetHue);
 
