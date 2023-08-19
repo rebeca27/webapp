@@ -74,7 +74,7 @@
   display: block;
   transition: transform 0.3s ease, color 0.3s ease;
 }
-
+.pframer-text a:hover,
 .pframer-text1 a:hover,
 .pframer-text2 a:hover,
 .pframer-text3 a:hover,

@@ -34,9 +34,27 @@
             </ul>
         </div>
 
+        <div class="system-settings-sphere">
+            <button class="settings-button">System Settings</button>
+            <ul class="settings-list">
+                <li>Backup Data</li>
+                <li>Adjust Settings</li>
+                <li>Site-wide Announcements</li>
+            </ul>
+        </div>
+
+        <!-- Emergency Eject Button -->
+        <button class="emergency-eject" onclick="emergencyEject()">Emergency Eject</button>
+
+        <div class="ai-box minimized">
+            <h4>Orion AI Assistant</h4>
+            <div class="chat-window"></div>
+            <input type="text" id="askOrion" placeholder="Ask Orion...">
+            <button onclick="talkToOrion()">Ask</button>
+        </div>
+        <button id="toggleAIButton">Toggle Assistant</button>
+
         <div class="joystick" id="joystick"></div>
-
-
 
         <div class="message-monitor">
             <h2>Message Traffic</h2>
@@ -46,13 +64,6 @@
                 <li><strong>Peak Traffic Time:</strong> 2 PM - 3 PM</li>
             </ul>
         </div>
-
-        <!-- 
-    <div class="ai-box">
-        <h4>Orion AI Assistant</h4>
-        <div class="chat-window"></div>
-        <input type="text" placeholder="Ask Orion...">
-    </div> -->
 
         <div class="media-galaxy">
         </div>

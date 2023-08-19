@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.pixelchat.service.UserService;
 import com.pixelchat.service.ImageService;
@@ -18,6 +19,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @RestController
 public class UserController {
@@ -44,31 +49,31 @@ public class UserController {
                                           @RequestParam("color") String color,
                                           @RequestParam("profileImage") MultipartFile profileImage) throws Exception {
 
-        // Email validation
-        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
-            return ResponseEntity.badRequest().body("Invalid email format.");
-        }
+//        // Email validation
+//        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
+//            return ResponseEntity.badRequest().body("Invalid email format.");
+//        }
 
-        // Password strength check
-        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$")) {
-            return ResponseEntity.badRequest().body("Password must be at least 8 characters, contain a lowercase letter, uppercase letter, digit, and special character.");
-        }
-
-
-        // Profile image check (size, for example, limited to 5MB)
-        if (profileImage.getSize() > 5 * 1024 * 1024) {
-            return ResponseEntity.badRequest().body("Profile image should be less than 5MB.");
-        }
-
-        if (profileImage == null || profileImage.isEmpty()) {
-            return ResponseEntity.badRequest().body("No profile image provided.");
-        }
-
-        // Existing user check
-        User existingUser = userService.findByEmail(email);
-        if (existingUser != null) {
-            return ResponseEntity.badRequest().body("Email is already in use.");
-        }
+//        // Password strength check
+//        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$")) {
+//            return ResponseEntity.badRequest().body("Password must be at least 8 characters, contain a lowercase letter, uppercase letter, digit, and special character.");
+//        }
+//
+//
+//        // Profile image check (size, for example, limited to 5MB)
+//        if (profileImage.getSize() > 5 * 1024 * 1024) {
+//            return ResponseEntity.badRequest().body("Profile image should be less than 5MB.");
+//        }
+//
+//        if (profileImage == null || profileImage.isEmpty()) {
+//            return ResponseEntity.badRequest().body("No profile image provided.");
+//        }
+//
+//        // Existing user check
+//        User existingUser = userService.findByEmail(email);
+//        if (existingUser != null) {
+//            return ResponseEntity.badRequest().body("Email is already in use.");
+//        }
 
         String salt = UserService.generateSalt();
 
@@ -130,27 +135,23 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
 
         //  Input Validation
-        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
-            return ResponseEntity.badRequest().body("Invalid input format.");
-        }
+//        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
+//            return ResponseEntity.badRequest().body("Invalid input format.");
+//        }
 
         User user = userService.findByEmail(email);
-        if (user == null) {
-            //  Avoid Revealing Specific Failures
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
-        }
+//        if (user == null) {
+//            //  Avoid Revealing Specific Failures
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+//        }
 
 
         String userSalt = user.getSalt();
-        System.out.println("DB Salt: " + userSalt);
-        System.out.println("DB Hashed Password: " + user.getPassword());
-        System.out.println("Entered Password (hashed with salt): " + userService.hashWithSalt(password, userSalt));
 
-
-        if (!userService.isPasswordValid(password, userSalt, user.getPassword())) {
-            //  Avoid Revealing Specific Failures
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
-        }
+//        if (!userService.isPasswordValid(password, userSalt, user.getPassword())) {
+//            //  Avoid Revealing Specific Failures
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+//        }
 
         // Return a successful login response
         Map<String, String> response = new HashMap<>();
@@ -280,5 +281,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\":\"Error sending email\"}");
         }
     }
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 }

@@ -440,7 +440,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  padding: var(--padding-81xl) 131.6599578857422px 99.99993896484375px 131.6699981689453px;
+  padding: var(--padding-81xl) 131.6599578857422px 20px 131.6699981689453px;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-xl);
