@@ -435,7 +435,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(135deg, #000, #03045e);
+  background: linear-gradient(135deg, #fff, #ffffff);
   display: flex;
   flex-direction: row;
   padding: 0 0 var(--padding-131xl);
@@ -458,7 +458,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(-45deg, #000, #03045e);
+  background: linear-gradient(-45deg, #fff, #ffffff);
   display: flex;
   flex-direction: row;
   padding: 0 0 var(--padding-131xl);
