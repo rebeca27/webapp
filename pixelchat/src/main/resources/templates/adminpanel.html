@@ -7,7 +7,7 @@
     <title>PixelChat Control Center</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/adminpanel.css">
-    <link rel="icon" type="image/png" href="images/icons/pixelchat.ico"/>
+    <link rel="icon" type="image/png" href="images/icons/pixelchat.ico" />
 
 </head>
 
@@ -26,12 +26,12 @@
         <div class="radial-menu">
             <button class="menu-button" id="menu-toggle">Menu</button>
             <ul class="menu-list">
-                <li data-url="chatroom1.html">Chatroom 1</li>
-                <li data-url="chatroom2.html">Chatroom 2</li>
+                <li data-url="chatroom1.html">New Friends Hub</li>
+                <li data-url="chatroom2.html">Positivity Central</li>
                 <li data-url="friendrequests.html">Friend Requests</li>
                 <li data-url="userreports.html">User Reports</li>
-                <li data-url="blogposts.html">Blog Posts</li>
-                <li data-url="pictures.html">Pictures</li>
+                <li data-url="blog.html">Blog Posts</li>
+                <li data-url="safe-space.html">Sanctuary</li>
                 <li data-url="staff.html">Staff</li>
             </ul>
         </div>
@@ -74,14 +74,14 @@
             <div class="modal-content">
                 <span class="close-btn" id="closeAdjustSettings">&times;</span>
                 <h3>Adjust Settings</h3>
-                
+
                 <!-- Theme Setting -->
                 <label for="theme">Theme:</label>
                 <select id="theme">
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
                 </select>
-                
+
                 <!-- Font Size Setting -->
                 <label for="fontSize">Font Size:</label>
                 <select id="fontSize">
@@ -89,28 +89,28 @@
                     <option value="medium">Medium</option>
                     <option value="large">Large</option>
                 </select>
-                
+
                 <!-- Notification Setting -->
                 <label for="notifications">Notifications:</label>
                 <select id="notifications">
                     <option value="enabled">Enabled</option>
                     <option value="disabled">Disabled</option>
                 </select>
-                
+
                 <!-- Privacy Mode Setting -->
                 <label for="privacyMode">Privacy Mode:</label>
                 <select id="privacyMode">
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>
-                
+
                 <!-- Sound Effects Setting -->
                 <label for="soundEffects">Sound Effects:</label>
                 <select id="soundEffects">
                     <option value="on">On</option>
                     <option value="off">Off</option>
                 </select>
-                
+
                 <!-- Language Setting -->
                 <label for="language">Language:</label>
                 <select id="language">
@@ -120,11 +120,11 @@
                     <option value="german">German</option>
                     <!-- Add more languages as needed -->
                 </select>
-        
+
                 <button onclick="saveSettings()">Save</button>
             </div>
         </div>
-        
+
         <div class="modal" id="siteWideAnnouncementsModal">
             <div class="modal-content">
                 <span class="close-btn" id="closeAnnouncements">&times;</span>
@@ -133,7 +133,139 @@
                 <button onclick="sendAnnouncement()">Send</button>
             </div>
         </div>
-                
+        <div class="modal" id="chatroom1Modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('chatroom1Modal')">&times;</span>
+                <h3>New Friends Hub</h3>
+
+                <div class="chatroom-content">
+                    <div class="message user1">Hi there! I'm new to this group. Looking to make some friends.</div>
+                    <div class="message user2">Welcome! We're glad to have you here. Tell us a bit about yourself.</div>
+                    <div class="message user1">Thanks! I'm Jamie. I love hiking and reading sci-fi novels.</div>
+                    <div class="message user2">That's awesome, Jamie! I'm Alex. We have a few sci-fi enthusiasts here.
+                        You'll fit right in.</div>
+                </div>
+
+                <div class="chatroom-input">
+                    <input type="text" placeholder="Type your message...">
+                    <button>Send</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal" id="chatroom2Modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('chatroom2Modal')">&times;</span>
+                <h3>Positivity Central</h3>
+
+                <div class="chatroom-content">
+                    <div class="message user1">Having a rough day. Could use some positivity.</div>
+                    <div class="message user2">Sorry to hear that. Remember, every cloud has a silver lining. Tomorrow
+                        is another day!</div>
+                    <div class="message user1">Thank you for that. It's good to have a place like this to turn to.</div>
+                    <div class="message user2">Anytime! We're here to lift each other up. Always remember that!</div>
+                </div>
+
+                <div class="chatroom-input">
+                    <input type="text" placeholder="Type your message...">
+                    <button>Send</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal" id="userreportsModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('userreportsModal')">&times;</span>
+                <h3>User Reports</h3>
+
+                <div class="report-list">
+                    <div class="report">
+                        <strong>Reported by:</strong> User123 <br>
+                        <strong>Reason:</strong> Inappropriate language in chat.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User456 <br>
+                        <strong>Reason:</strong> Spamming links.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User123 <br>
+                        <strong>Reason:</strong> Inappropriate language in chat.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User456 <br>
+                        <strong>Reason:</strong> Spamming links.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User789 <br>
+                        <strong>Reason:</strong> Personal attack against another user.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User101 <br>
+                        <strong>Reason:</strong> Sharing personal information without consent.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User202 <br>
+                        <strong>Reason:</strong> Off-topic and disruptive behavior in a discussion.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User303 <br>
+                        <strong>Reason:</strong> Using a profile picture that violates community guidelines.
+                    </div>
+                    <div class="report">
+                        <strong>Reported by:</strong> User404 <br>
+                        <strong>Reason:</strong> Creating multiple accounts for the purpose of trolling.
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal" id="staffModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('staffModal')">&times;</span>
+                <h3>Staff Members</h3>
+
+                <div class="staff-list">
+                    <div class="staff-member">
+                        <div class="profile-pic" style="background-image: url('./images/rebeca.jpg');"></div>
+                        <div class="name">Admin - Rebeca Oprea</div>
+                    </div>
+                    <div class="staff-member">
+                        <div class="profile-pic" style="background-image: url('./images/eric.jpg');"></div>
+                        <div class="name">Moderator - Eric Oprea</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Friend Requests Modal -->
+        <div class="modal" id="friendrequestsModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('friendrequestsModal')">&times;</span>
+                <h3>Friend Requests</h3>
+                <ul>
+                    <li>Jane Doe <button class="accept-btn">Accept</button> <button class="reject-btn">Reject</button>
+                    </li>
+                    <li>John Smith <button class="accept-btn">Accept</button> <button
+                            class="reject-btn">Reject</button></li>
+                    <li>Emily Watson <button class="accept-btn">Accept</button> <button
+                            class="reject-btn">Reject</button></li>
+                    <li>Michael Brown <button class="accept-btn">Accept</button> <button
+                            class="reject-btn">Reject</button></li>
+                    <li>Olivia Taylor <button class="accept-btn">Accept</button> <button
+                            class="reject-btn">Reject</button></li>
+                    <li>William Johnson <button class="accept-btn">Accept</button> <button
+                            class="reject-btn">Reject</button></li>
+                    <li>Isabella Williams <button class="accept-btn">Accept</button> <button
+                            class="reject-btn">Reject</button></li>
+                </ul>
+            </div>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>

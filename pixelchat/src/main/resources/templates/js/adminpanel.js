@@ -51,14 +51,198 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const aiBox = document.querySelector('.ai-box');
     const toggleAIButton = document.getElementById('toggleAIButton');
+    const chatWindow = document.querySelector(".chat-window");
+    const askOrionInput = document.getElementById("askOrion");
 
-    if (toggleAIButton) {
+    if (aiBox && toggleAIButton) {
         toggleAIButton.addEventListener('click', function () {
-            console.log("Button clicked!"); // Log when the button is clicked
             aiBox.classList.toggle('minimized');
         });
     } else {
-        console.warn("Toggle AI button not found in the document.");
+        console.warn("AI box or Toggle AI button not found in the document.");
+    }
+
+    window.talkToOrion = function () {
+        const userQuestion = askOrionInput.value.trim(); // Trim to remove any leading or trailing spaces
+        let aiResponse = ""; // Default response
+
+        if (userQuestion) {
+            chatWindow.innerHTML += `<div class="user-message">${userQuestion}</div>`;
+
+            // Check the user's question and set the appropriate response
+            switch (userQuestion.toLowerCase()) {
+                case "how are you?":
+                    aiResponse = "I'm just a program, so I don't have feelings, but thanks for asking!";
+                    break;
+                case "who created you?":
+                    aiResponse = "I was created by the talented developers at your company.";
+                    break;
+                case "who created you?":
+                    aiResponse = "I was crafted by the brilliant minds behind PixelChat.";
+                    break;
+                case "what can you do?":
+                    aiResponse = "I can guide you through PixelChat, help moderate chat rooms, and provide assistance.";
+                    break;
+                case "tell me about chat rooms":
+                    aiResponse = "Chat rooms are where users converse. You can monitor, join, or even create new ones from the radial menu. Remember, it's crucial to ensure a safe environment for all participants.";
+                    break;
+                case "i need emotional support":
+                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-place.html'>Orbit of Optimism</a> for some positivity. If it's urgent, please talk to a trusted individual or professional.";
+                    break;
+                    // Emotional support and wellbeing
+                case "i'm sad":
+                case "i feel depressed":
+                case "i need help":
+                case "i don't feel okay":
+                case "i'm not doing well":
+                    aiResponse = "I'm really sorry you're feeling this way, but I'm glad you reached out. Please consider visiting <a href='safe-place.html'>Safe Place</a> or talk to someone who can help.";
+                    break;
+                case "i need someone to talk to":
+                case "i feel lonely":
+                    aiResponse = "It's important to talk to someone who can help, whether it's friends or family. You can also visit our <a href='safe-place.html'>Safe Place</a> to chat with a specialist.";
+                    break;
+                case "i'm feeling anxious":
+                case "i'm scared":
+                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-place.html'>Orbit of Optimism</a> for some positivity or join one of our support chat rooms.";
+                    break;
+                case "how to create a chatroom?":
+                    aiResponse = "Go to the dashboard and click on 'Create Chatroom'.";
+                    break;
+                case "what services do you offer?":
+                    aiResponse = "We offer a range of services including chatrooms, private messaging, and more.";
+                    break;
+                case "how can I get in touch with customer support?":
+                    aiResponse = "You can reach our customer support via the 'Contact' section.";
+                    break;
+                case "is my data secure?":
+                    aiResponse = "Yes, we prioritize user data security and have implemented multiple layers of protection.";
+                    break;
+                case "can I change my username?":
+                    aiResponse = "Yes, navigate to 'Profile Settings' to modify your username.";
+                    break;
+                case "hi":
+                case "hello":
+                    aiResponse = "Hello! How can I assist you today?";
+                    break;
+                case "what's up?":
+                case "how's it going?":
+                    aiResponse = "I'm here to help! What can I do for you?";
+                    break;
+                case "thanks":
+                case "thank you":
+                    aiResponse = "You're welcome!";
+                    break;
+                case "bye":
+                case "goodbye":
+                    aiResponse = "Goodbye! If you have any more questions, just ask.";
+                    break;
+
+                    // Specific questions
+                case "how are you?":
+                    aiResponse = "I'm just a program, so I don't have feelings, but thanks for asking!";
+                    break;
+                case "how to reset my password?":
+                    aiResponse = "Click on 'Forgot Password' on the login page and follow the instructions.";
+                    break;
+                case "are there any premium features?":
+                    aiResponse = "Yes, we offer a premium subscription with added benefits and features.";
+                    break;
+                case "how do I delete my account?":
+                    aiResponse = "Please contact customer support to proceed with account deletion.";
+                    break;
+                case "how often are new features added?":
+                    aiResponse = "We regularly update our platform and add new features based on user feedback.";
+                    break;
+                case "is there a mobile app?":
+                    aiResponse = "Yes, we have a mobile app available for both Android and iOS.";
+                    break;
+                case "how to report a bug?":
+                    aiResponse = "Navigate to 'Help' and select 'Report a Bug'.";
+                    break;
+                case "can I suggest a feature?":
+                    aiResponse = "Absolutely! We value user feedback. Please submit your suggestions via the 'Feedback' section.";
+                    break;
+                case "is there a user guide?":
+                    aiResponse = "Yes, you can find the user guide in the 'Help' section.";
+                    break;
+                case "can I customize notifications?":
+                    aiResponse = "Yes, go to 'Settings' and adjust your notification preferences.";
+                    break;
+                case "how to add friends?":
+                    aiResponse = "Navigate to 'Friends' and click on 'Add New Friend'.";
+                    break;
+                case "is there a limit to the number of chatrooms I can create?":
+                    aiResponse = "There's a limit of 10 chatrooms for free users. Premium users have no limit.";
+                    break;
+                case "can I mute a chatroom?":
+                    aiResponse = "Yes, open the chatroom settings and select 'Mute Notifications'.";
+                    break;
+                case "how do I know if someone read my message?":
+                    aiResponse = "You'll see a blue tick next to your message once it's been read.";
+                    break;
+                case "what's the difference between logging out and deactivating my account?":
+                    aiResponse = "Logging out will simply sign you out, but deactivating will temporarily disable your account.";
+                    break;
+                case "how can I advertise on your platform?":
+                    aiResponse = "Please contact our marketing team for advertising opportunities.";
+                    break;
+                case "do you have a referral program?":
+                    aiResponse = "Yes! Refer friends and earn rewards. Check the 'Referrals' section for more details.";
+                    break;
+                case "can I sync my contacts?":
+                    aiResponse = "Yes, navigate to 'Settings' and select 'Sync Contacts'.";
+                    break;
+                case "is there a dark mode?":
+                    aiResponse = "Yes, you can toggle between light and dark mode in 'Settings'.";
+                    break;
+                case "do you support multi-language?":
+                    aiResponse = "Currently, we support English. More languages will be added soon.";
+                    break;
+                case "are there any age restrictions to use this platform?":
+                    aiResponse = "Users must be 13 years or older to use our platform.";
+                    break;
+                case "how can I upgrade to premium?":
+                    aiResponse = "Navigate to 'Billing' and select the 'Upgrade to Premium' option.";
+                    break;
+                case "can I use this platform on a tablet?":
+                    aiResponse = "Absolutely! Our platform is optimized for both tablets and smartphones.";
+                    break;
+                case "why was my account banned?":
+                    aiResponse = "Accounts may be banned due to violations of our terms. Please contact support for details.";
+                    break;
+                case "can I change the theme of the chatroom?":
+                    aiResponse = "Yes, premium users have the option to customize chatroom themes.";
+                    break;
+                case "is video chat available?":
+                    aiResponse = "Yes, we offer both voice and video chat features.";
+                    break;
+                case "how do I block a user?":
+                    aiResponse = "Navigate to the user's profile and select 'Block User'.";
+                    break;
+                case "do you offer end-to-end encryption?":
+                    aiResponse = "Yes, all chats are end-to-end encrypted for user privacy.";
+                    break;
+                case "how to organize contacts?":
+                    aiResponse = "You can create contact groups and categorize your contacts for better organization.";
+                    break;
+                case "how do I share files?":
+                    aiResponse = "Click on the attachment icon in the chat window to share files.";
+                    break;
+                case "can I backup my chats?":
+                    aiResponse = "Yes, navigate to 'Settings' and select 'Backup Chats'.";
+                    break;
+                case "how do I change profile picture?":
+                    aiResponse = "Go to 'Profile Settings' and click on the profile picture to change it.";
+                    break;
+                default:
+                    aiResponse = "I'm not sure about that. Can you ask something else?";
+            }
+
+            chatWindow.innerHTML += `<div class="ai-response">${aiResponse}</div>`;
+
+            // Clear the input after asking
+            askOrionInput.value = "";
+        }
     }
 
 });
@@ -215,11 +399,29 @@ function initJoystickControls() {
 
 
     joystick.addEventListener('dblclick', function () {
-        const selectedSection = closestSection();
-        if (selectedSection) {
-            window.location.href = selectedSection.getAttribute('data-url');
+    const selectedSection = closestSection();
+    if (selectedSection) {
+        const targetURL = selectedSection.getAttribute('data-url');
+        const modalID = targetURL.replace('.html', 'Modal');
+        const modalElement = document.getElementById(modalID);
+        if (modalElement) {
+            modalElement.style.display = "block";
+        } else {
+            // If there's no modal for the selected section, navigate to the page
+            window.location.href = targetURL;
         }
-    });
+    }
+});
+
+    
+}
+
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
 
 function initOrbClickEvents() {
@@ -314,24 +516,24 @@ document.querySelector('.settings-button').addEventListener('click', function ()
 const settingsItems = document.querySelectorAll('.settings-list li');
 
 settingsItems.forEach(item => {
-    item.addEventListener('click', function() {
-        switch(item.textContent) {
+    item.addEventListener('click', function () {
+        switch (item.textContent) {
             case 'Backup Data':
-                if(confirm('Do you want to backup all the data?')) {
+                if (confirm('Do you want to backup all the data?')) {
                     setTimeout(() => {
                         alert('Data backed up successfully!');
                     }, 2000); // Simulating a delay for backup
                 }
                 break;
 
-                case 'Adjust Settings':
-                    document.getElementById('adjustSettingsModal').style.display = 'block';
-                    break;
-                
-                case 'Site-wide Announcements':
-                    document.getElementById('siteWideAnnouncementsModal').style.display = 'block';
-                    break;
-                
+            case 'Adjust Settings':
+                document.getElementById('adjustSettingsModal').style.display = 'block';
+                break;
+
+            case 'Site-wide Announcements':
+                document.getElementById('siteWideAnnouncementsModal').style.display = 'block';
+                break;
+
 
             default:
                 alert('Option not recognized!');
@@ -340,11 +542,11 @@ settingsItems.forEach(item => {
 });
 
 // Close buttons
-document.getElementById('closeAdjustSettings').addEventListener('click', function() {
+document.getElementById('closeAdjustSettings').addEventListener('click', function () {
     document.getElementById('adjustSettingsModal').style.display = 'none';
 });
 
-document.getElementById('closeAnnouncements').addEventListener('click', function() {
+document.getElementById('closeAnnouncements').addEventListener('click', function () {
     document.getElementById('siteWideAnnouncementsModal').style.display = 'none';
 });
 
@@ -358,7 +560,7 @@ function saveSettings() {
 // Send Announcement Function
 function sendAnnouncement() {
     const text = document.getElementById('announcementText').value;
-    if(text) {
+    if (text) {
         // Logic to send announcement
         alert('Announcement sent successfully!');
         document.getElementById('siteWideAnnouncementsModal').style.display = 'none';
@@ -366,5 +568,3 @@ function sendAnnouncement() {
         alert('Please enter an announcement text.');
     }
 }
-
-

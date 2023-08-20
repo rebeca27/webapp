@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   "use strict";
 
   // Get all input fields that need validation
@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   document.querySelector('.validate-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
     var isValid = true;
 
     for (var i = 0; i < inputs.length; i++) {
@@ -88,17 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(data => {
         console.log("Processing returned data", data);
-
-        if (data.message === "Login successful") {
+        
           //    sessionStorage.setItem("loggedInEmail", data.email);
           var encryptedEmail = encrypt(data.email);
           // console.log(encryptedEmail)
           sessionStorage.setItem("loggedInEmail", encryptedEmail);
           //console.log("Email set in sessionStorage: ", sessionStorage.getItem("loggedInEmail"));
           window.location.href = '/login2';
-        } else {
-          throw new Error(data.message || "Unknown error");
-        }
+        
       })
       .catch((error) => {
         console.error('Fetch had an error:', error.message);
@@ -154,16 +153,16 @@ document.addEventListener("DOMContentLoaded", function () {
       hideValidate(this);
     });
   }
-  document.getElementById('togglePassword').addEventListener('click', function () {
+  document.getElementById('togglePassword').addEventListener('click', function() {
     const passwordInput = document.getElementById('passwordInput');
 
     // Check the current type of the input field
     if (passwordInput.type === 'password') {
-      passwordInput.type = 'text'; // Change the input type to 'text' to show the password
-      this.textContent = 'Hide'; // Update the button text
+        passwordInput.type = 'text'; // Change the input type to 'text' to show the password
+        this.textContent = 'Hide';   // Update the button text
     } else {
-      passwordInput.type = 'password'; // Change the input type back to 'password' to hide it
-      this.textContent = 'Show'; // Update the button text
+        passwordInput.type = 'password'; // Change the input type back to 'password' to hide it
+        this.textContent = 'Show';       // Update the button text
     }
-  });
+});
 });

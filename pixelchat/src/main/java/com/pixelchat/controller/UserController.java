@@ -49,31 +49,31 @@ public class UserController {
                                           @RequestParam("color") String color,
                                           @RequestParam("profileImage") MultipartFile profileImage) throws Exception {
 
-//        // Email validation
-//        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
-//            return ResponseEntity.badRequest().body("Invalid email format.");
-//        }
+        // Email validation
+        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
+            return ResponseEntity.badRequest().body("Invalid email format.");
+        }
 
-//        // Password strength check
-//        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$")) {
-//            return ResponseEntity.badRequest().body("Password must be at least 8 characters, contain a lowercase letter, uppercase letter, digit, and special character.");
-//        }
-//
-//
-//        // Profile image check (size, for example, limited to 5MB)
-//        if (profileImage.getSize() > 5 * 1024 * 1024) {
-//            return ResponseEntity.badRequest().body("Profile image should be less than 5MB.");
-//        }
-//
-//        if (profileImage == null || profileImage.isEmpty()) {
-//            return ResponseEntity.badRequest().body("No profile image provided.");
-//        }
-//
-//        // Existing user check
-//        User existingUser = userService.findByEmail(email);
-//        if (existingUser != null) {
-//            return ResponseEntity.badRequest().body("Email is already in use.");
-//        }
+        // Password strength check
+        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$")) {
+            return ResponseEntity.badRequest().body("Password must be at least 8 characters, contain a lowercase letter, uppercase letter, digit, and special character.");
+        }
+
+
+        // Profile image check (size, for example, limited to 5MB)
+        if (profileImage.getSize() > 5 * 1024 * 1024) {
+            return ResponseEntity.badRequest().body("Profile image should be less than 5MB.");
+        }
+
+        if (profileImage == null || profileImage.isEmpty()) {
+            return ResponseEntity.badRequest().body("No profile image provided.");
+        }
+
+        // Existing user check
+        User existingUser = userService.findByEmail(email);
+        if (existingUser != null) {
+            return ResponseEntity.badRequest().body("Email is already in use.");
+        }
 
         String salt = UserService.generateSalt();
 
@@ -129,36 +129,33 @@ public class UserController {
         return baos.toByteArray();
     }
 
-
-
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
 
-        //  Input Validation
+
 //        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
 //            return ResponseEntity.badRequest().body("Invalid input format.");
 //        }
 
         User user = userService.findByEmail(email);
-//        if (user == null) {
-//            //  Avoid Revealing Specific Failures
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
-//        }
+        if (user == null) {
+            //  Avoid Revealing Specific Failures
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
 
 
         String userSalt = user.getSalt();
 
-//        if (!userService.isPasswordValid(password, userSalt, user.getPassword())) {
-//            //  Avoid Revealing Specific Failures
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
-//        }
+        if (!userService.isPasswordValid(password, userSalt, user.getPassword())) {
+            //  Avoid Revealing Specific Failures
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
 
         // Return a successful login response
         Map<String, String> response = new HashMap<>();
         response.put("message", "Login successful");
         response.put("email", email);
         return ResponseEntity.ok(response);
-        // Optionally: return ResponseEntity.ok().body(new AuthenticationResponse(token));
     }
 
     @GetMapping("/target-share")
@@ -182,12 +179,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
-
-    private BufferedImage convertByteArrayToBufferedImage(byte[] imageData) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
-        return ImageIO.read(bais);
-    }
     @GetMapping("/target-color/{email}")
     public ResponseEntity<Map<String, String>> getTargetColor(@PathVariable String email) {
         String targetColor = userService.fetchTargetColorByEmail(email);
