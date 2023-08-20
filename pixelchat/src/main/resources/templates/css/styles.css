@@ -444,11 +444,11 @@ body {
 
 .svg-item svg {
     width: 100px;
-    height: 100px;
+    height: 40px;
 }
 
 .section.svg-horizontal-section {
-    height: 30vh;
+    height: 5vh;
     /* Adjust this to your desired height */
     background-color: #f3e9e0;
     /* Another pastel color */

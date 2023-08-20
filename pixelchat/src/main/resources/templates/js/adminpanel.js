@@ -22,7 +22,7 @@ const orbData = [{
     {
         tooltip: "Blog Posts - 3 New",
         url: "blogposts.html",
-        image: "space5.png"
+        image: "space12.webp"
     }, // Example data for Blog Posts
     {
         tooltip: "Pictures - 10 New",
@@ -32,7 +32,7 @@ const orbData = [{
     {
         tooltip: "Staff - 5 Active",
         url: "staff.html",
-        image: "space8.png"
+        image: "space11.jpg"
     }, // Example data for Staff
     // Additional orb data can be added
 ];
@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn("Toggle AI button not found in the document.");
     }
+
 });
 
 
@@ -239,8 +240,9 @@ function startStarGenerator() {
             star.remove();
         });
     }
-    setInterval(generateStar, Math.random() * 5000 + 2000);
+    setInterval(generateStar, 600000);
 }
+
 
 function initMenuToggle() {
     const items = document.querySelectorAll(".menu-list li");
@@ -273,7 +275,9 @@ function initMenuToggle() {
 
 
 function emergencyEject() {
+
     const confirmEject = confirm("Are you sure you want to initiate Emergency Eject? You will be logged out!");
+
     if (confirmEject) {
         // Send a request to the server to log out
         fetch('/logout', {
@@ -300,7 +304,67 @@ function emergencyEject() {
 
 
 // System Settings Sphere Functionality
+
 document.querySelector('.settings-button').addEventListener('click', function () {
     const settingsList = document.querySelector('.settings-list');
     settingsList.style.display = (settingsList.style.display === "none" || settingsList.style.display === "") ? "block" : "none";
 });
+
+// Get all the list items inside the settings-list
+const settingsItems = document.querySelectorAll('.settings-list li');
+
+settingsItems.forEach(item => {
+    item.addEventListener('click', function() {
+        switch(item.textContent) {
+            case 'Backup Data':
+                if(confirm('Do you want to backup all the data?')) {
+                    setTimeout(() => {
+                        alert('Data backed up successfully!');
+                    }, 2000); // Simulating a delay for backup
+                }
+                break;
+
+                case 'Adjust Settings':
+                    document.getElementById('adjustSettingsModal').style.display = 'block';
+                    break;
+                
+                case 'Site-wide Announcements':
+                    document.getElementById('siteWideAnnouncementsModal').style.display = 'block';
+                    break;
+                
+
+            default:
+                alert('Option not recognized!');
+        }
+    });
+});
+
+// Close buttons
+document.getElementById('closeAdjustSettings').addEventListener('click', function() {
+    document.getElementById('adjustSettingsModal').style.display = 'none';
+});
+
+document.getElementById('closeAnnouncements').addEventListener('click', function() {
+    document.getElementById('siteWideAnnouncementsModal').style.display = 'none';
+});
+
+// Save Settings Function
+function saveSettings() {
+    // Logic to save settings
+    alert('Settings saved successfully!');
+    document.getElementById('adjustSettingsModal').style.display = 'none';
+}
+
+// Send Announcement Function
+function sendAnnouncement() {
+    const text = document.getElementById('announcementText').value;
+    if(text) {
+        // Logic to send announcement
+        alert('Announcement sent successfully!');
+        document.getElementById('siteWideAnnouncementsModal').style.display = 'none';
+    } else {
+        alert('Please enter an announcement text.');
+    }
+}
+
+

@@ -782,7 +782,7 @@ button[onclick="talkToOrion()"]:hover {
 }
 
 /* Chat bubbles for user and AI */
-.user-question, .ai-response {
+.user-message, .ai-response {
     max-width: 80%;
     padding: 10px;
     border-radius: 15px;
@@ -790,7 +790,7 @@ button[onclick="talkToOrion()"]:hover {
     transition: transform 0.3s ease-in-out; 
 }
 
-.user-question {
+.user-message {
     background-color: #e6f7ff;
     margin-left: auto;
     transform: scaleX(1);

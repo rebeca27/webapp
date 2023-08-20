@@ -51,14 +51,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const aiBox = document.querySelector('.ai-box');
     const toggleAIButton = document.getElementById('toggleAIButton');
+    const chatWindow = document.querySelector(".chat-window");
+    const askOrionInput = document.getElementById("askOrion");
 
-    if (toggleAIButton) {
+    if (aiBox && toggleAIButton) {
         toggleAIButton.addEventListener('click', function () {
-            console.log("Button clicked!"); // Log when the button is clicked
             aiBox.classList.toggle('minimized');
         });
     } else {
-        console.warn("Toggle AI button not found in the document.");
+        console.warn("AI box or Toggle AI button not found in the document.");
+    }
+
+    window.talkToOrion = function() {
+        const userQuestion = askOrionInput.value;
+        if (userQuestion) {
+            chatWindow.innerHTML += `<div class="user-message">${userQuestion}</div>`;
+            
+            // Hardcoded response for demonstration purposes
+            const aiResponse = "Hello! I'm Orion, your AI assistant. How can I assist you today?";
+            chatWindow.innerHTML += `<div class="ai-response">${aiResponse}</div>`;
+            
+            // Clear the input after asking
+            askOrionInput.value = "";
+        }
     }
 
 });
