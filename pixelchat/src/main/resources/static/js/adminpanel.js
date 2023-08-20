@@ -22,7 +22,7 @@ const orbData = [{
     {
         tooltip: "Blog Posts - 3 New",
         url: "blogposts.html",
-        image: "space5.png"
+        image: "space12.webp"
     }, // Example data for Blog Posts
     {
         tooltip: "Pictures - 10 New",
@@ -32,7 +32,7 @@ const orbData = [{
     {
         tooltip: "Staff - 5 Active",
         url: "staff.html",
-        image: "space8.png"
+        image: "space11.jpg"
     }, // Example data for Staff
     // Additional orb data can be added
 ];
@@ -275,7 +275,9 @@ function initMenuToggle() {
 
 
 function emergencyEject() {
+
     const confirmEject = confirm("Are you sure you want to initiate Emergency Eject? You will be logged out!");
+
     if (confirmEject) {
         // Send a request to the server to log out
         fetch('/logout', {

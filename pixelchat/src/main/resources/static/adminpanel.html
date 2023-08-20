@@ -72,15 +72,57 @@
             <div class="modal-content">
                 <span class="close-btn" id="closeAdjustSettings">&times;</span>
                 <h3>Adjust Settings</h3>
+                
+                <!-- Theme Setting -->
                 <label for="theme">Theme:</label>
                 <select id="theme">
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
                 </select>
-                <!-- Add more settings here as needed -->
+                
+                <!-- Font Size Setting -->
+                <label for="fontSize">Font Size:</label>
+                <select id="fontSize">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+                
+                <!-- Notification Setting -->
+                <label for="notifications">Notifications:</label>
+                <select id="notifications">
+                    <option value="enabled">Enabled</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+                
+                <!-- Privacy Mode Setting -->
+                <label for="privacyMode">Privacy Mode:</label>
+                <select id="privacyMode">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+                
+                <!-- Sound Effects Setting -->
+                <label for="soundEffects">Sound Effects:</label>
+                <select id="soundEffects">
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                </select>
+                
+                <!-- Language Setting -->
+                <label for="language">Language:</label>
+                <select id="language">
+                    <option value="english">English</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="french">French</option>
+                    <option value="german">German</option>
+                    <!-- Add more languages as needed -->
+                </select>
+        
                 <button onclick="saveSettings()">Save</button>
             </div>
         </div>
+        
         <div class="modal" id="siteWideAnnouncementsModal">
             <div class="modal-content">
                 <span class="close-btn" id="closeAnnouncements">&times;</span>
