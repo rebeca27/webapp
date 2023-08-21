@@ -101,8 +101,17 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .catch((error) => {
         console.error('Fetch had an error:', error.message);
-        alert(error.message);
-      });
+        
+        // Display message based on the server's response
+        if (error.message === "Invalid input format.") {
+            alert(`The email "${email}" you entered has an invalid format.`);
+        } else if (error.message === "Invalid credentials.") {
+            alert(`The credentials for "${email}" are incorrect.`);
+        } else {
+            alert(`There was an error during authentication for "${email}". Please try again.`);
+        }
+    });
+    
 
   });
 

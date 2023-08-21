@@ -133,9 +133,9 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
 
 
-//        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
-//            return ResponseEntity.badRequest().body("Invalid input format.");
-//        }
+        if (!email.matches("^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$")) {
+            return ResponseEntity.badRequest().body("Invalid input format.");
+        }
 
         User user = userService.findByEmail(email);
         if (user == null) {

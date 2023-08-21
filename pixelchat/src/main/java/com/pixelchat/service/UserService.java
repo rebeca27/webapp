@@ -27,12 +27,6 @@ public class UserService {
 //        return SHA256Util.hashWithSHA256(plainPassword);
 //    }
 
-
-    public String hashPassword(String plainPassword) {
-        String salt = generateSalt();
-        return hashWithSalt(plainPassword, salt);
-    }
-
     public String hashWithSalt(String plainPassword, String salt) {
         Argon2Parameters.Builder builder = new Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
                 .withSalt(decodeSalt(salt))
