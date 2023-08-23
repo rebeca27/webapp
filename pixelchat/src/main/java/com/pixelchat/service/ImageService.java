@@ -91,17 +91,17 @@ public class ImageService {
         return combinedData;
     }
 
-    private int pixelIntensity(Color pixel) {
+    public int pixelIntensity(Color pixel) {
         return (int) (0.3 * pixel.getRed() + 0.59 * pixel.getGreen() + 0.11 * pixel.getBlue());
     }
 
-    private SecureRandom secureRandom = new SecureRandom();
+    protected SecureRandom secureRandom = new SecureRandom();
 
-    private int randomPattern() {
+    public int randomPattern() {
         return secureRandom.nextInt(0xFFFFFF + 1);  // Generating random RGB color
     }
 
-    private int complementaryPattern(int pattern) {
+    public int complementaryPattern(int pattern) {
         Color color = new Color(pattern);
         int r = 255 - color.getRed();
         int g = 255 - color.getGreen();
