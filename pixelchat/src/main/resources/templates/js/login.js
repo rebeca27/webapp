@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * production environment.
    */
 
-  var secretKey = "rebeca27";
+  var secretKey = "MySuperSecretKey";
 
 
   document.querySelector('.validate-form').addEventListener('submit', function (event) {

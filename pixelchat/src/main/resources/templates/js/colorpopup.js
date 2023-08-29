@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * production environment.
      */
 
-    var secretKey = "rebeca27";
+    var secretKey = "MySuperSecretKey";
     function decrypt(text) {
         var bytes = CryptoJS.AES.decrypt(text, secretKey);
         return bytes.toString(CryptoJS.enc.Utf8);

@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     aiResponse = "Chat rooms are where users converse. You can monitor, join, or even create new ones from the radial menu. Remember, it's crucial to ensure a safe environment for all participants.";
                     break;
                 case "i need emotional support":
-                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-place.html'>Orbit of Optimism</a> for some positivity. If it's urgent, please talk to a trusted individual or professional.";
+                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-space.html'>Orbit of Optimism</a> for some positivity. If it's urgent, please talk to a trusted individual or professional.";
                     break;
                     // Emotional support and wellbeing
                 case "i'm sad":
@@ -95,15 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 case "i need help":
                 case "i don't feel okay":
                 case "i'm not doing well":
-                    aiResponse = "I'm really sorry you're feeling this way, but I'm glad you reached out. Please consider visiting <a href='safe-place.html'>Safe Place</a> or talk to someone who can help.";
+                    aiResponse = "I'm really sorry you're feeling this way, but I'm glad you reached out. Please consider visiting <a href='safe-space.html'>Safe Place</a> or talk to someone who can help.";
                     break;
                 case "i need someone to talk to":
                 case "i feel lonely":
-                    aiResponse = "It's important to talk to someone who can help, whether it's friends or family. You can also visit our <a href='safe-place.html'>Safe Place</a> to chat with a specialist.";
+                    aiResponse = "It's important to talk to someone who can help, whether it's friends or family. You can also visit our <a href='safe-space.html'>Safe Place</a> to chat with a specialist.";
                     break;
                 case "i'm feeling anxious":
                 case "i'm scared":
-                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-place.html'>Orbit of Optimism</a> for some positivity or join one of our support chat rooms.";
+                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-space.html'>Orbit of Optimism</a> for some positivity or join one of our support chat rooms.";
                     break;
                 case "how to create a chatroom?":
                     aiResponse = "Go to the dashboard and click on 'Create Chatroom'.";
