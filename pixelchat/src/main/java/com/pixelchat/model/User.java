@@ -1,5 +1,9 @@
 package com.pixelchat.model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,7 +25,29 @@ public class User {
     private byte[] share1;
     @Lob
     private byte[] share2;
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonManagedReference(value="user-sent")
+    private List<FriendRequest> sentRequests = new ArrayList<>();
 
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @JsonManagedReference(value="user-received")
+    private List<FriendRequest> receivedRequests = new ArrayList<>();
+
+    public List<FriendRequest> getSentRequests() {
+        return sentRequests;
+    }
+
+    public void setSentRequests(List<FriendRequest> sentRequests) {
+        this.sentRequests = sentRequests;
+    }
+
+    public List<FriendRequest> getReceivedRequests() {
+        return receivedRequests;
+    }
+
+    public void setReceivedRequests(List<FriendRequest> receivedRequests) {
+        this.receivedRequests = receivedRequests;
+    }
 
 
     public Long getId() {

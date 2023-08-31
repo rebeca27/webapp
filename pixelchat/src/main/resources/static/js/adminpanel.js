@@ -37,10 +37,24 @@ const orbData = [{
     // Additional orb data can be added
 ];
 
+let loggedInEmail;
 
 let scene, camera, renderer, globe;
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    var secretKey = "MySuperSecretKey";
+
+    function decrypt(text) {
+        var bytes = CryptoJS.AES.decrypt(text, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
+
+    // Decryption of the email from session storage
+    var emailEncrypted = sessionStorage.getItem("loggedInEmail");
+    loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
+
+    console.log(loggedInEmail)
     initGlobe();
     initOrbs();
     initJoystickControls();
@@ -244,7 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
             askOrionInput.value = "";
         }
     }
-
 });
 
 
@@ -398,12 +411,18 @@ function initJoystickControls() {
     }
 
 
-    joystick.addEventListener('dblclick', function () {
+  joystick.addEventListener('dblclick', function () {
     const selectedSection = closestSection();
     if (selectedSection) {
         const targetURL = selectedSection.getAttribute('data-url');
         const modalID = targetURL.replace('.html', 'Modal');
         const modalElement = document.getElementById(modalID);
+        
+        if (modalID === "friendrequestsModal") {
+            // Fetch the data only when the "Friend Requests" modal is about to be displayed
+            fetchIncomingRequests();
+        }
+
         if (modalElement) {
             modalElement.style.display = "block";
         } else {
@@ -413,7 +432,8 @@ function initJoystickControls() {
     }
 });
 
-    
+
+
 }
 
 
@@ -477,32 +497,28 @@ function initMenuToggle() {
 
 
 function emergencyEject() {
-
     const confirmEject = confirm("Are you sure you want to initiate Emergency Eject? You will be logged out!");
 
     if (confirmEject) {
         // Send a request to the server to log out
-        fetch('/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("You have been logged out. Notification sent to the tech team.");
-                    // Optionally, redirect to the login page or home page
-                    window.location.href = "/login";
-                } else {
-                    alert("Error logging out. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.error("Error logging out:", error);
-            });
+        function logout() {
+            fetch('/logout', {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        sessionStorage.removeItem("loggedInEmail");
+                        window.location.href = '/login'; // Redirect to login page
+                    } else {
+                        console.error('Error logging out.');
+                    }
+                });
+        }
+
+        logout(); // Call the logout function
     }
 }
+
 
 
 // System Settings Sphere Functionality
@@ -567,4 +583,115 @@ function sendAnnouncement() {
     } else {
         alert('Please enter an announcement text.');
     }
+}
+
+// Friend Request Logic
+function fetchIncomingRequests() {
+    fetch("/friendRequests/incoming", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayIncomingRequests(data);
+        })
+        .catch(error => console.error("Error fetching friend requests:", error));
+}
+
+
+function acceptRequest(requestId) {
+    fetch(`/friendRequests/accept/${requestId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Friend request accepted!");
+                fetchIncomingRequests(); // Refresh the list
+            } else {
+                alert("Error accepting friend request.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+function rejectRequest(requestId) {
+    fetch(`/friendRequests/reject/${requestId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Friend request rejected!");
+                fetchIncomingRequests(); // Refresh the list
+            } else {
+                alert("Error rejecting friend request.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+function sendFriendRequest() {
+    const receiverEmail = document.getElementById("friendEmail").value;
+
+    fetch("/friendRequests/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            },
+            body: JSON.stringify({
+                sender: { email: loggedInEmail },
+                receiver: { email: receiverEmail }
+            })
+            
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+        })
+        .then(message => {
+            alert(message);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert(error.message);
+        });
+        
+}
+
+function displayIncomingRequests(requests) {
+    console.log(requests); // Add this line
+
+    const list = document.getElementById("incomingRequestsList");
+    list.innerHTML = ''; // Clear the list
+
+    if (requests.length > 0) {
+        const modal = document.getElementById('friendrequestsModal');
+        modal.style.display = 'block';
+    }
+
+    requests.forEach(request => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            ${request.senderEmail} 
+            <button class="accept-btn" onclick="acceptRequest(${request.id})">Accept</button> 
+            <button class="reject-btn" onclick="rejectRequest(${request.id})">Reject</button>
+        `;
+        list.appendChild(listItem);
+    });
 }

@@ -248,28 +248,31 @@
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal('friendrequestsModal')">&times;</span>
                 <h3>Friend Requests</h3>
-                <ul>
-                    <li>Jane Doe <button class="accept-btn">Accept</button> <button class="reject-btn">Reject</button>
-                    </li>
-                    <li>John Smith <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Emily Watson <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Michael Brown <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Olivia Taylor <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>William Johnson <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Isabella Williams <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
+
+                <!-- Inside the Friend Requests Modal -->
+                <div id="sendFriendRequestForm">
+                    <input type="text" id="friendEmail" placeholder="Enter friend's email">
+                    <button onclick="sendFriendRequest()">Send Friend Request</button>
+                </div>
+
+
+                <!-- List of incoming friend requests -->
+                <ul id="incomingRequestsList">
+                    <!-- This will be populated dynamically using JavaScript -->
                 </ul>
             </div>
         </div>
 
+
         <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+        <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+        <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+
         <script src="js/adminpanel.js"></script>
+
 </body>
 
 </html>
