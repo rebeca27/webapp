@@ -63,6 +63,69 @@ document.addEventListener('DOMContentLoaded', () => {
     startStarGenerator();
     initMenuToggle();
 
+    // Fetch the logged-in user's details
+    fetchLoggedInUserDetails();
+
+    // Chatrooms Logic -------------------------------------------------------------
+
+
+    function fetchMessagesForChatRoom(chatRoomId) {
+        fetch(`/chatrooms/${chatRoomId}/messages`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Email': loggedInEmail
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const modal = document.querySelector(`.modal[data-id="${chatRoomId}"]`);
+                const chatroomContent = modal.querySelector('.chatroom-content');
+                chatroomContent.innerHTML = ''; // Clear previous messages
+                data.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message user${message.user.id}`;
+                    messageDiv.textContent = message.content;
+                    chatroomContent.appendChild(messageDiv);
+                });
+            })
+            .catch(error => console.error("Error fetching messages:", error));
+    }
+
+
+
+    function sendMessage(chatRoomId, content) {
+        fetch(`/chatrooms/${chatRoomId}/send`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Email': loggedInEmail
+                },
+                body: JSON.stringify({
+                    content: content
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    fetchMessagesForChatRoom(chatRoomId); // Refresh the messages
+                } else {
+                    console.error("Error sending message:", response.statusText);
+                }
+            })
+            .catch(error => console.error("Error sending message:", error));
+    }
+
+    // Add event listener to each chatroom's send button.
+    document.querySelectorAll('.chatroom-input button').forEach(button => {
+        button.addEventListener('click', function () {
+            const modal = button.closest('.modal');
+            const chatRoomId = modal.getAttribute('data-id');
+            const content = modal.querySelector('.chatroom-input input').value;
+            sendMessage(chatRoomId, content);
+        });
+    });
+
+
     const aiBox = document.querySelector('.ai-box');
     const toggleAIButton = document.getElementById('toggleAIButton');
     const chatWindow = document.querySelector(".chat-window");
@@ -411,27 +474,29 @@ function initJoystickControls() {
     }
 
 
-  joystick.addEventListener('dblclick', function () {
-    const selectedSection = closestSection();
-    if (selectedSection) {
-        const targetURL = selectedSection.getAttribute('data-url');
-        const modalID = targetURL.replace('.html', 'Modal');
-        const modalElement = document.getElementById(modalID);
-        
-        if (modalID === "friendrequestsModal") {
-            // Fetch the data only when the "Friend Requests" modal is about to be displayed
-            fetchIncomingRequests();
-        }
+    joystick.addEventListener('dblclick', function () {
+        const selectedSection = closestSection();
+        if (selectedSection) {
+            const targetURL = selectedSection.getAttribute('data-url');
+            const modalID = targetURL.replace('.html', 'Modal');
+            const modalElement = document.getElementById(modalID);
 
-        if (modalElement) {
-            modalElement.style.display = "block";
-        } else {
-            // If there's no modal for the selected section, navigate to the page
-            window.location.href = targetURL;
-        }
-    }
-});
+            if (modalID === "friendrequestsModal") {
+                // Fetch the data only when the "Friend Requests" modal is about to be displayed
+                fetchIncomingRequests();
+            } else if (modalID === "chatroom1Modal" || modalID === "chatroom2Modal") {
+                const chatRoomId = modalElement.getAttribute('data-id');
+                fetchMessagesForChatRoom(chatRoomId);
+            }
 
+            if (modalElement) {
+                modalElement.style.display = "block";
+            } else {
+                // If there's no modal for the selected section, navigate to the page
+                window.location.href = targetURL;
+            }
+        }
+    });
 
 
 }
@@ -521,7 +586,7 @@ function emergencyEject() {
 
 
 
-// System Settings Sphere Functionality
+// System Settings Sphere Functionality --------------------------------------------------------------
 
 document.querySelector('.settings-button').addEventListener('click', function () {
     const settingsList = document.querySelector('.settings-list');
@@ -585,7 +650,8 @@ function sendAnnouncement() {
     }
 }
 
-// Friend Request Logic
+// Friend Request Logic -------------------------------------------------------------
+
 function fetchIncomingRequests() {
     fetch("/friendRequests/incoming", {
             method: "GET",
@@ -650,10 +716,14 @@ function sendFriendRequest() {
                 "User-Email": loggedInEmail
             },
             body: JSON.stringify({
-                sender: { email: loggedInEmail },
-                receiver: { email: receiverEmail }
+                sender: {
+                    email: loggedInEmail
+                },
+                receiver: {
+                    email: receiverEmail
+                }
             })
-            
+
         })
         .then(response => {
             if (response.ok) {
@@ -671,7 +741,7 @@ function sendFriendRequest() {
             console.error("Error:", error);
             alert(error.message);
         });
-        
+
 }
 
 function displayIncomingRequests(requests) {
@@ -695,3 +765,74 @@ function displayIncomingRequests(requests) {
         list.appendChild(listItem);
     });
 }
+
+// Chatrooms Logic -------------------------------------------------------------
+
+let loggedInUserId;
+
+function fetchLoggedInUserDetails() {
+    fetch("chatrooms/currentUser", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            loggedInUserId = data.id;
+            // You can call any other functions that depend on this ID here, if needed.
+            // For example, if you want to immediately fetch messages for a chatroom after getting the ID:
+            // fetchMessagesForChatRoom(someChatRoomId);
+        })
+        .catch(error => console.error("Error fetching user details:", error));
+}
+
+function fetchMessagesForChatRoom(chatRoomId) {
+    fetch(`/chatrooms/${chatRoomId}/messages`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modal = document.querySelector(`.modal[data-id="${chatRoomId}"]`);
+            const chatroomContent = modal.querySelector('.chatroom-content');
+            chatroomContent.innerHTML = ''; // Clear previous messages
+            data.forEach(message => {
+                const messageDiv = document.createElement('div');
+                console.log(`Rendering message from user ${message.user.id}. Current logged-in user ID is ${loggedInUserId}.`);
+                messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
+                
+                messageDiv.textContent = message.content;
+                chatroomContent.appendChild(messageDiv);
+            });
+        })
+        .catch(error => console.error("Error fetching messages:", error));
+}
+
+
+
+function sendMessage(chatRoomId, content) {
+    fetch(`/chatrooms/${chatRoomId}/send`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            },
+            body: JSON.stringify({
+                content: content
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                fetchMessagesForChatRoom(chatRoomId); // Refresh the messages
+            } else {
+                console.error("Error sending message:", response.statusText);
+            }
+        })
+        .catch(error => console.error("Error sending message:", error));
+}
+

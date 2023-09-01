@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -36,8 +37,10 @@ public class ChatController {
     }
 
     @PostMapping("/{chatroomId}/send")
-    public ResponseEntity<String> sendMessage(@PathVariable Long chatroomId, @RequestBody String content) {
-        String email = (String) session.getAttribute("loggedInEmail");
+    public ResponseEntity<String> sendMessage(@PathVariable Long chatroomId, @RequestBody Map<String, String> payload, @RequestHeader("User-Email") String email) {
+        String content = payload.get("content");
+
+        System.out.println(email);
         if(email == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in.");
         }
@@ -57,6 +60,22 @@ public class ChatController {
         }
         return userService.findByEmail(email); // Fetch the user by email
     }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<User> getCurrentUserDetails(@RequestHeader("User-Email") String email) {
+        User user = userService.findByEmail(email);
+        if(user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+
+    @ExceptionHandler(ChatService.ChatRoomNotFoundException.class)
+    public ResponseEntity<String> handleChatRoomNotFound(ChatService.ChatRoomNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
 }
 
 

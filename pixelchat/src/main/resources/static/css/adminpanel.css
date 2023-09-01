@@ -949,17 +949,18 @@ textarea:focus {
     max-width: 70%;
     clear: both;
 }
-
-.user1 {
+.myMessage {
     background-color: #e9e9e9;
     margin-left: auto;
     display: block;
+    border-bottom-right-radius: 0;  /* Makes it look more like a chat bubble */
 }
 
-.user2 {
+.otherMessage {
     background-color: #d1ffd7;
     margin-right: auto;
     display: block;
+    border-bottom-left-radius: 0;  /* Makes it look more like a chat bubble */
 }
 
 .chatroom-input {

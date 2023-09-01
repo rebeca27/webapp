@@ -22,11 +22,6 @@ public class ChatService {
         return chatRoomRepository.findAll();
     }
 
-    public List<Message> getMessagesForChatRoom(Long chatRoomId) {
-        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new RuntimeException("ChatRoom not found"));
-        return messageRepository.findByChatRoom(chatRoom);
-    }
-
     public void sendMessage(Long chatRoomId, String content, User user) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new RuntimeException("ChatRoom not found"));
         Message message = new Message();
@@ -36,4 +31,18 @@ public class ChatService {
         message.setTimestamp(LocalDateTime.now());
         messageRepository.save(message);
     }
+
+    public List<Message> getMessagesForChatRoom(Long chatRoomId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
+                .orElseThrow(() -> new ChatRoomNotFoundException("ChatRoom with ID " + chatRoomId + " not found"));
+        return messageRepository.findByChatRoom(chatRoom);
+    }
+
+    public class ChatRoomNotFoundException extends RuntimeException {
+        public ChatRoomNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+
 }
