@@ -136,7 +136,7 @@
   
 
 
-        <div class="modal" id="chatroom1Modal" data-id="1">
+        <div class="modal" id="chatroom1Modal" data-id="1" onopen="connectWebSocket(1)" onclose="disconnectWebSocket()">
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal('chatroom1Modal')">&times;</span>
                 <h3>New Friends Hub</h3>
@@ -147,12 +147,12 @@
         
                 <div class="chatroom-input">
                     <input type="text" placeholder="Type your message...">
-                    <button>Send</button>
+                    <button onclick="sendMessage(1, document.querySelector('#chatroom1Modal input').value)">Send</button>
                 </div>
             </div>
         </div>
         
-        <div class="modal" id="chatroom2Modal" data-id="2">
+        <div class="modal" id="chatroom2Modal" data-id="2" onopen="connectWebSocket(2)" onclose="disconnectWebSocket()">
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal('chatroom2Modal')">&times;</span>
                 <h3>Positivity Central</h3>
@@ -163,7 +163,7 @@
         
                 <div class="chatroom-input">
                     <input type="text" placeholder="Type your message...">
-                    <button>Send</button>
+                    <button onclick="sendMessage(2, document.querySelector('#chatroom2Modal input').value)">Send</button>
                 </div>
             </div>
         </div>
@@ -266,8 +266,9 @@
         <script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
-        <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
-        <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        
 
         <script src="js/adminpanel.js"></script>
 

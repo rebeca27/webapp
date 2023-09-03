@@ -40,8 +40,9 @@ const orbData = [{
 let loggedInEmail;
 
 let scene, camera, renderer, globe;
+const chatRoomId = document.body.getAttribute('data-id');
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (event)=> {
 
     var secretKey = "MySuperSecretKey";
 
@@ -54,7 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var emailEncrypted = sessionStorage.getItem("loggedInEmail");
     loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
 
-    console.log(loggedInEmail)
+    const chatRoomId = document.body.getAttribute('data-id');
+
+    console.log(loggedInEmail);
     initGlobe();
     initOrbs();
     initJoystickControls();
@@ -62,68 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initOrbClickEvents();
     startStarGenerator();
     initMenuToggle();
-
-    // Fetch the logged-in user's details
-    fetchLoggedInUserDetails();
-
-    // Chatrooms Logic -------------------------------------------------------------
-
-
-    function fetchMessagesForChatRoom(chatRoomId) {
-        fetch(`/chatrooms/${chatRoomId}/messages`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Email': loggedInEmail
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const modal = document.querySelector(`.modal[data-id="${chatRoomId}"]`);
-                const chatroomContent = modal.querySelector('.chatroom-content');
-                chatroomContent.innerHTML = ''; // Clear previous messages
-                data.forEach(message => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = `message user${message.user.id}`;
-                    messageDiv.textContent = message.content;
-                    chatroomContent.appendChild(messageDiv);
-                });
-            })
-            .catch(error => console.error("Error fetching messages:", error));
-    }
-
-
-
-    function sendMessage(chatRoomId, content) {
-        fetch(`/chatrooms/${chatRoomId}/send`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Email': loggedInEmail
-                },
-                body: JSON.stringify({
-                    content: content
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    fetchMessagesForChatRoom(chatRoomId); // Refresh the messages
-                } else {
-                    console.error("Error sending message:", response.statusText);
-                }
-            })
-            .catch(error => console.error("Error sending message:", error));
-    }
-
-    // Add event listener to each chatroom's send button.
-    document.querySelectorAll('.chatroom-input button').forEach(button => {
-        button.addEventListener('click', function () {
-            const modal = button.closest('.modal');
-            const chatRoomId = modal.getAttribute('data-id');
-            const content = modal.querySelector('.chatroom-input input').value;
-            sendMessage(chatRoomId, content);
-        });
-    });
 
 
     const aiBox = document.querySelector('.ai-box');
@@ -315,12 +256,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     aiResponse = "I'm not sure about that. Can you ask something else?";
             }
 
-            chatWindow.innerHTML += `<div class="ai-response">${aiResponse}</div>`;
-
             // Clear the input after asking
             askOrionInput.value = "";
         }
     }
+
+    //  connectWebSocket(chatRoomId);
+
+    // Fetch the Logged-In User's Details
+    fetchLoggedInUserDetails();
+
+    // Fetch Previous Messages for the Chatroom
+    //  fetchMessagesForChatRoom(chatRoomId);
 });
 
 
@@ -473,7 +420,6 @@ function initJoystickControls() {
         return closest;
     }
 
-
     joystick.addEventListener('dblclick', function () {
         const selectedSection = closestSection();
         if (selectedSection) {
@@ -487,6 +433,9 @@ function initJoystickControls() {
             } else if (modalID === "chatroom1Modal" || modalID === "chatroom2Modal") {
                 const chatRoomId = modalElement.getAttribute('data-id');
                 fetchMessagesForChatRoom(chatRoomId);
+
+                // Connect to WebSocket when the chatroom modal is opened
+                connectWebSocket(chatRoomId);
             }
 
             if (modalElement) {
@@ -499,15 +448,22 @@ function initJoystickControls() {
     });
 
 
+
 }
 
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "none";
+function closeModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = "none";
+
+    // Disconnect from WebSocket when the chatroom modal is closed
+    if (id === "chatroom1Modal" || id === "chatroom2Modal") {
+        disconnectWebSocket();
     }
 }
+
+
+
 
 function initOrbClickEvents() {
     const orbs = document.querySelectorAll('.media-orb');
@@ -758,10 +714,10 @@ function displayIncomingRequests(requests) {
     requests.forEach(request => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
-            ${request.senderEmail} 
-            <button class="accept-btn" onclick="acceptRequest(${request.id})">Accept</button> 
-            <button class="reject-btn" onclick="rejectRequest(${request.id})">Reject</button>
-        `;
+        ${request.senderEmail} 
+        <button class="accept-btn" onclick="acceptRequest(${request.id})">Accept</button> 
+        <button class="reject-btn" onclick="rejectRequest(${request.id})">Reject</button>
+    `;
         list.appendChild(listItem);
     });
 }
@@ -769,6 +725,27 @@ function displayIncomingRequests(requests) {
 // Chatrooms Logic -------------------------------------------------------------
 
 let loggedInUserId;
+
+function connectWebSocket(chatRoomId) {
+    // Create a connection to the WebSocket endpoint
+    const socket = new SockJS('/chat'); // This should match the endpoint you've defined in your Spring configuration
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected to WebSocket: ' + frame);
+
+        // Subscribe to the topic for the specific chatroom
+        stompClient.subscribe(`/topic/chat/${chatRoomId}`, function (messageOutput) {
+            // Handle received messages here
+            const message = JSON.parse(messageOutput.body);
+            console.log("Received message:", message); // Add this line
+            displayMessage(message);
+        });
+
+    }, function (error) {
+        console.log('WebSocket Connection Error: ' + error);
+    });
+}
 
 function fetchLoggedInUserDetails() {
     fetch("chatrooms/currentUser", {
@@ -788,6 +765,36 @@ function fetchLoggedInUserDetails() {
         .catch(error => console.error("Error fetching user details:", error));
 }
 
+function displayMessage(message) {
+    const newchatRoomId = message.chatRoom && message.chatRoom.id;
+
+    if (!newchatRoomId) {
+        console.error("Received message without a chatRoomId:", message);
+        return;
+    }
+
+    const modal = document.querySelector(`.modal[data-id="${newchatRoomId}"]`);
+
+    // Check if the modal exists
+    if (!modal) {
+        console.error(`No modal found for chatRoomId: ${newchatRoomId}`);
+        return;
+    }
+
+    const chatroomContent = modal.querySelector('.chatroom-content');
+
+    // Check if the chatroomContent exists
+    if (!chatroomContent) {
+        console.error(`No chatroom content found in modal for chatRoomId: ${newchatRoomId}`);
+        return;
+    }
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
+    messageDiv.textContent = message.content;
+    chatroomContent.appendChild(messageDiv);
+}
+
 function fetchMessagesForChatRoom(chatRoomId) {
     fetch(`/chatrooms/${chatRoomId}/messages`, {
             method: 'GET',
@@ -799,13 +806,18 @@ function fetchMessagesForChatRoom(chatRoomId) {
         .then(response => response.json())
         .then(data => {
             const modal = document.querySelector(`.modal[data-id="${chatRoomId}"]`);
+            if (!modal) {
+                console.error(`No modal found for chatRoomId: ${chatRoomId}`);
+                return;
+            }
             const chatroomContent = modal.querySelector('.chatroom-content');
+
             chatroomContent.innerHTML = ''; // Clear previous messages
             data.forEach(message => {
                 const messageDiv = document.createElement('div');
                 console.log(`Rendering message from user ${message.user.id}. Current logged-in user ID is ${loggedInUserId}.`);
                 messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
-                
+
                 messageDiv.textContent = message.content;
                 chatroomContent.appendChild(messageDiv);
             });
@@ -814,25 +826,27 @@ function fetchMessagesForChatRoom(chatRoomId) {
 }
 
 
-
 function sendMessage(chatRoomId, content) {
-    fetch(`/chatrooms/${chatRoomId}/send`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'User-Email': loggedInEmail
-            },
-            body: JSON.stringify({
-                content: content
-            })
-        })
-        .then(response => {
-            if (response.ok) {
-                fetchMessagesForChatRoom(chatRoomId); // Refresh the messages
-            } else {
-                console.error("Error sending message:", response.statusText);
+    if (stompClient) {
+        const messageData = {
+            content: content,
+            chatRoomId: chatRoomId,
+            user: {
+                id: loggedInUserId,
+                email: loggedInEmail
             }
-        })
-        .catch(error => console.error("Error sending message:", error));
+        };
+        stompClient.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageData));
+    } else {
+        console.error("WebSocket is not connected.");
+    }
 }
 
+
+
+function disconnectWebSocket() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    console.log("Disconnected");
+}

@@ -22,15 +22,16 @@ public class ChatService {
         return chatRoomRepository.findAll();
     }
 
-    public void sendMessage(Long chatRoomId, String content, User user) {
+    public Message sendMessage(Long chatRoomId, String content, User user) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new RuntimeException("ChatRoom not found"));
         Message message = new Message();
         message.setChatRoom(chatRoom);
         message.setUser(user);
         message.setContent(content);
         message.setTimestamp(LocalDateTime.now());
-        messageRepository.save(message);
+        return messageRepository.save(message);  // Save and return the saved Message
     }
+
 
     public List<Message> getMessagesForChatRoom(Long chatRoomId) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
