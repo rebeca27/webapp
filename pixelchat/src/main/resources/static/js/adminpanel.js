@@ -793,6 +793,7 @@ function displayMessage(message) {
     messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
     messageDiv.textContent = message.content;
     chatroomContent.appendChild(messageDiv);
+    chatroomContent.scrollTop = chatroomContent.scrollHeight;
 }
 
 function fetchMessagesForChatRoom(chatRoomId) {
@@ -820,14 +821,18 @@ function fetchMessagesForChatRoom(chatRoomId) {
 
                 messageDiv.textContent = message.content;
                 chatroomContent.appendChild(messageDiv);
+                chatroomContent.scrollTop = chatroomContent.scrollHeight;
             });
         })
         .catch(error => console.error("Error fetching messages:", error));
 }
 
 
-function sendMessage(chatRoomId, content) {
-    if (stompClient) {
+function sendMessage(chatRoomId, inputId) {
+    const inputElement = document.getElementById(inputId);
+    const content = inputElement.value;
+
+    if (stompClient && content.trim() !== "") {
         const messageData = {
             content: content,
             chatRoomId: chatRoomId,
@@ -837,10 +842,12 @@ function sendMessage(chatRoomId, content) {
             }
         };
         stompClient.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageData));
+        inputElement.value = '';  // Clear the input field
     } else {
-        console.error("WebSocket is not connected.");
+        console.error("WebSocket is not connected or the message is empty.");
     }
 }
+
 
 
 
