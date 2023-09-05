@@ -52,15 +52,6 @@ public class ChatController {
         return ResponseEntity.ok("Message sent!");
     }
 
-
-    private User getCurrentUser(HttpSession session) {
-        String email = (String) session.getAttribute("loggedInEmail");
-        if (email == null) {
-            return null; // No user is logged in
-        }
-        return userService.findByEmail(email); // Fetch the user by email
-    }
-
     @GetMapping("/currentUser")
     public ResponseEntity<User> getCurrentUserDetails(@RequestHeader("User-Email") String email) {
         User user = userService.findByEmail(email);
@@ -74,6 +65,11 @@ public class ChatController {
     @ExceptionHandler(ChatService.ChatRoomNotFoundException.class)
     public ResponseEntity<String> handleChatRoomNotFound(ChatService.ChatRoomNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @GetMapping("/chatrooms/search")
+    public List<ChatRoom> searchChatrooms(@RequestParam String query) {
+        return chatService.searchByKeyword(query);
     }
 
 }

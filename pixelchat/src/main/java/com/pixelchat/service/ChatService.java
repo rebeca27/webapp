@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
@@ -38,6 +39,14 @@ public class ChatService {
                 .orElseThrow(() -> new ChatRoomNotFoundException("ChatRoom with ID " + chatRoomId + " not found"));
         return messageRepository.findByChatRoom(chatRoom);
     }
+
+    public List<ChatRoom> searchByKeyword(String query) {
+        // This is a simple example. In a real-world scenario, you'd likely use a more advanced searching mechanism.
+        return chatRoomRepository.findAll().stream()
+                .filter(chatroom -> chatroom.getKeywords().contains(query))
+                .collect(Collectors.toList());
+    }
+
 
     public class ChatRoomNotFoundException extends RuntimeException {
         public ChatRoomNotFoundException(String message) {

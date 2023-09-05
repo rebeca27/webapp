@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PixelChat Control Center</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/adminpanel.css">
     <link rel="icon" type="image/png" href="images/icons/pixelchat.ico" />
 
@@ -37,7 +38,7 @@
         </div>
 
         <div class="system-settings-sphere">
-            <button class="settings-button">System Settings</button>
+            <button class="settings-button" id="system-settings-title">System Settings</button>
             <ul class="settings-list">
                 <li>Backup Data</li>
                 <li>Adjust Settings</li>
@@ -46,10 +47,16 @@
         </div>
 
         <!-- Emergency Eject Button -->
-        <button class="emergency-eject" onclick="emergencyEject()">Emergency Eject</button>
+        <button class="emergency-eject" id="emergency-eject" onclick="emergencyEject()">Emergency Eject</button>
+
+        <!-- <div class="search-container">
+            <input type="text" id="chatSearch" placeholder="Search chatrooms...">
+            <button onclick="searchChatrooms()"><i class="fas fa-search"></i></button>
+            <div id="searchResults"></div>
+        </div> -->
 
         <div class="ai-box minimized">
-            <h4>Orion AI Assistant</h4>
+            <h4 id="ai-assistant-title">Orion AI Assistant</h4>
             <div class="chat-window"></div>
             <input type="text" id="askOrion" placeholder="Ask Orion...">
             <button onclick="talkToOrion()">Ask</button>
@@ -75,13 +82,6 @@
                 <span class="close-btn" id="closeAdjustSettings">&times;</span>
                 <h3>Adjust Settings</h3>
 
-                <!-- Theme Setting -->
-                <label for="theme">Theme:</label>
-                <select id="theme">
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                </select>
-
                 <!-- Font Size Setting -->
                 <label for="fontSize">Font Size:</label>
                 <select id="fontSize">
@@ -97,29 +97,32 @@
                     <option value="disabled">Disabled</option>
                 </select>
 
-                <!-- Privacy Mode Setting -->
-                <label for="privacyMode">Privacy Mode:</label>
-                <select id="privacyMode">
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                </select>
-
-                <!-- Sound Effects Setting -->
-                <label for="soundEffects">Sound Effects:</label>
-                <select id="soundEffects">
-                    <option value="on">On</option>
-                    <option value="off">Off</option>
-                </select>
-
                 <!-- Language Setting -->
                 <label for="language">Language:</label>
                 <select id="language">
-                    <option value="english">English</option>
+                    <option value="english" selected>English</option>
                     <option value="spanish">Spanish</option>
                     <option value="french">French</option>
                     <option value="german">German</option>
-                    <!-- Add more languages as needed -->
+                    <option value="italian">Italian</option>
+                    <option value="portuguese">Portuguese</option>
+                    <option value="dutch">Dutch</option>
+                    <option value="russian">Russian</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="korean">Korean</option>
+                    <option value="arabic">Arabic</option>
+                    <option value="turkish">Turkish</option>
+                    <option value="swedish">Swedish</option>
+                    <option value="norwegian">Norwegian</option>
+                    <option value="greek">Greek</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="finnish">Finnish</option>
+                    <option value="danish">Danish</option>
+                    <option value="polish">Polish</option>
+                    <option value="hungarian">Hungarian</option>
                 </select>
+
 
                 <button onclick="saveSettings()">Save</button>
             </div>
@@ -263,13 +266,12 @@
         <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>
 
+        <script src="js/settings.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-
         <script src="js/adminpanel.js"></script>
-
 </body>
 
 </html>
