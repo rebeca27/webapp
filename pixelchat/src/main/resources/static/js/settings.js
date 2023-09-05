@@ -23,25 +23,27 @@ function adjustFontSize() {
 // Translations
 const translations = {
     english: {
-        'toggleAIButton': 'Toggle Assistant',
-        'menu-toggle': 'Menu',
-        'emergency-eject': 'Emergency Eject',
-        'system-settings-title': 'System Settings',
-        'ai-assistant-title': 'Orion AI Assistant',
-        'message-traffic-title': 'Message Traffic',
-        'sent-messages': 'Sent Messages',
-        'received-messages': 'Received Messages',
-        'peak-traffic-time': 'Peak Traffic Time',
-        'new-friends-hub': 'New Friends Hub',
-        'positivity-central': 'Positivity Central',
-        'friend-requests': 'Friend Requests',
-        'user-reports': 'User Reports',
-        'blog-posts': 'Blog Posts',
-        'sanctuary': 'Sanctuary',
-        'staff': 'Staff',
-        'backup-data': 'Backup Data',
-        'adjust-settings': 'Adjust Settings',
-        'site-wide-announcements': 'Site-wide Announcements'
+        "toggleAIButton": "Toggle Assistant",
+        "menu-toggle": "Menu",
+        "emergency-eject": "Emergency Eject",
+        "system-settings-title": "System Settings",
+        "ai-assistant-title": "Orion AI Assistant",
+        "message-traffic-title": "Message Traffic",
+        "sent-messages": "Sent Messages",
+        "received-messages": "Received Messages",
+        "peak-traffic-time": "Peak Traffic Time",
+        "new-friends-hub": "New Friends Hub",
+        "positivity-central": "Positivity Central",
+        "friend-requests": "Friend Requests",
+        "user-reports": "User Reports",
+        "blog-posts": "Blog Posts",
+        "sanctuary": "Sanctuary",
+        "staff": "Staff",
+        "backup-data": "Backup Data",
+        "adjust-settings": "Adjust Settings",
+        "site-wide-announcements": "Site-wide Announcements",
+        "active-chats": "Active Chats",
+        "pending-friend-requests": "Pending Friend Requests"
     },
     spanish: {
         'toggleAIButton': 'Alternar Asistente',
@@ -62,7 +64,9 @@ const translations = {
         'staff': 'Personal',
         'backup-data': 'Datos de Respaldo',
         'adjust-settings': 'Ajustar Configuraciones',
-        'site-wide-announcements': 'Anuncios en Todo el Sitio'
+        'site-wide-announcements': 'Anuncios en Todo el Sitio',
+        "active-chats": "Chats Activos",
+        "pending-friend-requests": "Solicitudes de Amistad Pendientes"
     },
     french: {
         'toggleAIButton': 'Basculer l\'Assistant',
@@ -83,7 +87,9 @@ const translations = {
         'staff': 'Équipe',
         'backup-data': 'Données de Sauvegarde',
         'adjust-settings': 'Ajuster les Paramètres',
-        'site-wide-announcements': 'Annonces sur Tout le Site'
+        'site-wide-announcements': 'Annonces sur Tout le Site',
+        "active-chats": "Chats Actifs",
+        "pending-friend-requests": "Demandes d'Amis en Attente"
     },
     german: {
         'toggleAIButton': 'Assistent umschalten',
@@ -104,51 +110,11 @@ const translations = {
         'staff': 'Mitarbeiter',
         'backup-data': 'Datensicherung',
         'adjust-settings': 'Einstellungen Anpassen',
-        'site-wide-announcements': 'Website-weite Ankündigungen'
+        'site-wide-announcements': 'Website-weite Ankündigungen',
+        "active-chats": "Aktive Chats",
+        "pending-friend-requests": "Ausstehende Freundschaftsanfragen"
     },
 
-    italian: {
-        'toggleAIButton': 'Disattiva Assistente',
-        'menu-toggle': 'Menu',
-        'emergency-eject': 'Espulsione di Emergenza',
-        'system-settings-title': 'Impostazioni Sistema',
-        'ai-assistant-title': 'Assistente AI Orion',
-        'message-traffic-title': 'Traffico di Messaggi',
-        'sent-messages': 'Messaggi Inviati',
-        'received-messages': 'Messaggi Ricevuti',
-        'peak-traffic-time': 'Orario di Punta',
-        'new-friends-hub': 'Centro Nuovi Amici',
-        'positivity-central': 'Centralità Positiva',
-        'friend-requests': 'Richieste di Amicizia',
-        'user-reports': 'Rapporti Utenti',
-        'blog-posts': 'Post del Blog',
-        'sanctuary': 'Santuario',
-        'staff': 'Personale',
-        'backup-data': 'Dati di Backup',
-        'adjust-settings': 'Modifica Impostazioni',
-        'site-wide-announcements': 'Annunci su Tutto il Sito'
-    },
-    portuguese: {
-        'toggleAIButton': 'Alternar Assistente',
-        'menu-toggle': 'Menu',
-        'emergency-eject': 'Ejeção de Emergência',
-        'system-settings-title': 'Configurações do Sistema',
-        'ai-assistant-title': 'Assistente AI Orion',
-        'message-traffic-title': 'Tráfego de Mensagens',
-        'sent-messages': 'Mensagens Enviadas',
-        'received-messages': 'Mensagens Recebidas',
-        'peak-traffic-time': 'Hora de Pico',
-        'new-friends-hub': 'Central de Novos Amigos',
-        'positivity-central': 'Central de Positividade',
-        'friend-requests': 'Pedidos de Amizade',
-        'user-reports': 'Relatórios de Usuário',
-        'blog-posts': 'Postagens de Blog',
-        'sanctuary': 'Santuário',
-        'staff': 'Equipe',
-        'backup-data': 'Dados de Backup',
-        'adjust-settings': 'Ajustar Configurações',
-        'site-wide-announcements': 'Anúncios em Todo o Site'
-    },
 
     italian: {
         'menu-toggle': 'Menu',
@@ -168,7 +134,9 @@ const translations = {
         'staff': 'Personale',
         'backup-data': 'Dati di Backup',
         'adjust-settings': 'Modifica Impostazioni',
-        'site-wide-announcements': 'Annunci su Tutto il Sito'
+        'site-wide-announcements': 'Annunci su Tutto il Sito',
+        "active-chats": "Chats Attivi",
+        "pending-friend-requests": "Richieste di Amicizia in Sospeso"
     },
     portuguese: {
         'menu-toggle': 'Menu',
@@ -188,7 +156,9 @@ const translations = {
         'staff': 'Equipe',
         'backup-data': 'Dados de Backup',
         'adjust-settings': 'Ajustar Configurações',
-        'site-wide-announcements': 'Anúncios em Todo o Site'
+        'site-wide-announcements': 'Anúncios em Todo o Site',
+        "active-chats": "Chats Ativos",
+        "pending-friend-requests": "Pedidos de Amizade Pendentes"
     },
 
     japanese: {
@@ -210,7 +180,9 @@ const translations = {
         'staff': 'スタッフ',
         'backup-data': 'バックアップデータ',
         'adjust-settings': '設定を調整',
-        'site-wide-announcements': 'サイト全体のアナウンスメント'
+        'site-wide-announcements': 'サイト全体のアナウンスメント',
+        "active-chats": "アクティブチャット",
+        "pending-friend-requests": "保留中の友達リクエスト"
     },
     korean: {
         'toggleAIButton': '조수 전환',
@@ -231,7 +203,9 @@ const translations = {
         'staff': '직원',
         'backup-data': '백업 데이터',
         'adjust-settings': '설정 조정',
-        'site-wide-announcements': '사이트 전체 공지사항'
+        'site-wide-announcements': '사이트 전체 공지사항',
+        "active-chats": "활성 채팅",
+        "pending-friend-requests": "보류 중인 친구 요청"
     },
     arabic: {
         'toggleAIButton': 'تبديل المساعد',
@@ -252,7 +226,9 @@ const translations = {
         'staff': 'الموظفين',
         'backup-data': 'بيانات النسخ الاحتياطي',
         'adjust-settings': 'تعديل الإعدادات',
-        'site-wide-announcements': 'إعلانات الموقع'
+        'site-wide-announcements': 'إعلانات الموقع',
+        "active-chats": "الدردشات النشطة",
+        "pending-friend-requests": "طلبات الصداقة المعلقة"
     },
     turkish: {
         'toggleAIButton': 'Asistanı Değiştir',
@@ -273,7 +249,9 @@ const translations = {
         'staff': 'Personel',
         'backup-data': 'Yedek Veri',
         'adjust-settings': 'Ayarları Düzenle',
-        'site-wide-announcements': 'Site Genelinde Duyurular'
+        'site-wide-announcements': 'Site Genelinde Duyurular',
+        "active-chats": "Aktif Sohbetler",
+        "pending-friend-requests": "Bekleyen Arkadaşlık İstekleri"
     },
     swedish: {
         'toggleAIButton': 'Växla Assistent',
@@ -294,7 +272,9 @@ const translations = {
         'staff': 'Personal',
         'backup-data': 'Säkerhetskopiera data',
         'adjust-settings': 'Justera inställningar',
-        'site-wide-announcements': 'Webbplatsmeddelanden'
+        'site-wide-announcements': 'Webbplatsmeddelanden',
+        "active-chats": "Aktiva Chatter",
+        "pending-friend-requests": "Väntande Vänförfrågningar"
     },
     norwegian: {
         'toggleAIButton': 'Bytt Assistent',
@@ -315,7 +295,9 @@ const translations = {
         'staff': 'Personell',
         'backup-data': 'Sikkerhetskopieringsdata',
         'adjust-settings': 'Juster Innstillinger',
-        'site-wide-announcements': 'Nettstedsvide Kunngjøringer'
+        'site-wide-announcements': 'Nettstedsvide Kunngjøringer',
+        "active-chats": "Aktive Chatter",
+        "pending-friend-requests": "Ventende Vennforespørsler"
     },
     dutch: {
         'toggleAIButton': 'Assistent schakelen',
@@ -336,7 +318,9 @@ const translations = {
         'staff': 'Personeel',
         'backup-data': 'Backup Data',
         'adjust-settings': 'Instellingen Aanpassen',
-        'site-wide-announcements': 'Site-brede Aankondigingen'
+        'site-wide-announcements': 'Site-brede Aankondigingen',
+        "active-chats": "Actieve Chats",
+        "pending-friend-requests": "Openstaande Vriendschapsverzoeken"
     },
     greek: {
         'toggleAIButton': 'Εναλλαγή Βοηθού',
@@ -357,7 +341,9 @@ const translations = {
         'staff': 'Προσωπικό',
         'backup-data': 'Δεδομένα Αντιγράφου Ασφαλείας',
         'adjust-settings': 'Ρύθμιση Ρυθμίσεων',
-        'site-wide-announcements': 'Ανακοινώσεις Ολόκληρου του Ιστότοπου'
+        'site-wide-announcements': 'Ανακοινώσεις Ολόκληρου του Ιστότοπου',
+        "active-chats": "Ενεργές Συνομιλίες",
+        "pending-friend-requests": "Εκκρεμείς Αιτήσεις Φιλίας"
     },
     hindi: {
         'toggleAIButton': 'सहायक टॉगल करें',
@@ -378,7 +364,9 @@ const translations = {
         'staff': 'कर्मचारी',
         'backup-data': 'बैकअप डेटा',
         'adjust-settings': 'सेटिंग्स समायोजित करें',
-        'site-wide-announcements': 'साइट-वाइड घोषणाएं'
+        'site-wide-announcements': 'साइट-वाइड घोषणाएं',
+        "active-chats": "सक्रिय चैट",
+        "pending-friend-requests": "लंबित मित्र अनुरोध"
     },
     finnish: {
         'toggleAIButton': 'Vaihda avustaja',
@@ -399,7 +387,9 @@ const translations = {
         'staff': 'Henkilökunta',
         'backup-data': 'Varmuuskopioi Tiedot',
         'adjust-settings': 'Säädä Asetuksia',
-        'site-wide-announcements': 'Sivuston Laajuiset Ilmoitukset'
+        'site-wide-announcements': 'Sivuston Laajuiset Ilmoitukset',
+        "active-chats": "Aktiiviset Keskustelut",
+        "pending-friend-requests": "Odottavat Ystäväpyynnöt"
     },
     danish: {
         'toggleAIButton': 'Skift assistent',
@@ -420,7 +410,9 @@ const translations = {
         'staff': 'Personale',
         'backup-data': 'Backup Data',
         'adjust-settings': 'Justér Indstillinger',
-        'site-wide-announcements': 'Site-brede Bekendtgørelser'
+        'site-wide-announcements': 'Site-brede Bekendtgørelser',
+        "active-chats": "Aktive Chats",
+        "pending-friend-requests": "Afventende Venskabsanmodninger"
     },
     polish: {
         'toggleAIButton': 'Przełącz asystenta',
@@ -441,7 +433,9 @@ const translations = {
         'staff': 'Personel',
         'backup-data': 'Dane Kopii Zapasowej',
         'adjust-settings': 'Dostosuj Ustawienia',
-        'site-wide-announcements': 'Ogłoszenia na Całej Stronie'
+        'site-wide-announcements': 'Ogłoszenia na Całej Stronie',
+        "active-chats": "Aktywne Czaty",
+        "pending-friend-requests": "Oczekujące Zaproszenia do Znajomych"
     },
     hungarian: {
         'toggleAIButton': 'Asszisztens váltása',
@@ -462,7 +456,9 @@ const translations = {
         'staff': 'Személyzet',
         'backup-data': 'Adatmentés',
         'adjust-settings': 'Beállítások Módosítása',
-        'site-wide-announcements': 'Oldalszintű Közlemények'
+        'site-wide-announcements': 'Oldalszintű Közlemények',
+        "active-chats": "Aktív Csevegések",
+        "pending-friend-requests": "Függőben lévő Baráti Kérelmek"
     }
 };
 
@@ -488,17 +484,20 @@ function adjustLanguage() {
         });
 
         const messageTrafficItems = document.querySelectorAll('.message-monitor ul li');
-        messageTrafficItems[0].querySelector('strong').textContent = langTrans['sent-messages'] + ':';
-        messageTrafficItems[1].querySelector('strong').textContent = langTrans['received-messages'] + ':';
-        messageTrafficItems[2].querySelector('strong').textContent = langTrans['peak-traffic-time'] + ':';
-
-        const systemSettingsItems = document.querySelectorAll('.system-settings-sphere .settings-list li');
-        systemSettingsItems.forEach((item, index) => {
-            const labels = ['backup-data', 'adjust-settings', 'site-wide-announcements'];
-            item.textContent = langTrans[labels[index]];
-        });
+        messageTrafficItems[0].innerHTML = `<strong>${langTrans['sent-messages']}:</strong> ${document.querySelector('#sent-messages').innerText}`;
+        messageTrafficItems[1].innerHTML = `<strong>${langTrans['received-messages']}:</strong> ${document.querySelector('#received-messages').innerText}`;
+        messageTrafficItems[2].innerHTML = `<strong>${langTrans['peak-traffic-time']}:</strong> ${document.querySelector('#peak-time').innerText}`;
+        messageTrafficItems[3].innerHTML = `<strong>${langTrans['active-chats']}:</strong> ${document.querySelector('#active-chats').innerText}`;
+        messageTrafficItems[4].innerHTML = `<strong>${langTrans['pending-friend-requests']}:</strong> ${document.querySelector('#pending-requests').innerText}`;
     }
+
+    const systemSettingsItems = document.querySelectorAll('.system-settings-sphere .settings-list li');
+    systemSettingsItems.forEach((item, index) => {
+        const labels = ['backup-data', 'adjust-settings', 'site-wide-announcements'];
+        item.textContent = langTrans[labels[index]];
+    });
 }
+
 
 
 // Save Settings Function
