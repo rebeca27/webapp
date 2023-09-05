@@ -1,9 +1,8 @@
 package com.pixelchat.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "chatrooms")
@@ -15,7 +14,13 @@ public class ChatRoom {
 
     private String name;
     private String keywords;
-
+    @ManyToMany
+    @JoinTable(
+            name = "chatroom_users",
+            joinColumns = @JoinColumn(name = "chatroom_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users;
     public Long getId() {
         return id;
     }
@@ -39,5 +44,5 @@ public class ChatRoom {
     public void setKeywords(String keywords) {
         this.keywords = keywords;
     }
-// ... getters and setters ...
+
 }

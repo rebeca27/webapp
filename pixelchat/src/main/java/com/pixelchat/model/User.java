@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -25,6 +26,8 @@ public class User {
     private byte[] share1;
     @Lob
     private byte[] share2;
+    @ManyToMany(mappedBy = "users")
+    private Set<ChatRoom> chatRooms;
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     @JsonManagedReference(value="user-sent")
     private List<FriendRequest> sentRequests = new ArrayList<>();

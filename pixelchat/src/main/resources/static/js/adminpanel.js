@@ -42,7 +42,7 @@ let loggedInEmail;
 let scene, camera, renderer, globe;
 const chatRoomId = document.body.getAttribute('data-id');
 
-document.addEventListener('DOMContentLoaded', (event)=> {
+document.addEventListener('DOMContentLoaded', function() {
 
     var secretKey = "MySuperSecretKey";
 
@@ -56,17 +56,6 @@ document.addEventListener('DOMContentLoaded', (event)=> {
     loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
 
     const chatRoomId = document.body.getAttribute('data-id');
-
-    console.log(loggedInEmail);
-    initGlobe();
-    initOrbs();
-    initJoystickControls();
-    initOrbHoverEffects();
-    initOrbClickEvents();
-    startStarGenerator();
-    initMenuToggle();
-
-
     const aiBox = document.querySelector('.ai-box');
     const toggleAIButton = document.getElementById('toggleAIButton');
     const chatWindow = document.querySelector(".chat-window");
@@ -255,12 +244,35 @@ document.addEventListener('DOMContentLoaded', (event)=> {
                 default:
                     aiResponse = "I'm not sure about that. Can you ask something else?";
             }
+            chatWindow.innerHTML += `<div class="ai-response">${aiResponse}</div>`;
 
             // Clear the input after asking
             askOrionInput.value = "";
         }
+
     }
 
+    fetch(`/email/${loggedInEmail}/statistics`) 
+    .then(response => response.json())
+    .then(data => {
+        document.querySelector('#sent-messages').innerText = data.sentMessages;
+        document.querySelector('#received-messages').innerText = data.receivedMessages;
+        document.querySelector('#peak-time').innerText = data.peakTrafficTime;
+        document.querySelector('#active-chats').innerText = data.activeChats;
+        document.querySelector('#pending-requests').innerText = data.pendingFriendRequests;
+    })
+    .catch(error => console.error('Error fetching user statistics:', error));
+
+    initGlobe();
+    initOrbs();
+    initJoystickControls();
+    initOrbHoverEffects();
+    initOrbClickEvents();
+    startStarGenerator();
+    initMenuToggle();
+
+
+   
     // Fetch the Logged-In User's Details
     fetchLoggedInUserDetails();
 });
@@ -879,3 +891,5 @@ function addToMenu(chatroomName, dataUrl) {
     menuList.appendChild(listItem);
     saveMenuToLocalStorage();
  }
+
+ 

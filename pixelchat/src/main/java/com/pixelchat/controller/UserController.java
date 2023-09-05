@@ -1,6 +1,11 @@
 package com.pixelchat.controller;
 
+import com.pixelchat.dto.UserStatistics;
+import com.pixelchat.model.FriendRequest;
 import com.pixelchat.model.User;
+import com.pixelchat.repository.ChatRoomRepository;
+import com.pixelchat.repository.FriendRequestRepository;
+import com.pixelchat.repository.MessageRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +27,7 @@ import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -36,6 +42,14 @@ public class UserController {
 
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private MessageRepository messageRepo; // Assuming you have a repository for messages
+
+    @Autowired
+    private ChatRoomRepository chatRoomRepo; // For chat rooms
+
+    @Autowired
+    private FriendRequestRepository friendRequestRepo; // For friend requests
 
     @Autowired
     public UserController(UserService userService, ImageService imageService) {
@@ -273,5 +287,38 @@ public class UserController {
         }
     }
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @GetMapping("/email/{userEmail}/statistics")
+    public UserStatistics getUserStatisticsByEmail(@PathVariable String userEmail) {
+        User user = userService.findByEmail(userEmail);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        Long userId = user.getId();
+        UserStatistics stats = new UserStatistics();
+
+        stats.setSentMessages(messageRepo.countByUser_Id(userId));
+        stats.setReceivedMessages(messageRepo.countReceivedMessages(userId));
+        stats.setPeakTrafficTime(calculatePeakTrafficTime(userId));
+        stats.setActiveChats(messageRepo.countDistinctChatRoomsByUserId(userId));
+        FriendRequest.Status statusEnum = FriendRequest.Status.valueOf("PENDING");
+        stats.setPendingFriendRequests(friendRequestRepo.countByReceiver_IdAndStatus(userId, statusEnum));
+
+
+        return stats;
+    }
+
+    private String calculatePeakTrafficTime(Long userId) {
+        List<Object[]> hourCounts = messageRepo.findMessageCountsGroupedByHour(userId);
+
+        if (hourCounts.isEmpty()) {
+            return "No active traffic";
+        }
+
+        int peakHour = (int) hourCounts.get(0)[0];
+        return peakHour + " PM - " + (peakHour + 1) + " PM";
+    }
+
 
 }

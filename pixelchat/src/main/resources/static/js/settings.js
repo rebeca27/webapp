@@ -108,7 +108,7 @@ const translations = {
     },
 
     italian: {
-        'toggleAIButton': 'Attiva/Disattiva Assistente',
+        'toggleAIButton': 'Disattiva Assistente',
         'menu-toggle': 'Menu',
         'emergency-eject': 'Espulsione di Emergenza',
         'system-settings-title': 'Impostazioni Sistema',
@@ -468,7 +468,7 @@ const translations = {
 
 
 
-// Language Adjustment
+// Adjusting the language
 function adjustLanguage() {
     const language = document.getElementById('language').value;
     const langTrans = translations[language];
@@ -481,27 +481,23 @@ function adjustLanguage() {
         document.querySelector('.message-monitor h2').textContent = langTrans['message-traffic'];
         document.getElementById('toggleAIButton').textContent = langTrans['toggleAIButton'];
 
-
         const radialMenuItems = document.querySelectorAll('.radial-menu .menu-list li');
-        radialMenuItems[0].textContent = langTrans['new-friends-hub'];
-        radialMenuItems[1].textContent = langTrans['positivity-central'];
-        radialMenuItems[2].textContent = langTrans['friend-requests'];
-        radialMenuItems[3].textContent = langTrans['user-reports'];
-        radialMenuItems[4].textContent = langTrans['blog-posts'];
-        radialMenuItems[5].textContent = langTrans['sanctuary'];
-        radialMenuItems[6].textContent = langTrans['staff'];
+        radialMenuItems.forEach((item, index) => {
+            const labels = ['new-friends-hub', 'positivity-central', 'friend-requests', 'user-reports', 'blog-posts', 'sanctuary', 'staff'];
+            item.textContent = langTrans[labels[index]];
+        });
 
         const messageTrafficItems = document.querySelectorAll('.message-monitor ul li');
-        messageTrafficItems[0].innerHTML = `<strong>${langTrans['sent-messages']}:</strong> 1,235`;
-        messageTrafficItems[1].innerHTML = `<strong>${langTrans['received-messages']}:</strong> 1,180`;
-        messageTrafficItems[2].innerHTML = `<strong>${langTrans['peak-traffic-time']}:</strong> 2 PM - 3 PM`;
+        messageTrafficItems[0].querySelector('strong').textContent = langTrans['sent-messages'] + ':';
+        messageTrafficItems[1].querySelector('strong').textContent = langTrans['received-messages'] + ':';
+        messageTrafficItems[2].querySelector('strong').textContent = langTrans['peak-traffic-time'] + ':';
 
         const systemSettingsItems = document.querySelectorAll('.system-settings-sphere .settings-list li');
-        systemSettingsItems[0].textContent = langTrans['backup-data'];
-        systemSettingsItems[1].textContent = langTrans['adjust-settings'];
-        systemSettingsItems[2].textContent = langTrans['site-wide-announcements'];
+        systemSettingsItems.forEach((item, index) => {
+            const labels = ['backup-data', 'adjust-settings', 'site-wide-announcements'];
+            item.textContent = langTrans[labels[index]];
+        });
     }
-
 }
 
 
