@@ -31,7 +31,7 @@ const translations = {
         "message-traffic-title": "Message Traffic",
         "sent-messages": "Sent Messages",
         "received-messages": "Received Messages",
-        "peak-traffic-time": "Peak Traffic Time",
+        "peak-time": "Peak Traffic Time",
         "new-friends-hub": "New Friends Hub",
         "positivity-central": "Positivity Central",
         "friend-requests": "Friend Requests",
@@ -43,7 +43,7 @@ const translations = {
         "adjust-settings": "Adjust Settings",
         "site-wide-announcements": "Site-wide Announcements",
         "active-chats": "Active Chats",
-        "pending-friend-requests": "Pending Friend Requests"
+        "pending-requests": "Pending Friend Requests"
     },
     spanish: {
         'toggleAIButton': 'Alternar Asistente',
@@ -54,7 +54,7 @@ const translations = {
         'message-traffic-title': 'Tráfico de Mensajes',
         'sent-messages': 'Mensajes Enviados',
         'received-messages': 'Mensajes Recibidos',
-        'peak-traffic-time': 'Hora de Mayor Tráfico',
+        'peak-time': 'Hora de Mayor Tráfico',
         'new-friends-hub': 'Centro de Nuevos Amigos',
         'positivity-central': 'Central de Positividad',
         'friend-requests': 'Solicitudes de Amistad',
@@ -66,7 +66,7 @@ const translations = {
         'adjust-settings': 'Ajustar Configuraciones',
         'site-wide-announcements': 'Anuncios en Todo el Sitio',
         "active-chats": "Chats Activos",
-        "pending-friend-requests": "Solicitudes de Amistad Pendientes"
+        "pending-requests": "Solicitudes de Amistad Pendientes"
     },
     french: {
         'toggleAIButton': 'Basculer l\'Assistant',
@@ -77,7 +77,7 @@ const translations = {
         'message-traffic-title': 'Trafic des Messages',
         'sent-messages': 'Messages Envoyés',
         'received-messages': 'Messages Reçus',
-        'peak-traffic-time': 'Heure de Pointe du Trafic',
+        'peak-time': 'Heure de Pointe du Trafic',
         'new-friends-hub': 'Hub des Nouveaux Amis',
         'positivity-central': 'Centre de Positivité',
         'friend-requests': 'Demandes d\'Amis',
@@ -89,7 +89,7 @@ const translations = {
         'adjust-settings': 'Ajuster les Paramètres',
         'site-wide-announcements': 'Annonces sur Tout le Site',
         "active-chats": "Chats Actifs",
-        "pending-friend-requests": "Demandes d'Amis en Attente"
+        "pending-requests": "Demandes d'Amis en Attente"
     },
     german: {
         'toggleAIButton': 'Assistent umschalten',
@@ -100,7 +100,7 @@ const translations = {
         'message-traffic-title': 'Nachrichtenverkehr',
         'sent-messages': 'Gesendete Nachrichten',
         'received-messages': 'Empfangene Nachrichten',
-        'peak-traffic-time': 'Hauptverkehrszeit',
+        'peak-time': 'Hauptverkehrszeit',
         'new-friends-hub': 'Neue Freunde Zentrale',
         'positivity-central': 'Positivitätszentrale',
         'friend-requests': 'Freundschaftsanfragen',
@@ -112,7 +112,7 @@ const translations = {
         'adjust-settings': 'Einstellungen Anpassen',
         'site-wide-announcements': 'Website-weite Ankündigungen',
         "active-chats": "Aktive Chats",
-        "pending-friend-requests": "Ausstehende Freundschaftsanfragen"
+        "pending-requests": "Ausstehende Freundschaftsanfragen"
     },
 
 
@@ -124,7 +124,7 @@ const translations = {
         'message-traffic-title': 'Traffico di Messaggi',
         'sent-messages': 'Messaggi Inviati',
         'received-messages': 'Messaggi Ricevuti',
-        'peak-traffic-time': 'Orario di Punta',
+        'peak-time': 'Orario di Punta',
         'new-friends-hub': 'Centro Nuovi Amici',
         'positivity-central': 'Centralità Positiva',
         'friend-requests': 'Richieste di Amicizia',
@@ -136,7 +136,7 @@ const translations = {
         'adjust-settings': 'Modifica Impostazioni',
         'site-wide-announcements': 'Annunci su Tutto il Sito',
         "active-chats": "Chats Attivi",
-        "pending-friend-requests": "Richieste di Amicizia in Sospeso"
+        "pending-requests": "Richieste di Amicizia in Sospeso"
     },
     portuguese: {
         'menu-toggle': 'Menu',
@@ -146,7 +146,7 @@ const translations = {
         'message-traffic-title': 'Tráfego de Mensagens',
         'sent-messages': 'Mensagens Enviadas',
         'received-messages': 'Mensagens Recebidas',
-        'peak-traffic-time': 'Hora de Pico',
+        'peak-time': 'Hora de Pico',
         'new-friends-hub': 'Central de Novos Amigos',
         'positivity-central': 'Central de Positividade',
         'friend-requests': 'Pedidos de Amizade',
@@ -158,7 +158,7 @@ const translations = {
         'adjust-settings': 'Ajustar Configurações',
         'site-wide-announcements': 'Anúncios em Todo o Site',
         "active-chats": "Chats Ativos",
-        "pending-friend-requests": "Pedidos de Amizade Pendentes"
+        "pending-requests": "Pedidos de Amizade Pendentes"
     },
 
     japanese: {
@@ -170,7 +170,7 @@ const translations = {
         'message-traffic-title': 'メッセージのトラフィック',
         'sent-messages': '送信されたメッセージ',
         'received-messages': '受信したメッセージ',
-        'peak-traffic-time': 'ピーク時のトラフィック',
+        'peak-time': 'ピーク時のトラフィック',
         'new-friends-hub': '新しい友達ハブ',
         'positivity-central': 'ポジティブセンター',
         'friend-requests': '友達のリクエスト',
@@ -182,7 +182,7 @@ const translations = {
         'adjust-settings': '設定を調整',
         'site-wide-announcements': 'サイト全体のアナウンスメント',
         "active-chats": "アクティブチャット",
-        "pending-friend-requests": "保留中の友達リクエスト"
+        "pending-requests": "保留中の友達リクエスト"
     },
     korean: {
         'toggleAIButton': '조수 전환',
@@ -193,7 +193,7 @@ const translations = {
         'message-traffic-title': '메시지 트래픽',
         'sent-messages': '보낸 메시지들',
         'received-messages': '받은 메시지들',
-        'peak-traffic-time': '트래픽 피크 시간',
+        'peak-time': '트래픽 피크 시간',
         'new-friends-hub': '새 친구 허브',
         'positivity-central': '긍정 중앙',
         'friend-requests': '친구 요청',
@@ -205,7 +205,7 @@ const translations = {
         'adjust-settings': '설정 조정',
         'site-wide-announcements': '사이트 전체 공지사항',
         "active-chats": "활성 채팅",
-        "pending-friend-requests": "보류 중인 친구 요청"
+        "pending-requests": "보류 중인 친구 요청"
     },
     arabic: {
         'toggleAIButton': 'تبديل المساعد',
@@ -216,7 +216,7 @@ const translations = {
         'message-traffic-title': 'حركة الرسائل',
         'sent-messages': 'الرسائل المرسلة',
         'received-messages': 'الرسائل المستلمة',
-        'peak-traffic-time': 'وقت الذروة للحركة',
+        'peak-time': 'وقت الذروة للحركة',
         'new-friends-hub': 'مركز الأصدقاء الجدد',
         'positivity-central': 'مركز الإيجابية',
         'friend-requests': 'طلبات الصداقة',
@@ -228,7 +228,7 @@ const translations = {
         'adjust-settings': 'تعديل الإعدادات',
         'site-wide-announcements': 'إعلانات الموقع',
         "active-chats": "الدردشات النشطة",
-        "pending-friend-requests": "طلبات الصداقة المعلقة"
+        "pending-requests": "طلبات الصداقة المعلقة"
     },
     turkish: {
         'toggleAIButton': 'Asistanı Değiştir',
@@ -239,7 +239,7 @@ const translations = {
         'message-traffic-title': 'Mesaj Trafiği',
         'sent-messages': 'Gönderilen Mesajlar',
         'received-messages': 'Alınan Mesajlar',
-        'peak-traffic-time': 'Trafik Yoğunluk Saati',
+        'peak-time': 'Trafik Yoğunluk Saati',
         'new-friends-hub': 'Yeni Arkadaş Merkezi',
         'positivity-central': 'Pozitiflik Merkezi',
         'friend-requests': 'Arkadaşlık İstekleri',
@@ -251,7 +251,7 @@ const translations = {
         'adjust-settings': 'Ayarları Düzenle',
         'site-wide-announcements': 'Site Genelinde Duyurular',
         "active-chats": "Aktif Sohbetler",
-        "pending-friend-requests": "Bekleyen Arkadaşlık İstekleri"
+        "pending-requests": "Bekleyen Arkadaşlık İstekleri"
     },
     swedish: {
         'toggleAIButton': 'Växla Assistent',
@@ -262,7 +262,7 @@ const translations = {
         'message-traffic-title': 'Meddelandetrafik',
         'sent-messages': 'Skickade meddelanden',
         'received-messages': 'Mottagna meddelanden',
-        'peak-traffic-time': 'Topptrafiktid',
+        'peak-time': 'Topptrafiktid',
         'new-friends-hub': 'Nya Vänner Hub',
         'positivity-central': 'Positivitetscentral',
         'friend-requests': 'Vänförfrågningar',
@@ -274,7 +274,7 @@ const translations = {
         'adjust-settings': 'Justera inställningar',
         'site-wide-announcements': 'Webbplatsmeddelanden',
         "active-chats": "Aktiva Chatter",
-        "pending-friend-requests": "Väntande Vänförfrågningar"
+        "pending-requests": "Väntande Vänförfrågningar"
     },
     norwegian: {
         'toggleAIButton': 'Bytt Assistent',
@@ -285,7 +285,7 @@ const translations = {
         'message-traffic-title': 'Meldingstrafikk',
         'sent-messages': 'Sendte meldinger',
         'received-messages': 'Mottatte meldinger',
-        'peak-traffic-time': 'Topptrafikktid',
+        'peak-time': 'Topptrafikktid',
         'new-friends-hub': 'Ny Venn Hub',
         'positivity-central': 'Positivitetssentral',
         'friend-requests': 'Venneforespørsler',
@@ -297,7 +297,7 @@ const translations = {
         'adjust-settings': 'Juster Innstillinger',
         'site-wide-announcements': 'Nettstedsvide Kunngjøringer',
         "active-chats": "Aktive Chatter",
-        "pending-friend-requests": "Ventende Vennforespørsler"
+        "pending-requests": "Ventende Vennforespørsler"
     },
     dutch: {
         'toggleAIButton': 'Assistent schakelen',
@@ -308,7 +308,7 @@ const translations = {
         'message-traffic-title': 'Berichtenverkeer',
         'sent-messages': 'Verstuurde Berichten',
         'received-messages': 'Ontvangen Berichten',
-        'peak-traffic-time': 'Spitsuur',
+        'peak-time': 'Spitsuur',
         'new-friends-hub': 'Nieuwe Vrienden Hub',
         'positivity-central': 'Positiviteit Centraal',
         'friend-requests': 'Vriendschapsverzoeken',
@@ -320,7 +320,7 @@ const translations = {
         'adjust-settings': 'Instellingen Aanpassen',
         'site-wide-announcements': 'Site-brede Aankondigingen',
         "active-chats": "Actieve Chats",
-        "pending-friend-requests": "Openstaande Vriendschapsverzoeken"
+        "pending-requests": "Openstaande Vriendschapsverzoeken"
     },
     greek: {
         'toggleAIButton': 'Εναλλαγή Βοηθού',
@@ -331,7 +331,7 @@ const translations = {
         'message-traffic-title': 'Κίνηση Μηνυμάτων',
         'sent-messages': 'Απεσταλμένα Μηνύματα',
         'received-messages': 'Ληφθέντα Μηνύματα',
-        'peak-traffic-time': 'Ώρα Κορυφαίας Κίνησης',
+        'peak-time': 'Ώρα Κορυφαίας Κίνησης',
         'new-friends-hub': 'Κέντρο Νέων Φίλων',
         'positivity-central': 'Κέντρο Θετικότητας',
         'friend-requests': 'Αιτήματα Φιλίας',
@@ -343,7 +343,7 @@ const translations = {
         'adjust-settings': 'Ρύθμιση Ρυθμίσεων',
         'site-wide-announcements': 'Ανακοινώσεις Ολόκληρου του Ιστότοπου',
         "active-chats": "Ενεργές Συνομιλίες",
-        "pending-friend-requests": "Εκκρεμείς Αιτήσεις Φιλίας"
+        "pending-requests": "Εκκρεμείς Αιτήσεις Φιλίας"
     },
     hindi: {
         'toggleAIButton': 'सहायक टॉगल करें',
@@ -354,7 +354,7 @@ const translations = {
         'message-traffic-title': 'संदेश यातायात',
         'sent-messages': 'भेजे गए संदेश',
         'received-messages': 'प्राप्त संदेश',
-        'peak-traffic-time': 'यातायात का शिखर समय',
+        'peak-time': 'यातायात का शिखर समय',
         'new-friends-hub': 'नए दोस्त हब',
         'positivity-central': 'सकारात्मकता केंद्र',
         'friend-requests': 'मित्र अनुरोध',
@@ -366,7 +366,7 @@ const translations = {
         'adjust-settings': 'सेटिंग्स समायोजित करें',
         'site-wide-announcements': 'साइट-वाइड घोषणाएं',
         "active-chats": "सक्रिय चैट",
-        "pending-friend-requests": "लंबित मित्र अनुरोध"
+        "pending-requests": "लंबित मित्र अनुरोध"
     },
     finnish: {
         'toggleAIButton': 'Vaihda avustaja',
@@ -377,7 +377,7 @@ const translations = {
         'message-traffic-title': 'Viestiliikenne',
         'sent-messages': 'Lähetetyt Viestit',
         'received-messages': 'Vastaanotetut Viestit',
-        'peak-traffic-time': 'Liikenteen Huippuaika',
+        'peak-time': 'Liikenteen Huippuaika',
         'new-friends-hub': 'Uudet Ystävät Keskus',
         'positivity-central': 'Positiivisuus Keskus',
         'friend-requests': 'Ystäväpyynnöt',
@@ -389,7 +389,7 @@ const translations = {
         'adjust-settings': 'Säädä Asetuksia',
         'site-wide-announcements': 'Sivuston Laajuiset Ilmoitukset',
         "active-chats": "Aktiiviset Keskustelut",
-        "pending-friend-requests": "Odottavat Ystäväpyynnöt"
+        "pending-requests": "Odottavat Ystäväpyynnöt"
     },
     danish: {
         'toggleAIButton': 'Skift assistent',
@@ -400,7 +400,7 @@ const translations = {
         'message-traffic-title': 'Beskedtrafik',
         'sent-messages': 'Sendte Beskeder',
         'received-messages': 'Modtagne Beskeder',
-        'peak-traffic-time': 'Trafikspidstid',
+        'peak-time': 'Trafikspidstid',
         'new-friends-hub': 'Ny Venner Hub',
         'positivity-central': 'Positivitet Central',
         'friend-requests': 'Venskabsanmodninger',
@@ -412,7 +412,7 @@ const translations = {
         'adjust-settings': 'Justér Indstillinger',
         'site-wide-announcements': 'Site-brede Bekendtgørelser',
         "active-chats": "Aktive Chats",
-        "pending-friend-requests": "Afventende Venskabsanmodninger"
+        "pending-requests": "Afventende Venskabsanmodninger"
     },
     polish: {
         'toggleAIButton': 'Przełącz asystenta',
@@ -423,7 +423,7 @@ const translations = {
         'message-traffic-title': 'Ruch Wiadomości',
         'sent-messages': 'Wysłane Wiadomości',
         'received-messages': 'Otrzymane Wiadomości',
-        'peak-traffic-time': 'Szczytowy Czas Ruchu',
+        'peak-time': 'Szczytowy Czas Ruchu',
         'new-friends-hub': 'Hub Nowych Przyjaciół',
         'positivity-central': 'Centrala Pozytywności',
         'friend-requests': 'Zaproszenia do Znajomych',
@@ -435,7 +435,7 @@ const translations = {
         'adjust-settings': 'Dostosuj Ustawienia',
         'site-wide-announcements': 'Ogłoszenia na Całej Stronie',
         "active-chats": "Aktywne Czaty",
-        "pending-friend-requests": "Oczekujące Zaproszenia do Znajomych"
+        "pending-requests": "Oczekujące Zaproszenia do Znajomych"
     },
     hungarian: {
         'toggleAIButton': 'Asszisztens váltása',
@@ -446,7 +446,7 @@ const translations = {
         'message-traffic-title': 'Üzenetforgalom',
         'sent-messages': 'Elküldött Üzenetek',
         'received-messages': 'Fogadott Üzenetek',
-        'peak-traffic-time': 'Csúcsforgalmi Idő',
+        'peak-time': 'Csúcsforgalmi Idő',
         'new-friends-hub': 'Új Barátok Központja',
         'positivity-central': 'Pozitivitás Központ',
         'friend-requests': 'Baráti Kérelmek',
@@ -458,46 +458,108 @@ const translations = {
         'adjust-settings': 'Beállítások Módosítása',
         'site-wide-announcements': 'Oldalszintű Közlemények',
         "active-chats": "Aktív Csevegések",
-        "pending-friend-requests": "Függőben lévő Baráti Kérelmek"
+        "pending-requests": "Függőben lévő Baráti Kérelmek"
     }
 };
 
+let fetchedData = null; // Global variable to store fetched data
 
+document.addEventListener('DOMContentLoaded', (event) => {
 
-// Adjusting the language
+    var secretKey = "MySuperSecretKey";
+
+    function decrypt(text) {
+        var bytes = CryptoJS.AES.decrypt(text, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
+
+    // Decryption of the email from session storage
+    var emailEncrypted = sessionStorage.getItem("loggedInEmail");
+    let loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
+    
+    // Fetch user statistics by email for friend requests
+    fetch(`/email/${loggedInEmail}/statistics`)
+        .then(response => response.json())
+        .then(data => {
+            fetchedData = data; // Store fetched data in the global variable
+
+            // Update the message-monitor elements with fetched data
+            document.querySelector('#sent-messages').innerText = data.sentMessages;
+            document.querySelector('#received-messages').innerText = data.receivedMessages;
+            document.querySelector('#peak-time').innerText = data.peakTrafficTime;
+            document.querySelector('#active-chats').innerText = data.activeChats;
+            document.querySelector('#pending-requests').innerText = data.pendingFriendRequests;
+
+            adjustLanguage(); // Call adjustLanguage again after updating the elements
+
+        }).catch(error => {
+            console.error("Error fetching user statistics:", error);
+        });
+
+    // Add event listener for the language dropdown change
+    document.getElementById('language').addEventListener('change', adjustLanguage);
+});
+
 function adjustLanguage() {
     const language = document.getElementById('language').value;
     const langTrans = translations[language];
 
     if (langTrans) {
-        document.getElementById('menu-toggle').textContent = langTrans['menu-toggle'];
-        document.querySelector('.system-settings-sphere .settings-button').textContent = langTrans['system-settings-title'];
-        document.querySelector('.ai-box h4').textContent = langTrans['ai-assistant-title'];
-        document.querySelector('.emergency-eject').textContent = langTrans['emergency-eject'];
-        document.querySelector('.message-monitor h2').textContent = langTrans['message-traffic'];
-        document.getElementById('toggleAIButton').textContent = langTrans['toggleAIButton'];
+        if (langTrans['menu-toggle']) {
+            document.getElementById('menu-toggle').textContent = langTrans['menu-toggle'];
+        }
+        if (langTrans['system-settings-title']) {
+            document.querySelector('.system-settings-sphere .settings-button').textContent = langTrans['system-settings-title'];
+        }
+        if (langTrans['ai-assistant-title']) {
+            document.querySelector('.ai-box h4').textContent = langTrans['ai-assistant-title'];
+        }
+        if (langTrans['emergency-eject']) {
+            document.querySelector('.emergency-eject').textContent = langTrans['emergency-eject'];
+        }
+        if (langTrans['message-traffic-title']) {
+            document.querySelector('.message-monitor h2').textContent = langTrans['message-traffic-title'];
+        }
+        if (langTrans['toggleAIButton']) {
+            document.getElementById('toggleAIButton').textContent = langTrans['toggleAIButton'];
+        }
 
         const radialMenuItems = document.querySelectorAll('.radial-menu .menu-list li');
         radialMenuItems.forEach((item, index) => {
             const labels = ['new-friends-hub', 'positivity-central', 'friend-requests', 'user-reports', 'blog-posts', 'sanctuary', 'staff'];
-            item.textContent = langTrans[labels[index]];
+            if (langTrans[labels[index]]) {
+                item.textContent = langTrans[labels[index]];
+            }
         });
 
-        const messageTrafficItems = document.querySelectorAll('.message-monitor ul li');
-        messageTrafficItems[0].innerHTML = `<strong>${langTrans['sent-messages']}:</strong> ${document.querySelector('#sent-messages').innerText}`;
-        messageTrafficItems[1].innerHTML = `<strong>${langTrans['received-messages']}:</strong> ${document.querySelector('#received-messages').innerText}`;
-        messageTrafficItems[2].innerHTML = `<strong>${langTrans['peak-traffic-time']}:</strong> ${document.querySelector('#peak-time').innerText}`;
-        messageTrafficItems[3].innerHTML = `<strong>${langTrans['active-chats']}:</strong> ${document.querySelector('#active-chats').innerText}`;
-        messageTrafficItems[4].innerHTML = `<strong>${langTrans['pending-friend-requests']}:</strong> ${document.querySelector('#pending-requests').innerText}`;
+        // Adjust message traffic details using both translations and fetched data
+        if (fetchedData) {
+            if (langTrans['sent-messages']) {
+                document.querySelector('#sent-messages').innerText = `${langTrans['sent-messages']}: ${fetchedData.sentMessages}`;
+            }
+            if (langTrans['received-messages']) {
+                document.querySelector('#received-messages').innerText = `${langTrans['received-messages']}: ${fetchedData.receivedMessages}`;
+            }
+            if (langTrans['peak-time']) {
+                document.querySelector('#peak-time').innerText = `${langTrans['peak-time']}: ${fetchedData.peakTrafficTime}`;
+            }
+            if (langTrans['active-chats']) {
+                document.querySelector('#active-chats').innerText = `${langTrans['active-chats']}: ${fetchedData.activeChats}`;
+            }
+            if (langTrans['pending-requests']) {
+                document.querySelector('#pending-requests').innerText = `${langTrans['pending-requests']}: ${fetchedData.pendingFriendRequests}`;
+            }
+        }
+
+        const systemSettingsItems = document.querySelectorAll('.system-settings-sphere .settings-list li');
+        systemSettingsItems.forEach((item, index) => {
+            const labels = ['backup-data', 'adjust-settings', 'site-wide-announcements'];
+            if (langTrans && langTrans[labels[index]]) {
+                item.textContent = langTrans[labels[index]];
+            }
+        });
     }
-
-    const systemSettingsItems = document.querySelectorAll('.system-settings-sphere .settings-list li');
-    systemSettingsItems.forEach((item, index) => {
-        const labels = ['backup-data', 'adjust-settings', 'site-wide-announcements'];
-        item.textContent = langTrans[labels[index]];
-    });
 }
-
 
 
 // Save Settings Function
@@ -509,9 +571,3 @@ function saveSettings() {
     alert('Settings saved successfully!');
     document.getElementById('adjustSettingsModal').style.display = 'none';
 }
-
-// Adding an event listener for DOM content loaded
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Add event listener for the language dropdown change
-    document.getElementById('language').addEventListener('change', adjustLanguage);
-});

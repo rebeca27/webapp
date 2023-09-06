@@ -10,11 +10,6 @@ const orbData = [{
         image: "space7.png"
     },
     {
-        tooltip: "Friend Requests - 5 New",
-        url: "friendrequests.html",
-        image: "space3.jpg"
-    },
-    {
         tooltip: "User Reports - 2 Pending",
         url: "userreports.html",
         image: "space4.jpg"
@@ -33,6 +28,7 @@ const orbData = [{
         tooltip: "Staff - 5 Active",
         url: "staff.html",
         image: "space11.jpg"
+
     }, // Example data for Staff
     // Additional orb data can be added
 ];
@@ -42,7 +38,7 @@ let loggedInEmail;
 let scene, camera, renderer, globe;
 const chatRoomId = document.body.getAttribute('data-id');
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', (event) => {
 
     var secretKey = "MySuperSecretKey";
 
@@ -54,6 +50,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Decryption of the email from session storage
     var emailEncrypted = sessionStorage.getItem("loggedInEmail");
     loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
+    // Fetch user statistics by email for friend requests
+    fetch(`/email/${loggedInEmail}/statistics`)
+        .then(response => response.json())
+        .then(data => {
+            fetchedData = data; // Store fetched data in the global variable
+            // Update the orbData with the fetched friend requests
+            orbData.push({
+                tooltip: `Friend Requests - ${data.pendingFriendRequests} New`,
+                url: 'friendrequests.html',
+                image: 'space3.jpg'
+            });
+
+            // Update the message-monitor elements with fetched data
+            document.querySelector('#sent-messages').innerText = data.sentMessages;
+            document.querySelector('#received-messages').innerText = data.receivedMessages;
+            document.querySelector('#peak-time').innerText = data.peakTrafficTime;
+            document.querySelector('#active-chats').innerText = data.activeChats;
+            document.querySelector('#pending-requests').innerText = data.pendingFriendRequests;
+
+            adjustLanguage(); // Call adjustLanguage again after updating the elements
+
+
+        }).catch(error => {
+            console.error("Error fetching user statistics:", error);
+        });
 
     const chatRoomId = document.body.getAttribute('data-id');
     const aiBox = document.querySelector('.ai-box');
@@ -252,17 +273,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
-    fetch(`/email/${loggedInEmail}/statistics`) 
-    .then(response => response.json())
-    .then(data => {
-        document.querySelector('#sent-messages').innerText = data.sentMessages;
-        document.querySelector('#received-messages').innerText = data.receivedMessages;
-        document.querySelector('#peak-time').innerText = data.peakTrafficTime;
-        document.querySelector('#active-chats').innerText = data.activeChats;
-        document.querySelector('#pending-requests').innerText = data.pendingFriendRequests;
-    })
-    .catch(error => console.error('Error fetching user statistics:', error));
-
     initGlobe();
     initOrbs();
     initJoystickControls();
@@ -272,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMenuToggle();
 
 
-   
+
     // Fetch the Logged-In User's Details
     fetchLoggedInUserDetails();
 });
@@ -776,16 +786,12 @@ function displayMessage(message) {
     }
 
     const modal = document.querySelector(`.modal[data-id="${newchatRoomId}"]`);
-
-    // Check if the modal exists
     if (!modal) {
         console.error(`No modal found for chatRoomId: ${newchatRoomId}`);
         return;
     }
 
     const chatroomContent = modal.querySelector('.chatroom-content');
-
-    // Check if the chatroomContent exists
     if (!chatroomContent) {
         console.error(`No chatroom content found in modal for chatRoomId: ${newchatRoomId}`);
         return;
@@ -793,7 +799,23 @@ function displayMessage(message) {
 
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
-    messageDiv.textContent = message.content;
+
+    const messageContent = document.createElement('span');
+    messageContent.className = 'message-content';
+    messageContent.textContent = message.content;
+    messageDiv.appendChild(messageContent);
+
+    if (message.user.id !== loggedInUserId) {
+        // Only append the report button for messages from other users
+        const reportBtn = document.createElement('button');
+        reportBtn.className = 'report-btn';
+        reportBtn.textContent = 'Report';
+        reportBtn.onclick = function() {
+            reportMessage(message.id);  // Assuming each message has a unique ID
+        };
+        messageDiv.appendChild(reportBtn);
+    }
+
     chatroomContent.appendChild(messageDiv);
     chatroomContent.scrollTop = chatroomContent.scrollHeight;
 }
@@ -813,22 +835,36 @@ function fetchMessagesForChatRoom(chatRoomId) {
                 console.error(`No modal found for chatRoomId: ${chatRoomId}`);
                 return;
             }
-            const chatroomContent = modal.querySelector('.chatroom-content');
 
+            const chatroomContent = modal.querySelector('.chatroom-content');
             chatroomContent.innerHTML = ''; // Clear previous messages
+
             data.forEach(message => {
                 const messageDiv = document.createElement('div');
-                console.log(`Rendering message from user ${message.user.id}. Current logged-in user ID is ${loggedInUserId}.`);
                 messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
 
-                messageDiv.textContent = message.content;
+                const messageContent = document.createElement('span');
+                messageContent.className = 'message-content';
+                messageContent.textContent = message.content;
+                messageDiv.appendChild(messageContent);
+
+                if (message.user.id !== loggedInUserId) {
+                    // Only append the report button for messages from other users
+                    const reportBtn = document.createElement('button');
+                    reportBtn.className = 'report-btn';
+                    reportBtn.textContent = 'Report';
+                    reportBtn.onclick = function() {
+                        reportMessage(message.id);
+                    };
+                    messageDiv.appendChild(reportBtn);
+                }
+
                 chatroomContent.appendChild(messageDiv);
                 chatroomContent.scrollTop = chatroomContent.scrollHeight;
             });
         })
         .catch(error => console.error("Error fetching messages:", error));
 }
-
 
 function sendMessage(chatRoomId, inputId) {
     const inputElement = document.getElementById(inputId);
@@ -844,12 +880,11 @@ function sendMessage(chatRoomId, inputId) {
             }
         };
         stompClient.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageData));
-        inputElement.value = '';  // Clear the input field
+        inputElement.value = ''; // Clear the input field
     } else {
         console.error("WebSocket is not connected or the message is empty.");
     }
 }
-
 
 function disconnectWebSocket() {
     if (stompClient !== null) {
@@ -864,13 +899,19 @@ function searchChatrooms() {
 
     // This is a simple example. In a real-world scenario, you'd likely use a more advanced searching mechanism.
     const chatrooms = [ // This array would come from your actual chatroom data
-        { name: 'New Friends Hub', keywords: 'friends, new, hub' },
-        { name: 'Positivity Central', keywords: 'positive, central, happy' }
+        {
+            name: 'New Friends Hub',
+            keywords: 'friends, new, hub'
+        },
+        {
+            name: 'Positivity Central',
+            keywords: 'positive, central, happy'
+        }
         // ... other chatrooms ...
     ];
 
-    const matches = chatrooms.filter(chatroom => 
-        chatroom.name.toLowerCase().includes(query) || 
+    const matches = chatrooms.filter(chatroom =>
+        chatroom.name.toLowerCase().includes(query) ||
         chatroom.keywords.toLowerCase().includes(query)
     );
 
@@ -890,6 +931,4 @@ function addToMenu(chatroomName, dataUrl) {
     listItem.textContent = chatroomName;
     menuList.appendChild(listItem);
     saveMenuToLocalStorage();
- }
-
- 
+}
