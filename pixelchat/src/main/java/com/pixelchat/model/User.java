@@ -37,7 +37,7 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @ManyToMany(mappedBy = "users")
     private Set<ChatRoom> chatRooms;
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)

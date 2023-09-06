@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log(data);
                     if (data && data.message && data.message.includes('matches')) {
                         console.log("Uploaded share matches!");
-                        window.location.href = 'adminpanel.html';
+                        window.location.href = 'dashboardpanel.html';
                     } else {
                         console.log("Uploaded share does not match.");
                     }

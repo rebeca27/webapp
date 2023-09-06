@@ -776,12 +776,10 @@ function fetchLoggedInUserDetails() {
         .then(response => response.json())
         .then(data => {
             loggedInUserId = data.id;
-            // You can call any other functions that depend on this ID here, if needed.
-            // For example, if you want to immediately fetch messages for a chatroom after getting the ID:
-            // fetchMessagesForChatRoom(someChatRoomId);
         })
         .catch(error => console.error("Error fetching user details:", error));
 }
+
 
 function displayMessage(message) {
     const newchatRoomId = message.chatRoom && message.chatRoom.id;
@@ -805,6 +803,12 @@ function displayMessage(message) {
 
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
+
+    // Add user's initial
+    const userInitial = document.createElement('div');
+    userInitial.className = 'user-initial';
+    userInitial.textContent = message.user.name.charAt(0).toUpperCase();
+    messageDiv.appendChild(userInitial);
 
     const messageContent = document.createElement('span');
     messageContent.className = 'message-content';
@@ -849,6 +853,12 @@ function fetchMessagesForChatRoom(chatRoomId) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
 
+                // Add user's initial
+                const userInitial = document.createElement('div');
+                userInitial.className = 'user-initial';
+                userInitial.textContent = message.user.name.charAt(0).toUpperCase();
+                messageDiv.appendChild(userInitial);
+
                 const messageContent = document.createElement('span');
                 messageContent.className = 'message-content';
                 messageContent.textContent = message.content;
@@ -871,6 +881,9 @@ function fetchMessagesForChatRoom(chatRoomId) {
         })
         .catch(error => console.error("Error fetching messages:", error));
 }
+
+
+
 
 function sendMessage(chatRoomId, inputId) {
     const inputElement = document.getElementById(inputId);
