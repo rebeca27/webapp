@@ -285,6 +285,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Fetch the Logged-In User's Details
     fetchLoggedInUserDetails();
+
+    document.getElementById('userreportsModal').addEventListener('show.bs.modal', fetchReportsAndPopulateModal);
+
 });
 
 
@@ -453,6 +456,9 @@ function initJoystickControls() {
 
                 // Connect to WebSocket when the chatroom modal is opened
                 connectWebSocket(chatRoomId);
+            } else if (modalID === "userreportsModal") {
+                // Fetch the reports when the "User Reports" modal is about to be displayed
+                fetchReportsAndPopulateModal();
             }
 
             if (modalElement) {
@@ -811,7 +817,7 @@ function displayMessage(message) {
         reportBtn.className = 'report-btn';
         reportBtn.textContent = 'Report';
         reportBtn.onclick = function() {
-            reportMessage(message.id);  // Assuming each message has a unique ID
+            reportMessage(message.id);  
         };
         messageDiv.appendChild(reportBtn);
     }
@@ -931,4 +937,95 @@ function addToMenu(chatroomName, dataUrl) {
     listItem.textContent = chatroomName;
     menuList.appendChild(listItem);
     saveMenuToLocalStorage();
+}
+
+
+function reportMessage(messageId) {
+    // Use the loggedInEmail from the provided code
+    const reporterEmail = loggedInEmail; 
+
+    if (!reporterEmail) {
+        console.error("User not logged in.");
+        return;
+    }
+
+    // Fetch the user details to get the reporterId
+    fetch("chatrooms/currentUser", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': reporterEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const reporterId = data.id;
+
+            // Now make the AJAX call to report the message
+            fetch(`/reports/reportmessage/${messageId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Email': reporterEmail
+                },
+                body: JSON.stringify(reporterId)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Message reported successfully.");
+                } else {
+                    return response.text().then(text => {
+                        throw new Error(text);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error reporting message:", error);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching user details:", error);
+        });
+}
+
+function fetchReportsAndPopulateModal() {
+    console.log("Fetching reports...");  // Add this line
+
+    fetch("/reports/reportedmessages", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail  
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            const reportListDiv = document.querySelector('.report-list');
+            reportListDiv.innerHTML = '';  // Clear previous reports
+
+            data.forEach(report => {
+                const reportDiv = document.createElement('div');
+                reportDiv.className = 'report';
+
+                const reportedBy = document.createElement('strong');
+                reportedBy.innerHTML = `Reported by: ${report.reporter.name}`;
+                reportDiv.appendChild(reportedBy);
+                reportDiv.innerHTML += '<br>';
+
+                const reason = document.createElement('strong');
+                reason.innerHTML = `Reason: Spam`;
+                reportDiv.appendChild(reason);
+
+                reportListDiv.appendChild(reportDiv);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching reports:", error);
+        });
 }

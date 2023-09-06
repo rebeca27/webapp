@@ -26,6 +26,18 @@ public class User {
     private byte[] share1;
     @Lob
     private byte[] share2;
+    @Column(nullable = false)
+    private String name;
+
+    // Getter and Setter for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     @ManyToMany(mappedBy = "users")
     private Set<ChatRoom> chatRooms;
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)

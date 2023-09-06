@@ -43,11 +43,7 @@ public class UserController {
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
-    private MessageRepository messageRepo; // Assuming you have a repository for messages
-
-    @Autowired
-    private ChatRoomRepository chatRoomRepo; // For chat rooms
-
+    private MessageRepository messageRepo;
     @Autowired
     private FriendRequestRepository friendRequestRepo; // For friend requests
 
