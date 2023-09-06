@@ -6,6 +6,7 @@ import com.pixelchat.model.User;
 import com.pixelchat.repository.ChatRoomRepository;
 import com.pixelchat.repository.FriendRequestRepository;
 import com.pixelchat.repository.MessageRepository;
+import com.pixelchat.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -316,5 +317,12 @@ public class UserController {
         return peakHour + " PM - " + (peakHour + 1) + " PM";
     }
 
+    @Autowired
+    private UserRepository userRepository;
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
 
 }

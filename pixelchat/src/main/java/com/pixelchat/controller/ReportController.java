@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/reports")  // Base path for this controller
@@ -28,6 +29,27 @@ public class ReportController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/accept/{reportId}")
+    public ResponseEntity<String> acceptReport(@PathVariable Long reportId) {
+        try {
+            reportService.acceptReport(reportId);
+            return ResponseEntity.ok("Report accepted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error accepting report.");
+        }
+    }
+
+    @PostMapping("/reject/{reportId}")
+    public ResponseEntity<String> rejectReport(@PathVariable Long reportId, @RequestBody Map<String, String> payload) {
+        String reason = payload.get("reason");
+        try {
+            reportService.rejectReport(reportId, reason);
+            return ResponseEntity.ok("Report rejected successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error rejecting report.");
         }
     }
 }

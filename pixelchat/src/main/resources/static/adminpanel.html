@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/stylesdash.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Navigation Bar -->
+        <nav>
+            <ul>
+                <li><a href="#users">Users</a></li>
+                <li><a href="#chatrooms">Chatrooms</a></li>
+                <li><a href="#reports">Reports</a></li>
+            </ul>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Users Section -->
+            <section id="users" class="users-container">
+                <h2>Users</h2>
+                <!-- List of users will be populated here -->
+            </section>
+            
+
+            <!-- Chatrooms Section -->
+            <section id="chatrooms">
+                <h2>Chatrooms</h2>
+                <!-- List of chatrooms will be populated here -->
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports">
+                <h2>Reports</h2>
+                <!-- List of reported messages will be populated here with approve/reject options -->
+            </section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+    <script src="js/scriptadmin.js"></script>
+
+</body>
+
+</html>

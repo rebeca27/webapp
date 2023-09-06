@@ -18,6 +18,30 @@ public class ReportedMessage {
     @ManyToOne
     private User reporter;
 
+    private String status; // New field for status (Accepted, Rejected, Pending, etc.)
+
+    private String rejectionReason; // New field for storing the reason if the report is rejected
+
+    // Getter and Setter methods for the new fields
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+
+    // Existing getter and setter methods
+
     public Long getId() {
         return id;
     }
@@ -42,4 +66,3 @@ public class ReportedMessage {
         this.reporter = reporter;
     }
 }
-

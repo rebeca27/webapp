@@ -315,6 +315,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchLoggedInUserDetails();
 
     document.getElementById('userreportsModal').addEventListener('show.bs.modal', fetchReportsAndPopulateModal);
+    
 
 });
 
