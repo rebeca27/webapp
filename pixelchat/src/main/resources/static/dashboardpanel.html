@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/adminpanel.css">
     <link rel="icon" type="image/png" href="images/icons/pixelchat.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 </head>
 
@@ -69,11 +70,11 @@
             <h2>Message Traffic</h2>
             <ul>
                 <ul>
-                    <li id="sent-messages"><strong >Sent Messages:</strong> <span>Loading...</span></li>
-                    <li  id="received-messages"><strong>Received Messages:</strong> <span>Loading...</span></li>
-                    <li id="peak-time"><strong >Peak Traffic Time:</strong> <span>Loading...</span></li>
-                    <li id="active-chats"><strong >Active Chats:</strong> <span>Loading...</span></li>
-                    <li id="pending-requests"><strong >Pending Friend Requests:</strong> <span>Loading...</span></li>
+                    <li id="sent-messages"><strong>Sent Messages:</strong> <span>Loading...</span></li>
+                    <li id="received-messages"><strong>Received Messages:</strong> <span>Loading...</span></li>
+                    <li id="peak-time"><strong>Peak Traffic Time:</strong> <span>Loading...</span></li>
+                    <li id="active-chats"><strong>Active Chats:</strong> <span>Loading...</span></li>
+                    <li id="pending-requests"><strong>Pending Friend Requests:</strong> <span>Loading...</span></li>
                 </ul>
 
             </ul>
@@ -81,6 +82,22 @@
 
         <div class="media-galaxy">
         </div>
+
+
+        <!-- <div class="spaceship">
+            <div class="window"></div>
+        </div> -->
+
+        <div class="user-display">
+            <span>Incoming transmission... Hello, Pilot </span><span id="userNameDisplay">Loading...</span><span> This
+                is PixelSpaceStation. Do you copy?</span>
+        </div>
+
+        <!-- Audio Element for Sound -->
+        <audio id="spaceRadioSound" preload="auto">
+            <source src="sound/radio_sound.wav" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
 
         <div class="modal" id="adjustSettingsModal">
             <div class="modal-content">
@@ -127,8 +144,6 @@
                     <option value="polish">Polish</option>
                     <option value="hungarian">Hungarian</option>
                 </select>
-
-
                 <button onclick="saveSettings()">Save</button>
             </div>
         </div>
@@ -188,7 +203,7 @@
                 </div>
             </div>
         </div>
-        
+
 
 
         <div class="modal" id="staffModal">

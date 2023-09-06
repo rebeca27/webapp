@@ -5,7 +5,6 @@ import com.pixelchat.model.Message;
 import com.pixelchat.model.User;
 import com.pixelchat.service.ChatService;
 import com.pixelchat.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,7 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
     @Autowired
-    private UserService userService; // Inject the UserService to fetch the User by email
-    @Autowired
-    private HttpSession session;
-
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<ChatRoom>> getAllChatRooms() {

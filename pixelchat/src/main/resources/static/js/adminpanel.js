@@ -76,6 +76,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.error("Error fetching user statistics:", error);
         });
 
+    fetch(`/chatrooms/currentUser`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const usernameDisplay = document.getElementById('userNameDisplay');
+            usernameDisplay.textContent = data.name;
+            usernameDisplay.classList.add('fade-in');
+        })
+        .catch(error => console.error("Error fetching user details:", error));
+
     const chatRoomId = document.body.getAttribute('data-id');
     const aiBox = document.querySelector('.ai-box');
     const toggleAIButton = document.getElementById('toggleAIButton');
@@ -281,8 +296,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     startStarGenerator();
     initMenuToggle();
 
+    // Parallax effect for the starry background
+    document.addEventListener('mousemove', function (e) {
+        const moveX = (e.clientX * -1 / 40); // Adjust the value for more or less movement
+        const moveY = (e.clientY * -1 / 40); // Adjust the value for more or less movement
+        document.querySelector('.space-background').style.backgroundPosition = moveX + 'px ' + moveY + 'px';
+    });
 
-
+    // Play the space radio sound
+    document.body.addEventListener('click', function() {
+        const spaceRadioSound = document.getElementById('spaceRadioSound');
+        if (!spaceRadioSound.played.length) { // Check if the sound hasn't been played yet
+            spaceRadioSound.play();
+        }
+    });
+    
     // Fetch the Logged-In User's Details
     fetchLoggedInUserDetails();
 
@@ -820,8 +848,8 @@ function displayMessage(message) {
         const reportBtn = document.createElement('button');
         reportBtn.className = 'report-btn';
         reportBtn.textContent = 'Report';
-        reportBtn.onclick = function() {
-            reportMessage(message.id);  
+        reportBtn.onclick = function () {
+            reportMessage(message.id);
         };
         messageDiv.appendChild(reportBtn);
     }
@@ -869,7 +897,7 @@ function fetchMessagesForChatRoom(chatRoomId) {
                     const reportBtn = document.createElement('button');
                     reportBtn.className = 'report-btn';
                     reportBtn.textContent = 'Report';
-                    reportBtn.onclick = function() {
+                    reportBtn.onclick = function () {
                         reportMessage(message.id);
                     };
                     messageDiv.appendChild(reportBtn);
@@ -955,7 +983,7 @@ function addToMenu(chatroomName, dataUrl) {
 
 function reportMessage(messageId) {
     // Use the loggedInEmail from the provided code
-    const reporterEmail = loggedInEmail; 
+    const reporterEmail = loggedInEmail;
 
     if (!reporterEmail) {
         console.error("User not logged in.");
@@ -976,25 +1004,25 @@ function reportMessage(messageId) {
 
             // Now make the AJAX call to report the message
             fetch(`/reports/reportmessage/${messageId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Email': reporterEmail
-                },
-                body: JSON.stringify(reporterId)
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Message reported successfully.");
-                } else {
-                    return response.text().then(text => {
-                        throw new Error(text);
-                    });
-                }
-            })
-            .catch(error => {
-                console.error("Error reporting message:", error);
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Email': reporterEmail
+                    },
+                    body: JSON.stringify(reporterId)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Message reported successfully.");
+                    } else {
+                        return response.text().then(text => {
+                            throw new Error(text);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error reporting message:", error);
+                });
         })
         .catch(error => {
             console.error("Error fetching user details:", error);
@@ -1002,13 +1030,13 @@ function reportMessage(messageId) {
 }
 
 function fetchReportsAndPopulateModal() {
-    console.log("Fetching reports...");  // Add this line
+    console.log("Fetching reports..."); // Add this line
 
     fetch("/reports/reportedmessages", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'User-Email': loggedInEmail  
+                'User-Email': loggedInEmail
             }
         })
         .then(response => {
@@ -1020,7 +1048,7 @@ function fetchReportsAndPopulateModal() {
         .then(data => {
 
             const reportListDiv = document.querySelector('.report-list');
-            reportListDiv.innerHTML = '';  // Clear previous reports
+            reportListDiv.innerHTML = ''; // Clear previous reports
 
             data.forEach(report => {
                 const reportDiv = document.createElement('div');
