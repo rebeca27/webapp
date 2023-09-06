@@ -910,9 +910,6 @@ function fetchMessagesForChatRoom(chatRoomId) {
         .catch(error => console.error("Error fetching messages:", error));
 }
 
-
-
-
 function sendMessage(chatRoomId, inputId) {
     const inputElement = document.getElementById(inputId);
     const content = inputElement.value;
@@ -940,45 +937,45 @@ function disconnectWebSocket() {
     console.log("Disconnected");
 }
 
-function searchChatrooms() {
-    const query = document.getElementById('chatSearch').value.toLowerCase();
-    const resultsDiv = document.getElementById('searchResults');
+// function searchChatrooms() {
+//     const query = document.getElementById('chatSearch').value.toLowerCase();
+//     const resultsDiv = document.getElementById('searchResults');
 
-    // This is a simple example. In a real-world scenario, you'd likely use a more advanced searching mechanism.
-    const chatrooms = [ // This array would come from your actual chatroom data
-        {
-            name: 'New Friends Hub',
-            keywords: 'friends, new, hub'
-        },
-        {
-            name: 'Positivity Central',
-            keywords: 'positive, central, happy'
-        }
-        // ... other chatrooms ...
-    ];
+//     // This is a simple example. In a real-world scenario, you'd likely use a more advanced searching mechanism.
+//     const chatrooms = [ // This array would come from your actual chatroom data
+//         {
+//             name: 'New Friends Hub',
+//             keywords: 'friends, new, hub'
+//         },
+//         {
+//             name: 'Positivity Central',
+//             keywords: 'positive, central, happy'
+//         }
+//         // ... other chatrooms ...
+//     ];
 
-    const matches = chatrooms.filter(chatroom =>
-        chatroom.name.toLowerCase().includes(query) ||
-        chatroom.keywords.toLowerCase().includes(query)
-    );
+//     const matches = chatrooms.filter(chatroom =>
+//         chatroom.name.toLowerCase().includes(query) ||
+//         chatroom.keywords.toLowerCase().includes(query)
+//     );
 
-    resultsDiv.innerHTML = matches.map(match => `
-    <div>
-        ${match.name} 
-        <button onclick="addToMenu('${match.name}', '${match.dataUrl}')">Add to Menu</button>
-    </div>
-`).join('');
-}
+//     resultsDiv.innerHTML = matches.map(match => `
+//     <div>
+//         ${match.name} 
+//         <button onclick="addToMenu('${match.name}', '${match.dataUrl}')">Add to Menu</button>
+//     </div>
+// `).join('');
+// }
 
 
-function addToMenu(chatroomName, dataUrl) {
-    const menuList = document.querySelector(".menu-list");
-    const listItem = document.createElement("li");
-    listItem.setAttribute("data-url", dataUrl);
-    listItem.textContent = chatroomName;
-    menuList.appendChild(listItem);
-    saveMenuToLocalStorage();
-}
+// function addToMenu(chatroomName, dataUrl) {
+//     const menuList = document.querySelector(".menu-list");
+//     const listItem = document.createElement("li");
+//     listItem.setAttribute("data-url", dataUrl);
+//     listItem.textContent = chatroomName;
+//     menuList.appendChild(listItem);
+//     saveMenuToLocalStorage();
+// }
 
 
 function reportMessage(messageId) {
