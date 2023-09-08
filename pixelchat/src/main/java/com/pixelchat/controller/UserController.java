@@ -55,7 +55,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestParam("email") String email,
+    public ResponseEntity<?> registerUser(@RequestParam("name") String name,
+                                          @RequestParam("email") String email,
                                           @RequestParam("password") String password,
                                           @RequestParam("color") String color,
                                           @RequestParam("profileImage") MultipartFile profileImage) throws Exception {
@@ -120,6 +121,7 @@ public class UserController {
         newUser.setColor(color);
         newUser.setShare1(share1);
         newUser.setShare2(share2);
+        newUser.setName(name);
 
         User savedUser = userService.save(newUser);
 
