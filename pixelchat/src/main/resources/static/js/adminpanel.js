@@ -33,7 +33,7 @@ const orbData = [{
     // Additional orb data can be added
 ];
 
-let loggedInEmail;
+let loggedInEmail, loggedInUserName;
 
 let scene, camera, renderer, globe;
 const chatRoomId = document.body.getAttribute('data-id');
@@ -805,6 +805,7 @@ function fetchLoggedInUserDetails() {
         .then(response => response.json())
         .then(data => {
             loggedInUserId = data.id;
+            loggedInUserName = data.name;
         })
         .catch(error => console.error("Error fetching user details:", error));
 }
@@ -921,7 +922,9 @@ function sendMessage(chatRoomId, inputId) {
             chatRoomId: chatRoomId,
             user: {
                 id: loggedInUserId,
-                email: loggedInEmail
+                email: loggedInEmail,
+                name: loggedInUserName
+
             }
         };
         stompClient.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageData));

@@ -5,6 +5,7 @@ import com.pixelchat.model.Message;
 import com.pixelchat.model.User;
 import com.pixelchat.repository.ChatRoomRepository;
 import com.pixelchat.repository.MessageRepository;
+import com.pixelchat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class ChatService {
     private MessageRepository messageRepository;
     @Autowired
     private ChatRoomRepository chatRoomRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<ChatRoom> getAllChatRooms() {
         return chatRoomRepository.findAll();
@@ -54,5 +57,29 @@ public class ChatService {
         }
     }
 
+    public ChatRoom createChatroom(String chatroomName) {
+        ChatRoom chatroom = new ChatRoom();
+        chatroom.setName(chatroomName);
+        return chatRoomRepository.save(chatroom);
+    }
+
+    public boolean setModerator(Long chatroomId, Long userId) {
+        ChatRoom chatroom = chatRoomRepository.findById(chatroomId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+        if (chatroom != null && user != null) {
+            chatroom.setModerator(user);
+            chatRoomRepository.save(chatroom);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteChatroom(Long chatroomId) {
+        if (chatRoomRepository.existsById(chatroomId)) {
+            chatRoomRepository.deleteById(chatroomId);
+            return true;
+        }
+        return false;
+    }
 
 }

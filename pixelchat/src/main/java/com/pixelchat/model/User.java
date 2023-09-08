@@ -29,6 +29,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+
     // Getter and Setter for name
     public String getName() {
         return name;
@@ -120,4 +121,15 @@ public class User {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                // Add other fields if needed
+                '}';
+    }
+
 }

@@ -68,6 +68,35 @@ public class ChatController {
         return chatService.searchByKeyword(query);
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<ChatRoom> createChatroom(@RequestBody Map<String, String> payload) {
+        String chatroomName = payload.get("name");
+        ChatRoom chatroom = chatService.createChatroom(chatroomName);
+        if (chatroom == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.ok(chatroom);
+    }
+
+    @PostMapping("/{chatroomId}/setModerator")
+    public ResponseEntity<String> setModerator(@PathVariable Long chatroomId, @RequestBody Map<String, Long> payload) {
+        Long userId = payload.get("userId");
+        boolean success = chatService.setModerator(chatroomId, userId);
+        if (!success) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to set moderator");
+        }
+        return ResponseEntity.ok("Moderator set successfully");
+    }
+
+    @DeleteMapping("/{chatroomId}")
+    public ResponseEntity<String> deleteChatroom(@PathVariable Long chatroomId) {
+        boolean success = chatService.deleteChatroom(chatroomId);
+        if (!success) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete chatroom");
+        }
+        return ResponseEntity.ok("Chatroom deleted successfully");
+    }
+
 }
 
 

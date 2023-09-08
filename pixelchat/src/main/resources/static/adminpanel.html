@@ -16,6 +16,9 @@
                 <li><a href="#users">Users</a></li>
                 <li><a href="#chatrooms">Chatrooms</a></li>
                 <li><a href="#reports">Reports</a></li>
+                <li><a href="#dashboard-overview">Dashboard Overview</a></li>
+                <li><a href="#logs">Logs</a></li>
+                <li><a href="#analytics">Analytics</a></li>
             </ul>
         </nav>
 
@@ -24,14 +27,24 @@
             <!-- Users Section -->
             <section id="users" class="users-container">
                 <h2>Users</h2>
-                <!-- List of users will be populated here -->
+                <!-- User Management Enhancements -->
+                <div class="user-management">
+                    <input type="text" id="userSearch" placeholder="Search for a user...">
+                    <button onclick="searchUser()">Search</button>
+                </div>
+                <div id="userList"></div>
             </section>
-            
+
 
             <!-- Chatrooms Section -->
             <section id="chatrooms">
                 <h2>Chatrooms</h2>
-                <!-- List of chatrooms will be populated here -->
+
+                <!-- Chatroom Management Enhancements -->
+                <div class="chatroom-management">
+                    <button onclick="createNewChatroom()">Create New Chatroom</button>
+                    <!-- List of chatrooms will be populated here with options to set moderators, delete, etc. -->
+                </div>
             </section>
 
             <!-- Reports Section -->
@@ -40,10 +53,55 @@
                 <!-- List of reported messages will be populated here with approve/reject options -->
             </section>
         </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
-    <script src="js/scriptadmin.js"></script>
+        <div class="content">
+            <!-- Dashboard Overview Section -->
+            <section id="dashboard-overview">
+                <h2>Dashboard Overview</h2>
+                <!-- Overview content will be populated here -->
+            </section>
+
+            <!-- Logs Section -->
+            <section id="logs">
+                <h2>Logs</h2>
+                <!-- Logs will be populated here -->
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics">
+                <h2>Analytics</h2>
+                <!-- Analytics charts and data will be displayed here -->
+
+                <!-- User Growth Chart -->
+                <div class="chart-container">
+                    <h3>User Growth</h3>
+                    <canvas id="userGrowthChart"></canvas>
+                </div>
+
+                <!-- Message Traffic Chart -->
+                <div class="chart-container">
+                    <h3>Message Traffic</h3>
+                    <canvas id="messageTrafficChart"></canvas>
+                </div>
+
+                <!-- Peak Times Chart -->
+                <div class="chart-container">
+                    <h3>Peak Times</h3>
+                    <canvas id="peakTimesChart"></canvas>
+                </div>
+            </section>
+        </div>
+        <div class="modal" id="userModal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <h3>User Details</h3>
+                <div id="userDetails"></div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+        <script src="js/scriptadmin.js"></script>
 
 </body>
 

@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', (even) => {
     fetchChatrooms();
     fetchAllUsers();
     fetchReportedMessages();
+    fetchDashboardOverview();
+    fetchLogs();
+    fetchAnalytics();
+
+    document.getElementById('userSearch').addEventListener('input', searchUser);
+
 });
 
 function fetchChatrooms() {
@@ -163,8 +169,8 @@ function fetchAllUsers() {
     fetch('/users')
         .then(response => response.json())
         .then(users => {
-            const userSection = document.querySelector('#users');
-            let usersHTML = '<h2>Users</h2>';
+            const userList = document.getElementById('userList');
+            let usersHTML = '';
             users.forEach(user => {
                 usersHTML += `
                 <div>
@@ -174,9 +180,223 @@ function fetchAllUsers() {
                 <hr>
                 `;
             });
-            userSection.innerHTML = usersHTML;
+            userList.innerHTML = usersHTML;
         })
         .catch(error => {
             console.error('Error fetching users:', error);
         });
+}
+
+
+function fetchDashboardOverview() {
+    fetch('/api/dashboard-overview')
+        .then(response => response.json())
+        .then(data => {
+            const dashboardSection = document.querySelector('#dashboard-overview');
+            dashboardSection.innerHTML = `
+                <h3>Dashboard Overview</h3>
+                <p>Total Users: ${data.totalUsers}</p>
+                <p>Active Chatrooms: ${data.activeChatrooms}</p>
+            `;
+        })
+        .catch(error => {
+            console.error('Error fetching dashboard overview:', error);
+        });
+}
+
+
+function fetchLogs() {
+    fetch('/api/logs')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const logsSection = document.querySelector('#logs');
+            if (data.length === 0) {
+                logsSection.innerHTML = '<h3>All is good. No recent logs.</h3>';
+            } else {
+                let logsHTML = '<h3>Recent Logs</h3>';
+                data.forEach(log => {
+                    logsHTML += `<p>${log.timestamp}: ${log.message}</p>`;
+                });
+                logsSection.innerHTML = logsHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching logs:', error);
+        });
+}
+
+function fetchAnalytics() {
+    fetch('/api/analytics')
+        .then(response => response.json())
+        .then(data => {
+            const analyticsSection = document.querySelector('#analytics');
+            
+            // User Growth Chart
+            const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+            new Chart(userGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: data.userGrowth.dates,
+                    datasets: [{
+                        label: 'User Growth',
+                        data: data.userGrowth.counts,
+                        borderColor: 'blue',
+                        fill: false
+                    }]
+                }
+            });
+            
+            // Message Traffic Chart
+            const messageTrafficCtx = document.getElementById('messageTrafficChart').getContext('2d');
+            new Chart(messageTrafficCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.messageTraffic.dates,
+                    datasets: [{
+                        label: 'Message Traffic',
+                        data: data.messageTraffic.counts,
+                        backgroundColor: 'green'
+                    }]
+                }
+            });
+            
+            // Peak Times Chart
+            const peakTimesCtx = document.getElementById('peakTimesChart').getContext('2d');
+            new Chart(peakTimesCtx, {
+                type: 'pie',
+                data: {
+                    labels: data.peakTimes.times,
+                    datasets: [{
+                        data: data.peakTimes.counts,
+                        backgroundColor: ['red', 'yellow', 'blue', 'orange']
+                    }]
+                }
+            });
+            
+        })
+        .catch(error => {
+            console.error('Error fetching analytics:', error);
+        });
+}
+
+function searchUser() {
+    const searchTerm = document.getElementById('userSearch').value;
+    fetch(`/users/search?query=${searchTerm}`)
+        .then(response => response.json())
+        .then(users => {
+            const userList = document.getElementById('userList');
+            let usersHTML = '';
+            users.forEach(user => {
+                usersHTML += `
+                <div class="user-item">
+                    <p>Email: ${user.email}</p>
+                    <button onclick="viewUserProfile(${user.id})">View Profile</button>
+                    <button onclick="banUser(${user.id})">Ban</button>
+                    <button onclick="muteUser(${user.id})">Mute</button>
+                </div>
+                `;
+            });
+            userList.innerHTML = usersHTML;
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+        });
+}
+
+function viewUserProfile(userId) {
+    fetch(`/user/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+            const userDetails = document.getElementById('userDetails');
+            userDetails.innerHTML = `
+                <p>Name: ${user.name}</p>
+                <p>Email: ${user.email}</p>
+            `;
+            
+            // Show the modal
+            const modal = document.getElementById('userModal');
+            modal.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching user profile:', error);
+        });
+}
+
+function banUser(userId) {
+    fetch(`/user/${userId}/ban`, {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Error banning user:', error);
+    });
+}
+
+function muteUser(userId) {
+    fetch(`/user/${userId}/mute`, {
+        method: 'POST'
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Error muting user:', error);
+    });
+}
+
+function createChatroom() {
+    const chatroomName = prompt("Enter chatroom name:");
+    fetch('/chatrooms/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: chatroomName
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(`Chatroom ${data.name} created with ID: ${data.id}`);
+    })
+    .catch(error => {
+        console.error('Error creating chatroom:', error);
+    });
+}
+
+function setModerator(chatroomId, userId) {
+    fetch(`/chatrooms/${chatroomId}/setModerator`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: userId
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Error setting moderator:', error);
+    });
+}
+
+function deleteChatroom(chatroomId) {
+    fetch(`/chatrooms/${chatroomId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Error deleting chatroom:', error);
+    });
 }

@@ -14,6 +14,13 @@ public class ChatRoom {
 
     private String name;
     private String keywords;
+    @ManyToOne
+    private User moderator;
+
+    public void setModerator(User moderator) {
+        this.moderator = moderator;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "chatroom_users",

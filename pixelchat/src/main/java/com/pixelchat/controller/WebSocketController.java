@@ -21,8 +21,9 @@ public class WebSocketController {
     public Message sendMessage(@DestinationVariable Long chatroomId, @RequestBody Message message) {
         // Extract the necessary data from the message object
         String content = message.getContent();
+        System.out.println(message.getContent());
         User user = message.getUser(); // Assuming your Message object has a getUser method
-
+        System.out.println(message.getUser());
         // Save the message using the ChatService's sendMessage method
         return chatService.sendMessage(chatroomId, content, user); // Return the saved message
     }

@@ -324,5 +324,36 @@ public class UserController {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
+    // Endpoint to fetch user details by ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        User user = userService.findById(userId);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    // Endpoint to ban a user by ID
+    @PostMapping("/user/{userId}/ban")
+    public ResponseEntity<String> banUserById(@PathVariable Long userId) {
+        // Logic to ban the user
+        // For demonstration purposes, we'll just return a success message
+        return ResponseEntity.ok("User banned successfully");
+    }
+
+    // Endpoint to mute a user by ID
+    @PostMapping("/user/{userId}/mute")
+    public ResponseEntity<String> muteUserById(@PathVariable Long userId) {
+        // Logic to mute the user
+        // For demonstration purposes, we'll just return a success message
+        return ResponseEntity.ok("User muted successfully");
+    }
+
+    @GetMapping("/users/search")
+    public ResponseEntity<List<User>> searchUsers(@RequestParam String query) {
+        List<User> users = userRepository.findByEmailContainingIgnoreCase(query);
+        return ResponseEntity.ok(users);
+    }
 
 }
