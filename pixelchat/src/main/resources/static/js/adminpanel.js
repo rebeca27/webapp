@@ -304,18 +304,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Play the space radio sound
-    document.body.addEventListener('click', function() {
+    document.body.addEventListener('click', function () {
         const spaceRadioSound = document.getElementById('spaceRadioSound');
         if (!spaceRadioSound.played.length) { // Check if the sound hasn't been played yet
             spaceRadioSound.play();
         }
     });
-    
+
     // Fetch the Logged-In User's Details
     fetchLoggedInUserDetails();
 
     document.getElementById('userreportsModal').addEventListener('show.bs.modal', fetchReportsAndPopulateModal);
-    
+
 
 });
 
@@ -882,7 +882,7 @@ function fetchMessagesForChatRoom(chatRoomId) {
             data.forEach(message => {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
-
+                
                 // Add user's initial
                 const userInitial = document.createElement('div');
                 userInitial.className = 'user-initial';
@@ -904,7 +904,8 @@ function fetchMessagesForChatRoom(chatRoomId) {
                     };
                     messageDiv.appendChild(reportBtn);
                 }
-
+                const userColor = getConsistentColor(message.user.id.toString());
+                userInitial.style.backgroundColor = userColor;
                 chatroomContent.appendChild(messageDiv);
                 chatroomContent.scrollTop = chatroomContent.scrollHeight;
             });
@@ -1071,3 +1072,58 @@ function fetchReportsAndPopulateModal() {
             console.error("Error fetching reports:", error);
         });
 }
+
+/**
+ * Get a consistent color based on a given string.
+ * 
+ * @param {string} input - The input string to generate the color from.
+ * @returns {string} - The consistent color represented as a hexadecimal value.
+ */
+
+function getConsistentColor(input) {
+    const colors = [
+        "#FFD1DC", // Pastel Pink
+        "#FFDACD", // Pastel Peach
+        "#FFEBD6", // Pastel Orange
+        "#FFF5E1", // Pastel Yellow
+        "#E1FFD1", // Pastel Lime
+        "#D1FFEB", // Pastel Green
+        "#D1F2FF", // Pastel Sky Blue
+        "#D1D1FF", // Pastel Blue
+        "#E8D1FF", // Pastel Purple
+        "#FFD1F2", // Pastel Magenta
+        "#FFB3BA", // Light Pink
+        "#FFDFB3", // Light Peach
+        "#FFFFB3", // Light Yellow
+        "#B3FFB3", // Light Lime
+        "#B3FFCE", // Light Green
+        "#B3FFFF", // Light Sky Blue
+        "#B3B3FF", // Light Blue
+        "#DCB3FF", // Light Purple
+        "#FFB3E6", // Light Magenta
+        "#FFC0CB", // Pink
+        "#FFDAB9", // Peach Puff
+        "#FFE4B5", // Moccasin
+        "#FFFACD", // Lemon Chiffon
+        "#D3FFCE", // Honeydew
+        "#C1FFC1", // Pale Green
+        "#C1FFD8", // Aquamarine
+        "#C1FFFF", // Azure
+        "#C1C1FF", // Lavender
+        "#D8C1FF", // Thistle
+        "#FFC1E0"  // Pink Lace
+    ];
+    
+    
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+        hash = (hash << 5) - hash + input.charCodeAt(i);
+        hash |= 0; // Convert to 32-bit integer
+    }
+    
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+}
+
+
+
