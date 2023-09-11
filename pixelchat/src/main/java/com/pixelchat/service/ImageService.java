@@ -10,13 +10,20 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 @Service
 public class ImageService {
+    /**
+     * Creates two share images from an original image based on pixel intensity.
+     * Pixels with intensity <= 128 in the original image have complementary patterns in the shares.
+     * Pixels with intensity > 128 have identical patterns.
+     *
+     * @param originalImageData Byte array representing the original image.
+     * @return List of two share images.
+     * @throws Exception If there is an issue reading the original image.
+     */
     public List<BufferedImage> createShares(byte[] originalImageData) throws Exception {
 
        // byte[] encryptedData = encryptImage(originalImageData);
@@ -49,13 +56,55 @@ public class ImageService {
         return List.of(share1, share2);
     }
 
+
+    /**
+     * Calculates the intensity of a pixel based on its RGB components.
+     * Intensity is computed as a weighted sum of the red, green, and blue values.
+     *
+     * @param pixel The pixel color.
+     * @return Intensity of the pixel.
+     */
+    public int pixelIntensity(Color pixel) {
+        return (int) (0.3 * pixel.getRed() + 0.59 * pixel.getGreen() + 0.11 * pixel.getBlue());
+    }
+
+    /**
+     * Generates a random RGB color pattern.
+     *
+     * @return Random RGB color as an integer.
+     */
+
+    public int randomPattern() {
+        return secureRandom.nextInt(0xFFFFFF + 1);  // Generating random RGB color
+    }
+
+    /**
+     * Calculates the complementary RGB color of a given pattern.
+     *
+     * @param pattern RGB color pattern as an integer.
+     * @return Complementary RGB color as an integer.
+     */
+
+    public int complementaryPattern(int pattern) {
+        Color color = new Color(pattern);
+        int r = 255 - color.getRed();
+        int g = 255 - color.getGreen();
+        int b = 255 - color.getBlue();
+        return new Color(r, g, b).getRGB();
+    }
+
+    // Instance of SecureRandom for generating random patterns.
+
+    protected SecureRandom secureRandom = new SecureRandom();
+
+
+
+
     private static final String AES_TRANSFORMATION = "AES/CBC/PKCS5Padding";
     private static final String AES_ALGORITHM = "AES";
     private static final int AES_KEY_SIZE = 256; // in bits
     private static final int AES_IV_SIZE = 16;   // in bytes
 
-    // For demonstration purposes, I'm hardcoding a key.
-    // DO NOT HARDCODE KEYS IN PRODUCTION.
     private static byte[] deriveKey(String passphrase) throws Exception {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         return digest.digest(passphrase.getBytes("UTF-8"));
@@ -89,23 +138,5 @@ public class ImageService {
         System.arraycopy(encryptedData, 0, combinedData, AES_IV_SIZE, encryptedData.length);
 
         return combinedData;
-    }
-
-    public int pixelIntensity(Color pixel) {
-        return (int) (0.3 * pixel.getRed() + 0.59 * pixel.getGreen() + 0.11 * pixel.getBlue());
-    }
-
-    protected SecureRandom secureRandom = new SecureRandom();
-
-    public int randomPattern() {
-        return secureRandom.nextInt(0xFFFFFF + 1);  // Generating random RGB color
-    }
-
-    public int complementaryPattern(int pattern) {
-        Color color = new Color(pattern);
-        int r = 255 - color.getRed();
-        int g = 255 - color.getGreen();
-        int b = 255 - color.getBlue();
-        return new Color(r, g, b).getRGB();
     }
 }
