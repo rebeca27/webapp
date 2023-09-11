@@ -16,7 +16,7 @@ public class BlogPost {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String imageName;
+    private String image;
 
     @Column(length = 5000)
     private String content;
@@ -45,11 +45,11 @@ public class BlogPost {
     }
 
     public String getImageName() {
-        return imageName;
+        return image;
     }
 
     public void setImageName(String imageName) {
-        this.imageName = imageName;
+        this.image = imageName;
     }
 
     public String getContent() {
