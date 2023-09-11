@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelChat - Blog Overview</title>
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/blog-overview.css">
+    <link rel="icon" type="image/png" href="images/icons/pixelchat.ico"/>
+</head>
+<body>
+
+<!-- Modern Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">PixelChat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboardpanel.html">Dashboard</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- End of Navbar -->
+
+<div class="blog-overview-container">
+    <h2>Blog Posts</h2>
+    <a href="blog-post.html" class="upload-btn">Upload New Post</a>
+    <div class="posts-grid">
+        <!-- Posts will be populated here by the JS function -->
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/blog-overview.js"></script>
+
+</body>
+</html>
