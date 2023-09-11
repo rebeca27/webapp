@@ -4,272 +4,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PixelChat Control Center</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/adminpanel.css">
-    <link rel="icon" type="image/png" href="images/icons/pixelchat.ico" />
-
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/stylesdash.css">
 </head>
 
 <body>
-
     <div class="dashboard">
-
-        <div class="space-background">
-            <div class="shooting-star"></div>
-        </div>
-        <div class="globe">
-            <canvas id="globeCanvas"></canvas>
-        </div>
-
-        <!-- Radial Menu -->
-        <div class="radial-menu">
-            <button class="menu-button" id="menu-toggle">Menu</button>
-            <ul class="menu-list">
-                <li data-url="chatroom1.html">New Friends Hub</li>
-                <li data-url="chatroom2.html">Positivity Central</li>
-                <li data-url="friendrequests.html">Friend Requests</li>
-                <li data-url="userreports.html">User Reports</li>
-                <li data-url="blog.html">Blog Posts</li>
-                <li data-url="safe-space.html">Sanctuary</li>
-                <li data-url="staff.html">Staff</li>
-            </ul>
-        </div>
-
-        <div class="system-settings-sphere">
-            <button class="settings-button">System Settings</button>
-            <ul class="settings-list">
-                <li>Backup Data</li>
-                <li>Adjust Settings</li>
-                <li>Site-wide Announcements</li>
-            </ul>
-        </div>
-
-        <!-- Emergency Eject Button -->
-        <button class="emergency-eject" onclick="emergencyEject()">Emergency Eject</button>
-
-        <div class="ai-box minimized">
-            <h4>Orion AI Assistant</h4>
-            <div class="chat-window"></div>
-            <input type="text" id="askOrion" placeholder="Ask Orion...">
-            <button onclick="talkToOrion()">Ask</button>
-        </div>
-        <button id="toggleAIButton">Toggle Assistant</button>
-
-        <div class="joystick" id="joystick"></div>
-
-        <div class="message-monitor">
-            <h2>Message Traffic</h2>
+        <!-- Navigation Bar -->
+        <nav>
             <ul>
-                <li><strong>Sent Messages:</strong> 1,235</li>
-                <li><strong>Received Messages:</strong> 1,180</li>
-                <li><strong>Peak Traffic Time:</strong> 2 PM - 3 PM</li>
+                <li><a href="#users">Users</a></li>
+                <li><a href="#chatrooms">Chatrooms</a></li>
+                <li><a href="#reports">Reports</a></li>
+                <li><a href="#dashboard-overview">Dashboard Overview</a></li>
+                <li><a href="#logs">Logs</a></li>
+                <li><a href="#analytics">Analytics</a></li>
             </ul>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Users Section -->
+            <section id="users" class="users-container">
+                <h2>Users</h2>
+                <!-- User Management Enhancements -->
+                <div class="user-management">
+                    <input type="text" id="userSearch" placeholder="Search for a user...">
+                    <button onclick="searchUser()">Search</button>
+                </div>
+                <div id="userList"></div>
+            </section>
+
+
+            <!-- Chatrooms Section -->
+            <section id="chatrooms">
+                <h2>Chatrooms</h2>
+
+                <!-- Chatroom Management Enhancements -->
+                <div class="chatroom-management">
+                    <button onclick="createNewChatroom()">Create New Chatroom</button>
+                    <!-- List of chatrooms will be populated here with options to set moderators, delete, etc. -->
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports">
+                <h2>Reports</h2>
+                <!-- List of reported messages will be populated here with approve/reject options -->
+            </section>
         </div>
 
-        <div class="media-galaxy">
-        </div>
+        <div class="content">
+            <!-- Dashboard Overview Section -->
+            <section id="dashboard-overview">
+                <h2>Dashboard Overview</h2>
+                <!-- Overview content will be populated here -->
+            </section>
 
-        <div class="modal" id="adjustSettingsModal">
-            <div class="modal-content">
-                <span class="close-btn" id="closeAdjustSettings">&times;</span>
-                <h3>Adjust Settings</h3>
+            <!-- Logs Section -->
+            <section id="logs">
+                <h2>Logs</h2>
+                <!-- Logs will be populated here -->
+            </section>
 
-                <!-- Theme Setting -->
-                <label for="theme">Theme:</label>
-                <select id="theme">
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                </select>
+            <!-- Analytics Section -->
+            <section id="analytics">
+                <h2>Analytics</h2>
+                <!-- Analytics charts and data will be displayed here -->
 
-                <!-- Font Size Setting -->
-                <label for="fontSize">Font Size:</label>
-                <select id="fontSize">
-                    <option value="small">Small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                </select>
-
-                <!-- Notification Setting -->
-                <label for="notifications">Notifications:</label>
-                <select id="notifications">
-                    <option value="enabled">Enabled</option>
-                    <option value="disabled">Disabled</option>
-                </select>
-
-                <!-- Privacy Mode Setting -->
-                <label for="privacyMode">Privacy Mode:</label>
-                <select id="privacyMode">
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                </select>
-
-                <!-- Sound Effects Setting -->
-                <label for="soundEffects">Sound Effects:</label>
-                <select id="soundEffects">
-                    <option value="on">On</option>
-                    <option value="off">Off</option>
-                </select>
-
-                <!-- Language Setting -->
-                <label for="language">Language:</label>
-                <select id="language">
-                    <option value="english">English</option>
-                    <option value="spanish">Spanish</option>
-                    <option value="french">French</option>
-                    <option value="german">German</option>
-                    <!-- Add more languages as needed -->
-                </select>
-
-                <button onclick="saveSettings()">Save</button>
-            </div>
-        </div>
-
-        <div class="modal" id="siteWideAnnouncementsModal">
-            <div class="modal-content">
-                <span class="close-btn" id="closeAnnouncements">&times;</span>
-                <h3>Site-wide Announcements</h3>
-                <textarea id="announcementText" placeholder="Enter your announcement here..."></textarea>
-                <button onclick="sendAnnouncement()">Send</button>
-            </div>
-        </div>
-        <div class="modal" id="chatroom1Modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal('chatroom1Modal')">&times;</span>
-                <h3>New Friends Hub</h3>
-
-                <div class="chatroom-content">
-                    <div class="message user1">Hi there! I'm new to this group. Looking to make some friends.</div>
-                    <div class="message user2">Welcome! We're glad to have you here. Tell us a bit about yourself.</div>
-                    <div class="message user1">Thanks! I'm Jamie. I love hiking and reading sci-fi novels.</div>
-                    <div class="message user2">That's awesome, Jamie! I'm Alex. We have a few sci-fi enthusiasts here.
-                        You'll fit right in.</div>
+                <!-- User Growth Chart -->
+                <div class="chart-container">
+                    <h3>User Growth</h3>
+                    <canvas id="userGrowthChart"></canvas>
                 </div>
 
-                <div class="chatroom-input">
-                    <input type="text" placeholder="Type your message...">
-                    <button>Send</button>
+                <!-- Message Traffic Chart -->
+                <div class="chart-container">
+                    <h3>Message Traffic</h3>
+                    <canvas id="messageTrafficChart"></canvas>
                 </div>
-            </div>
+
+                <!-- Peak Times Chart -->
+                <div class="chart-container">
+                    <h3>Peak Times</h3>
+                    <canvas id="peakTimesChart"></canvas>
+                </div>
+            </section>
         </div>
-
-
-        <div class="modal" id="chatroom2Modal">
+        <div class="modal" id="userModal">
             <div class="modal-content">
-                <span class="close-btn" onclick="closeModal('chatroom2Modal')">&times;</span>
-                <h3>Positivity Central</h3>
-
-                <div class="chatroom-content">
-                    <div class="message user1">Having a rough day. Could use some positivity.</div>
-                    <div class="message user2">Sorry to hear that. Remember, every cloud has a silver lining. Tomorrow
-                        is another day!</div>
-                    <div class="message user1">Thank you for that. It's good to have a place like this to turn to.</div>
-                    <div class="message user2">Anytime! We're here to lift each other up. Always remember that!</div>
-                </div>
-
-                <div class="chatroom-input">
-                    <input type="text" placeholder="Type your message...">
-                    <button>Send</button>
-                </div>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <h3>User Details</h3>
+                <div id="userDetails"></div>
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+        <script src="js/scriptadmin.js"></script>
 
-        <div class="modal" id="userreportsModal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal('userreportsModal')">&times;</span>
-                <h3>User Reports</h3>
-
-                <div class="report-list">
-                    <div class="report">
-                        <strong>Reported by:</strong> User123 <br>
-                        <strong>Reason:</strong> Inappropriate language in chat.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User456 <br>
-                        <strong>Reason:</strong> Spamming links.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User123 <br>
-                        <strong>Reason:</strong> Inappropriate language in chat.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User456 <br>
-                        <strong>Reason:</strong> Spamming links.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User789 <br>
-                        <strong>Reason:</strong> Personal attack against another user.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User101 <br>
-                        <strong>Reason:</strong> Sharing personal information without consent.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User202 <br>
-                        <strong>Reason:</strong> Off-topic and disruptive behavior in a discussion.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User303 <br>
-                        <strong>Reason:</strong> Using a profile picture that violates community guidelines.
-                    </div>
-                    <div class="report">
-                        <strong>Reported by:</strong> User404 <br>
-                        <strong>Reason:</strong> Creating multiple accounts for the purpose of trolling.
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal" id="staffModal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal('staffModal')">&times;</span>
-                <h3>Staff Members</h3>
-
-                <div class="staff-list">
-                    <div class="staff-member">
-                        <div class="profile-pic" style="background-image: url('./images/rebeca.jpg');"></div>
-                        <div class="name">Admin - Rebeca Oprea</div>
-                    </div>
-                    <div class="staff-member">
-                        <div class="profile-pic" style="background-image: url('./images/eric.jpg');"></div>
-                        <div class="name">Moderator - Eric Oprea</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Friend Requests Modal -->
-        <div class="modal" id="friendrequestsModal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal('friendrequestsModal')">&times;</span>
-                <h3>Friend Requests</h3>
-                <ul>
-                    <li>Jane Doe <button class="accept-btn">Accept</button> <button class="reject-btn">Reject</button>
-                    </li>
-                    <li>John Smith <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Emily Watson <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Michael Brown <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Olivia Taylor <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>William Johnson <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                    <li>Isabella Williams <button class="accept-btn">Accept</button> <button
-                            class="reject-btn">Reject</button></li>
-                </ul>
-            </div>
-        </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>
-        <script src="js/adminpanel.js"></script>
 </body>
 
 </html>

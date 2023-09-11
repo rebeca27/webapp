@@ -27,10 +27,18 @@
         </div>
         <div class="container-register">
             <div class="wrap-register">
-                <form class="login-form validate-form" id="registerForm" action="/register" method="post" enctype="multipart/form-data">
+                <form class="login-form validate-form" id="registerForm"  method="post" enctype="multipart/form-data">
                     <span class="login-form-title">
                         Member Register
                     </span>
+                    <div class="wrap-input validate-input" data-validate="Name is required">
+                        <input id="nameInput" class="input" type="text" name="name" placeholder="Name" required>
+                        <span class="focus-input"></span>
+                        <span class="symbol-input">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    
                     <div class="wrap-input validate-input"
                         data-validate="Please enter a valid email address in the format: yourname@example.com">
                         <input id="emailInput" class="input" type="email" name="email" placeholder="Email" required>
@@ -83,14 +91,6 @@
                         <button type="submit" id="nextBtn" class="login-form-btn">
                             Register
                         </button>
-                    </div>
-                    <div class="text-center p-t-12">
-                        <span class="data1">
-                            Forgot
-                        </span>
-                        <a class="data2" href="recoverAccount.html">
-                            Password?
-                        </a>
                     </div>
                 </form>
             </div>

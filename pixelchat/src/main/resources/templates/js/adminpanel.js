@@ -10,11 +10,6 @@ const orbData = [{
         image: "space7.png"
     },
     {
-        tooltip: "Friend Requests - 5 New",
-        url: "friendrequests.html",
-        image: "space3.jpg"
-    },
-    {
         tooltip: "User Reports - 2 Pending",
         url: "userreports.html",
         image: "space4.jpg"
@@ -33,22 +28,70 @@ const orbData = [{
         tooltip: "Staff - 5 Active",
         url: "staff.html",
         image: "space11.jpg"
+
     }, // Example data for Staff
     // Additional orb data can be added
 ];
 
+let loggedInEmail, loggedInUserName;
 
 let scene, camera, renderer, globe;
+const chatRoomId = document.body.getAttribute('data-id');
 
-document.addEventListener('DOMContentLoaded', () => {
-    initGlobe();
-    initOrbs();
-    initJoystickControls();
-    initOrbHoverEffects();
-    initOrbClickEvents();
-    startStarGenerator();
-    initMenuToggle();
+document.addEventListener('DOMContentLoaded', (event) => {
 
+    var secretKey = "MySuperSecretKey";
+
+    function decrypt(text) {
+        var bytes = CryptoJS.AES.decrypt(text, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
+
+    // Decryption of the email from session storage
+    var emailEncrypted = sessionStorage.getItem("loggedInEmail");
+    loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
+    // Fetch user statistics by email for friend requests
+    fetch(`/email/${loggedInEmail}/statistics`)
+        .then(response => response.json())
+        .then(data => {
+            fetchedData = data; // Store fetched data in the global variable
+            // Update the orbData with the fetched friend requests
+            orbData.push({
+                tooltip: `Friend Requests - ${data.pendingFriendRequests} New`,
+                url: 'friendrequests.html',
+                image: 'space3.jpg'
+            });
+
+            // Update the message-monitor elements with fetched data
+            document.querySelector('#sent-messages').innerText = data.sentMessages;
+            document.querySelector('#received-messages').innerText = data.receivedMessages;
+            document.querySelector('#peak-time').innerText = data.peakTrafficTime;
+            document.querySelector('#active-chats').innerText = data.activeChats;
+            document.querySelector('#pending-requests').innerText = data.pendingFriendRequests;
+
+            adjustLanguage(); // Call adjustLanguage again after updating the elements
+
+
+        }).catch(error => {
+            console.error("Error fetching user statistics:", error);
+        });
+
+    fetch(`/chatrooms/currentUser`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const usernameDisplay = document.getElementById('userNameDisplay');
+            usernameDisplay.textContent = data.name;
+            usernameDisplay.classList.add('fade-in');
+        })
+        .catch(error => console.error("Error fetching user details:", error));
+
+    const chatRoomId = document.body.getAttribute('data-id');
     const aiBox = document.querySelector('.ai-box');
     const toggleAIButton = document.getElementById('toggleAIButton');
     const chatWindow = document.querySelector(".chat-window");
@@ -87,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     aiResponse = "Chat rooms are where users converse. You can monitor, join, or even create new ones from the radial menu. Remember, it's crucial to ensure a safe environment for all participants.";
                     break;
                 case "i need emotional support":
-                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-place.html'>Orbit of Optimism</a> for some positivity. If it's urgent, please talk to a trusted individual or professional.";
+                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-space.html'>Orbit of Optimism</a> for some positivity. If it's urgent, please talk to a trusted individual or professional.";
                     break;
                     // Emotional support and wellbeing
                 case "i'm sad":
@@ -95,15 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 case "i need help":
                 case "i don't feel okay":
                 case "i'm not doing well":
-                    aiResponse = "I'm really sorry you're feeling this way, but I'm glad you reached out. Please consider visiting <a href='safe-place.html'>Safe Place</a> or talk to someone who can help.";
+                    aiResponse = "I'm really sorry you're feeling this way, but I'm glad you reached out. Please consider visiting <a href='safe-space.html'>Safe Place</a> or talk to someone who can help.";
                     break;
                 case "i need someone to talk to":
                 case "i feel lonely":
-                    aiResponse = "It's important to talk to someone who can help, whether it's friends or family. You can also visit our <a href='safe-place.html'>Safe Place</a> to chat with a specialist.";
+                    aiResponse = "It's important to talk to someone who can help, whether it's friends or family. You can also visit our <a href='safe-space.html'>Safe Place</a> to chat with a specialist.";
                     break;
                 case "i'm feeling anxious":
                 case "i'm scared":
-                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-place.html'>Orbit of Optimism</a> for some positivity or join one of our support chat rooms.";
+                    aiResponse = "I'm really sorry you're feeling this way. Consider visiting the <a href='safe-space.html'>Orbit of Optimism</a> for some positivity or join one of our support chat rooms.";
                     break;
                 case "how to create a chatroom?":
                     aiResponse = "Go to the dashboard and click on 'Create Chatroom'.";
@@ -237,13 +280,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 default:
                     aiResponse = "I'm not sure about that. Can you ask something else?";
             }
-
             chatWindow.innerHTML += `<div class="ai-response">${aiResponse}</div>`;
 
             // Clear the input after asking
             askOrionInput.value = "";
         }
+
     }
+
+    initGlobe();
+    initOrbs();
+    initJoystickControls();
+    initOrbHoverEffects();
+    initOrbClickEvents();
+    startStarGenerator();
+    initMenuToggle();
+
+    // Parallax effect for the starry background
+    document.addEventListener('mousemove', function (e) {
+        const moveX = (e.clientX * -1 / 40); // Adjust the value for more or less movement
+        const moveY = (e.clientY * -1 / 40); // Adjust the value for more or less movement
+        document.querySelector('.space-background').style.backgroundPosition = moveX + 'px ' + moveY + 'px';
+    });
+
+    // Play the space radio sound
+    document.body.addEventListener('click', function () {
+        const spaceRadioSound = document.getElementById('spaceRadioSound');
+        if (!spaceRadioSound.played.length) { // Check if the sound hasn't been played yet
+            spaceRadioSound.play();
+        }
+    });
+
+    // Fetch the Logged-In User's Details
+    fetchLoggedInUserDetails();
+
+    document.getElementById('userreportsModal').addEventListener('show.bs.modal', fetchReportsAndPopulateModal);
+
 
 });
 
@@ -397,32 +469,53 @@ function initJoystickControls() {
         return closest;
     }
 
-
     joystick.addEventListener('dblclick', function () {
-    const selectedSection = closestSection();
-    if (selectedSection) {
-        const targetURL = selectedSection.getAttribute('data-url');
-        const modalID = targetURL.replace('.html', 'Modal');
-        const modalElement = document.getElementById(modalID);
-        if (modalElement) {
-            modalElement.style.display = "block";
-        } else {
-            // If there's no modal for the selected section, navigate to the page
-            window.location.href = targetURL;
+        const selectedSection = closestSection();
+        if (selectedSection) {
+            const targetURL = selectedSection.getAttribute('data-url');
+            const modalID = targetURL.replace('.html', 'Modal');
+            const modalElement = document.getElementById(modalID);
+
+            if (modalID === "friendrequestsModal") {
+                // Fetch the data only when the "Friend Requests" modal is about to be displayed
+                fetchIncomingRequests();
+            } else if (modalID === "chatroom1Modal" || modalID === "chatroom2Modal") {
+                const chatRoomId = modalElement.getAttribute('data-id');
+                fetchMessagesForChatRoom(chatRoomId);
+
+                // Connect to WebSocket when the chatroom modal is opened
+                connectWebSocket(chatRoomId);
+            } else if (modalID === "userreportsModal") {
+                // Fetch the reports when the "User Reports" modal is about to be displayed
+                fetchReportsAndPopulateModal();
+            }
+
+            if (modalElement) {
+                modalElement.style.display = "block";
+            } else {
+                // If there's no modal for the selected section, navigate to the page
+                window.location.href = targetURL;
+            }
         }
-    }
-});
+    });
 
-    
+
+
 }
 
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "none";
+function closeModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = "none";
+
+    // Disconnect from WebSocket when the chatroom modal is closed
+    if (id === "chatroom1Modal" || id === "chatroom2Modal") {
+        disconnectWebSocket();
     }
 }
+
+
+
 
 function initOrbClickEvents() {
     const orbs = document.querySelectorAll('.media-orb');
@@ -477,35 +570,31 @@ function initMenuToggle() {
 
 
 function emergencyEject() {
-
     const confirmEject = confirm("Are you sure you want to initiate Emergency Eject? You will be logged out!");
 
     if (confirmEject) {
         // Send a request to the server to log out
-        fetch('/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("You have been logged out. Notification sent to the tech team.");
-                    // Optionally, redirect to the login page or home page
-                    window.location.href = "/login";
-                } else {
-                    alert("Error logging out. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.error("Error logging out:", error);
-            });
+        function logout() {
+            fetch('/logout', {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        sessionStorage.removeItem("loggedInEmail");
+                        window.location.href = '/login'; // Redirect to login page
+                    } else {
+                        console.error('Error logging out.');
+                    }
+                });
+        }
+
+        logout(); // Call the logout function
     }
 }
 
 
-// System Settings Sphere Functionality
+
+// System Settings Sphere Functionality --------------------------------------------------------------
 
 document.querySelector('.settings-button').addEventListener('click', function () {
     const settingsList = document.querySelector('.settings-list');
@@ -550,12 +639,7 @@ document.getElementById('closeAnnouncements').addEventListener('click', function
     document.getElementById('siteWideAnnouncementsModal').style.display = 'none';
 });
 
-// Save Settings Function
-function saveSettings() {
-    // Logic to save settings
-    alert('Settings saved successfully!');
-    document.getElementById('adjustSettingsModal').style.display = 'none';
-}
+
 
 // Send Announcement Function
 function sendAnnouncement() {
@@ -568,3 +652,478 @@ function sendAnnouncement() {
         alert('Please enter an announcement text.');
     }
 }
+
+// Friend Request Logic -------------------------------------------------------------
+
+function fetchIncomingRequests() {
+    fetch("/friendRequests/incoming", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayIncomingRequests(data);
+        })
+        .catch(error => console.error("Error fetching friend requests:", error));
+}
+
+
+function acceptRequest(requestId) {
+    fetch(`/friendRequests/accept/${requestId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Friend request accepted!");
+                fetchIncomingRequests(); // Refresh the list
+            } else {
+                alert("Error accepting friend request.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+function rejectRequest(requestId) {
+    fetch(`/friendRequests/reject/${requestId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Friend request rejected!");
+                fetchIncomingRequests(); // Refresh the list
+            } else {
+                alert("Error rejecting friend request.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+function sendFriendRequest() {
+    const receiverEmail = document.getElementById("friendEmail").value;
+
+    fetch("/friendRequests/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "User-Email": loggedInEmail
+            },
+            body: JSON.stringify({
+                sender: {
+                    email: loggedInEmail
+                },
+                receiver: {
+                    email: receiverEmail
+                }
+            })
+
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+        })
+        .then(message => {
+            alert(message);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert(error.message);
+        });
+
+}
+
+function displayIncomingRequests(requests) {
+    console.log(requests); // Add this line
+
+    const list = document.getElementById("incomingRequestsList");
+    list.innerHTML = ''; // Clear the list
+
+    if (requests.length > 0) {
+        const modal = document.getElementById('friendrequestsModal');
+        modal.style.display = 'block';
+    }
+
+    requests.forEach(request => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+        ${request.senderEmail} 
+        <button class="accept-btn" onclick="acceptRequest(${request.id})">Accept</button> 
+        <button class="reject-btn" onclick="rejectRequest(${request.id})">Reject</button>
+    `;
+        list.appendChild(listItem);
+    });
+}
+
+// Chatrooms Logic -------------------------------------------------------------
+
+let loggedInUserId;
+
+function connectWebSocket(chatRoomId) {
+    // Create a connection to the WebSocket endpoint
+    const socket = new SockJS('/chat'); // This should match the endpoint you've defined in your Spring configuration
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected to WebSocket: ' + frame);
+
+        // Subscribe to the topic for the specific chatroom
+        stompClient.subscribe(`/topic/chat/${chatRoomId}`, function (messageOutput) {
+            // Handle received messages here
+            const message = JSON.parse(messageOutput.body);
+            console.log("Received message:", message); // Add this line
+            displayMessage(message);
+        });
+
+    }, function (error) {
+        console.log('WebSocket Connection Error: ' + error);
+    });
+}
+
+function fetchLoggedInUserDetails() {
+    fetch("chatrooms/currentUser", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            loggedInUserId = data.id;
+            loggedInUserName = data.name;
+        })
+        .catch(error => console.error("Error fetching user details:", error));
+}
+
+
+function displayMessage(message) {
+    const newchatRoomId = message.chatRoom && message.chatRoom.id;
+
+    if (!newchatRoomId) {
+        console.error("Received message without a chatRoomId:", message);
+        return;
+    }
+
+    const modal = document.querySelector(`.modal[data-id="${newchatRoomId}"]`);
+    if (!modal) {
+        console.error(`No modal found for chatRoomId: ${newchatRoomId}`);
+        return;
+    }
+
+    const chatroomContent = modal.querySelector('.chatroom-content');
+    if (!chatroomContent) {
+        console.error(`No chatroom content found in modal for chatRoomId: ${newchatRoomId}`);
+        return;
+    }
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
+
+    // Add user's initial
+    const userInitial = document.createElement('div');
+    userInitial.className = 'user-initial';
+    userInitial.textContent = message.user.name.charAt(0).toUpperCase();
+    messageDiv.appendChild(userInitial);
+
+    const messageContent = document.createElement('span');
+    messageContent.className = 'message-content';
+    messageContent.textContent = message.content;
+    messageDiv.appendChild(messageContent);
+
+    if (message.user.id !== loggedInUserId) {
+        // Only append the report button for messages from other users
+        const reportBtn = document.createElement('button');
+        reportBtn.className = 'report-btn';
+        reportBtn.textContent = 'Report';
+        reportBtn.onclick = function () {
+            reportMessage(message.id);
+        };
+        messageDiv.appendChild(reportBtn);
+    }
+
+    chatroomContent.appendChild(messageDiv);
+    chatroomContent.scrollTop = chatroomContent.scrollHeight;
+}
+
+function fetchMessagesForChatRoom(chatRoomId) {
+    fetch(`/chatrooms/${chatRoomId}/messages`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modal = document.querySelector(`.modal[data-id="${chatRoomId}"]`);
+            if (!modal) {
+                console.error(`No modal found for chatRoomId: ${chatRoomId}`);
+                return;
+            }
+
+            const chatroomContent = modal.querySelector('.chatroom-content');
+            chatroomContent.innerHTML = ''; // Clear previous messages
+
+            data.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${message.user.id === loggedInUserId ? 'myMessage' : 'otherMessage'}`;
+                
+                // Add user's initial
+                const userInitial = document.createElement('div');
+                userInitial.className = 'user-initial';
+                userInitial.textContent = message.user.name.charAt(0).toUpperCase();
+                messageDiv.appendChild(userInitial);
+
+                const messageContent = document.createElement('span');
+                messageContent.className = 'message-content';
+                messageContent.textContent = message.content;
+                messageDiv.appendChild(messageContent);
+
+                if (message.user.id !== loggedInUserId) {
+                    // Only append the report button for messages from other users
+                    const reportBtn = document.createElement('button');
+                    reportBtn.className = 'report-btn';
+                    reportBtn.textContent = 'Report';
+                    reportBtn.onclick = function () {
+                        reportMessage(message.id);
+                    };
+                    messageDiv.appendChild(reportBtn);
+                }
+                const userColor = getConsistentColor(message.user.id.toString());
+                userInitial.style.backgroundColor = userColor;
+                chatroomContent.appendChild(messageDiv);
+                chatroomContent.scrollTop = chatroomContent.scrollHeight;
+            });
+        })
+        .catch(error => console.error("Error fetching messages:", error));
+}
+
+function sendMessage(chatRoomId, inputId) {
+    const inputElement = document.getElementById(inputId);
+    const content = inputElement.value;
+
+    if (stompClient && content.trim() !== "") {
+        const messageData = {
+            content: content,
+            chatRoomId: chatRoomId,
+            user: {
+                id: loggedInUserId,
+                email: loggedInEmail,
+                name: loggedInUserName
+
+            }
+        };
+        stompClient.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify(messageData));
+        inputElement.value = ''; // Clear the input field
+    } else {
+        console.error("WebSocket is not connected or the message is empty.");
+    }
+}
+
+function disconnectWebSocket() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    console.log("Disconnected");
+}
+
+// function searchChatrooms() {
+//     const query = document.getElementById('chatSearch').value.toLowerCase();
+//     const resultsDiv = document.getElementById('searchResults');
+
+//     // This is a simple example. In a real-world scenario, you'd likely use a more advanced searching mechanism.
+//     const chatrooms = [ // This array would come from your actual chatroom data
+//         {
+//             name: 'New Friends Hub',
+//             keywords: 'friends, new, hub'
+//         },
+//         {
+//             name: 'Positivity Central',
+//             keywords: 'positive, central, happy'
+//         }
+//         // ... other chatrooms ...
+//     ];
+
+//     const matches = chatrooms.filter(chatroom =>
+//         chatroom.name.toLowerCase().includes(query) ||
+//         chatroom.keywords.toLowerCase().includes(query)
+//     );
+
+//     resultsDiv.innerHTML = matches.map(match => `
+//     <div>
+//         ${match.name} 
+//         <button onclick="addToMenu('${match.name}', '${match.dataUrl}')">Add to Menu</button>
+//     </div>
+// `).join('');
+// }
+
+
+// function addToMenu(chatroomName, dataUrl) {
+//     const menuList = document.querySelector(".menu-list");
+//     const listItem = document.createElement("li");
+//     listItem.setAttribute("data-url", dataUrl);
+//     listItem.textContent = chatroomName;
+//     menuList.appendChild(listItem);
+//     saveMenuToLocalStorage();
+// }
+
+
+function reportMessage(messageId) {
+    // Use the loggedInEmail from the provided code
+    const reporterEmail = loggedInEmail;
+
+    if (!reporterEmail) {
+        console.error("User not logged in.");
+        return;
+    }
+
+    // Fetch the user details to get the reporterId
+    fetch("chatrooms/currentUser", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': reporterEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const reporterId = data.id;
+
+            // Now make the AJAX call to report the message
+            fetch(`/reports/reportmessage/${messageId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Email': reporterEmail
+                    },
+                    body: JSON.stringify(reporterId)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Message reported successfully.");
+                    } else {
+                        return response.text().then(text => {
+                            throw new Error(text);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error reporting message:", error);
+                });
+        })
+        .catch(error => {
+            console.error("Error fetching user details:", error);
+        });
+}
+
+function fetchReportsAndPopulateModal() {
+    console.log("Fetching reports..."); // Add this line
+
+    fetch("/reports/reportedmessages", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            const reportListDiv = document.querySelector('.report-list');
+            reportListDiv.innerHTML = ''; // Clear previous reports
+
+            data.forEach(report => {
+                const reportDiv = document.createElement('div');
+                reportDiv.className = 'report';
+
+                const reportedBy = document.createElement('strong');
+                reportedBy.innerHTML = `Reported by: ${report.reporter.name}`;
+                reportDiv.appendChild(reportedBy);
+                reportDiv.innerHTML += '<br>';
+
+                const reason = document.createElement('strong');
+                reason.innerHTML = `Reason: Spam`;
+                reportDiv.appendChild(reason);
+
+                reportListDiv.appendChild(reportDiv);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching reports:", error);
+        });
+}
+
+/**
+ * Get a consistent color based on a given string.
+ * 
+ * @param {string} input - The input string to generate the color from.
+ * @returns {string} - The consistent color represented as a hexadecimal value.
+ */
+
+function getConsistentColor(input) {
+    const colors = [
+        "#FFD1DC", // Pastel Pink
+        "#FFDACD", // Pastel Peach
+        "#FFEBD6", // Pastel Orange
+        "#FFF5E1", // Pastel Yellow
+        "#E1FFD1", // Pastel Lime
+        "#D1FFEB", // Pastel Green
+        "#D1F2FF", // Pastel Sky Blue
+        "#D1D1FF", // Pastel Blue
+        "#E8D1FF", // Pastel Purple
+        "#FFD1F2", // Pastel Magenta
+        "#FFB3BA", // Light Pink
+        "#FFDFB3", // Light Peach
+        "#FFFFB3", // Light Yellow
+        "#B3FFB3", // Light Lime
+        "#B3FFCE", // Light Green
+        "#B3FFFF", // Light Sky Blue
+        "#B3B3FF", // Light Blue
+        "#DCB3FF", // Light Purple
+        "#FFB3E6", // Light Magenta
+        "#FFC0CB", // Pink
+        "#FFDAB9", // Peach Puff
+        "#FFE4B5", // Moccasin
+        "#FFFACD", // Lemon Chiffon
+        "#D3FFCE", // Honeydew
+        "#C1FFC1", // Pale Green
+        "#C1FFD8", // Aquamarine
+        "#C1FFFF", // Azure
+        "#C1C1FF", // Lavender
+        "#D8C1FF", // Thistle
+        "#FFC1E0"  // Pink Lace
+    ];
+    
+    
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+        hash = (hash << 5) - hash + input.charCodeAt(i);
+        hash |= 0; // Convert to 32-bit integer
+    }
+    
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+}
+
+
+

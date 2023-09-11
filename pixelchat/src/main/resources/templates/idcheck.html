@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Verification</title>
+    <link rel="stylesheet" href="css/idStyles.css">
+</head>
+<body>
+    <div class="verification-container">
+        <h2>Verify Your Identity</h2>
+        <p>To access advanced features, please upload a valid ID for verification.</p>
+        <input type="file" id="idUpload">
+        <button onclick="submitID()">Submit</button>
+    </div>
+
+    <script>
+        function submitID() {
+            location.href = 'confirmation.html';
+        }        
+    </script>
+</body>
+</html>

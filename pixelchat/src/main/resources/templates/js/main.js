@@ -17,6 +17,7 @@
     if (isValid) {
       event.preventDefault(); // Prevent default form submission if validation passes
 
+      let name = document.querySelector('#nameInput').value;
       let email = document.querySelector('#emailInput').value;
       let password = document.querySelector('#passwordInput').value;
       let color = document.querySelector('#colorInput').value;
@@ -24,6 +25,7 @@
 
       // Gather your form data here...
       let formData = new FormData();
+      formData.append('name',name);
       formData.append('email', email);
       formData.append('password', password);
       formData.append('color', color);

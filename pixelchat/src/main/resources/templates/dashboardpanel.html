@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelChat Control Center</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/adminpanel.css">
+    <link rel="icon" type="image/png" href="images/icons/pixelchat.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <div class="space-background">
+            <div class="shooting-star"></div>
+        </div>
+        <div class="globe">
+            <canvas id="globeCanvas"></canvas>
+        </div>
+
+        <!-- Radial Menu -->
+        <div class="radial-menu">
+            <button class="menu-button" id="menu-toggle">Menu</button>
+            <ul class="menu-list">
+                <li data-url="chatroom1.html">New Friends Hub</li>
+                <li data-url="chatroom2.html">Positivity Central</li>
+                <li data-url="friendrequests.html">Friend Requests</li>
+                <li data-url="userreports.html">User Reports</li>
+                <li data-url="blog.html">Blog Posts</li>
+                <li data-url="safe-space.html">Sanctuary</li>
+                <li data-url="staff.html">Staff</li>
+            </ul>
+        </div>
+
+        <div class="system-settings-sphere">
+            <button class="settings-button" id="system-settings-title">System Settings</button>
+            <ul class="settings-list">
+                <li id="backup-data">Backup Data</li>
+                <li id="adjust-settings">Adjust Settings</li>
+                <li id="site-wide-announcements">Site-wide Announcements</li>
+            </ul>
+        </div>
+
+        <!-- Emergency Eject Button -->
+        <button class="emergency-eject" id="emergency-eject" onclick="emergencyEject()">Emergency Eject</button>
+
+        <!-- <div class="search-container">
+            <input type="text" id="chatSearch" placeholder="Search chatrooms...">
+            <button onclick="searchChatrooms()"><i class="fas fa-search"></i></button>
+            <div id="searchResults"></div>
+        </div> -->
+
+        <div class="ai-box minimized">
+            <h4 id="ai-assistant-title">Orion AI Assistant</h4>
+            <div class="chat-window"></div>
+            <input type="text" id="askOrion" placeholder="Ask Orion...">
+            <button onclick="talkToOrion()">Ask</button>
+        </div>
+        <button id="toggleAIButton">Toggle Assistant</button>
+
+        <div class="joystick" id="joystick"></div>
+
+        <div class="message-monitor">
+            <h2>Message Traffic</h2>
+            <ul>
+                <ul>
+                    <li id="sent-messages"><strong>Sent Messages:</strong> <span>Loading...</span></li>
+                    <li id="received-messages"><strong>Received Messages:</strong> <span>Loading...</span></li>
+                    <li id="peak-time"><strong>Peak Traffic Time:</strong> <span>Loading...</span></li>
+                    <li id="active-chats"><strong>Active Chats:</strong> <span>Loading...</span></li>
+                    <li id="pending-requests"><strong>Pending Friend Requests:</strong> <span>Loading...</span></li>
+                </ul>
+
+            </ul>
+        </div>
+
+        <div class="media-galaxy">
+        </div>
+
+
+        <!-- <div class="spaceship">
+            <div class="window"></div>
+        </div> -->
+
+        <div class="user-display">
+            <span>Incoming transmission... Hello, Pilot </span><span id="userNameDisplay">Loading...</span><span> This
+                is PixelSpaceStation. Do you copy?</span>
+        </div>
+
+        <!-- Audio Element for Sound -->
+        <audio id="spaceRadioSound" preload="auto">
+            <source src="sound/radio_sound.wav" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="modal" id="adjustSettingsModal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeAdjustSettings">&times;</span>
+                <h3>Adjust Settings</h3>
+
+                <!-- Font Size Setting -->
+                <label for="fontSize">Font Size:</label>
+                <select id="fontSize">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+
+                <!-- Notification Setting -->
+                <label for="notifications">Notifications:</label>
+                <select id="notifications">
+                    <option value="enabled">Enabled</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+
+                <!-- Language Setting -->
+                <label for="language">Language:</label>
+                <select id="language">
+                    <option value="english" selected>English</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="french">French</option>
+                    <option value="german">German</option>
+                    <option value="italian">Italian</option>
+                    <option value="portuguese">Portuguese</option>
+                    <option value="dutch">Dutch</option>
+                    <option value="russian">Russian</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="korean">Korean</option>
+                    <option value="arabic">Arabic</option>
+                    <option value="turkish">Turkish</option>
+                    <option value="swedish">Swedish</option>
+                    <option value="norwegian">Norwegian</option>
+                    <option value="greek">Greek</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="finnish">Finnish</option>
+                    <option value="danish">Danish</option>
+                    <option value="polish">Polish</option>
+                    <option value="hungarian">Hungarian</option>
+                </select>
+                <button onclick="saveSettings()">Save</button>
+            </div>
+        </div>
+
+        <div class="modal" id="siteWideAnnouncementsModal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeAnnouncements">&times;</span>
+                <h3>Site-wide Announcements</h3>
+                <textarea id="announcementText" placeholder="Enter your announcement here..."></textarea>
+                <button onclick="sendAnnouncement()">Send</button>
+            </div>
+        </div>
+
+
+
+        <div class="modal" id="chatroom1Modal" data-id="1" onopen="connectWebSocket(1)" onclose="disconnectWebSocket()">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('chatroom1Modal')">&times;</span>
+                <h3>New Friends Hub</h3>
+
+                <div class="chatroom-content">
+                    <!-- This section will be dynamically populated with messages from the server -->
+                </div>
+
+                <div class="chatroom-input">
+                    <input type="text" id="chatroom1Input" placeholder="Type your message...">
+                    <button onclick="sendMessage(1, 'chatroom1Input')">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="chatroom2Modal" data-id="2" onopen="connectWebSocket(2)" onclose="disconnectWebSocket()">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('chatroom2Modal')">&times;</span>
+                <h3>Positivity Central</h3>
+
+                <div class="chatroom-content">
+                    <!-- This section will be dynamically populated with messages from the server -->
+                </div>
+
+                <div class="chatroom-input">
+                    <input type="text" id="chatroom2Input" placeholder="Type your message...">
+                    <button onclick="sendMessage(2, 'chatroom2Input')">Send</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="modal" id="userreportsModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('userreportsModal')">&times;</span>
+                <h3>User Reports</h3>
+                <div class="report-list">
+                    <!-- Reports will be dynamically populated here -->
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal" id="staffModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('staffModal')">&times;</span>
+                <h3>Staff Members</h3>
+
+                <div class="staff-list">
+                    <div class="staff-member">
+                        <div class="profile-pic" style="background-image: url('./images/rebeca.jpg');"></div>
+                        <div class="name">Admin - Rebeca Oprea</div>
+                    </div>
+                    <div class="staff-member">
+                        <div class="profile-pic" style="background-image: url('./images/eric.jpg');"></div>
+                        <div class="name">Moderator - Eric Oprea</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Friend Requests Modal -->
+        <div class="modal" id="friendrequestsModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('friendrequestsModal')">&times;</span>
+                <h3>Friend Requests</h3>
+
+                <!-- Inside the Friend Requests Modal -->
+                <div id="sendFriendRequestForm">
+                    <input type="text" id="friendEmail" placeholder="Enter friend's email">
+                    <button onclick="sendFriendRequest()">Send Friend Request</button>
+                </div>
+
+
+                <!-- List of incoming friend requests -->
+                <ul id="incomingRequestsList">
+                    <!-- This will be populated dynamically using JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/three@latest/build/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@latest/examples/js/controls/OrbitControls.js"></script>
+
+        <script src="js/settings.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+        <script src="js/adminpanel.js"></script>
+</body>
+
+</html>
