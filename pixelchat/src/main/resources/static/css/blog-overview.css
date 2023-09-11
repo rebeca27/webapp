@@ -1,9 +1,15 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
+    background-image: url('../images/blob.heic');  /* Path to your image */
+    background-size: cover;  /* Cover the viewport */
+    background-repeat: no-repeat;  /* Do not repeat the image */
+    background-attachment: fixed;  /* Background image doesn't scroll with the content */
+    background-position: center center;  /* Center the image */
     margin: 0;
     padding: 0;
 }
+
 
 .blog-overview-container {
     max-width: 1200px;

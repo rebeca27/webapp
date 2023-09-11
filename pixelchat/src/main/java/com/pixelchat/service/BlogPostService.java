@@ -20,4 +20,9 @@ public class BlogPostService {
     public List<BlogPost> getAllBlogPosts() {
         return blogPostRepository.findAll();
     }
+
+    public List<BlogPost> getAllBlogPostsByUserId(Long userId) {
+        return blogPostRepository.findByUserId(userId);
+    }
+
 }

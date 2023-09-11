@@ -1,5 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/blog/getPosts')
+    var secretKey = "MySuperSecretKey";
+
+    function decrypt(text) {
+        var bytes = CryptoJS.AES.decrypt(text, secretKey);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    }
+
+    var emailEncrypted = sessionStorage.getItem("loggedInEmail");
+    loggedInEmail = emailEncrypted ? decrypt(emailEncrypted) : "fallback@example.com";
+
+    fetchLoggedInUserDetails();
+});
+
+function fetchLoggedInUserDetails() {
+    fetch("chatrooms/currentUser", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Email': loggedInEmail
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            loggedInUserId = data.id;
+
+            // Now fetch the posts after getting the user ID
+            fetchPostsForUser();
+        })
+        .catch(error => console.error("Error fetching user details:", error));
+}
+
+function fetchPostsForUser() {
+    fetch(`/blog/getPosts?userId=${loggedInUserId}`)
         .then(response => response.json())
         .then(posts => {
             const postsGrid = document.querySelector(".posts-grid");
@@ -7,11 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const postElement = document.createElement('div');
                 postElement.className = "post";
 
-                // ... in your blog-overview.js ...
-
                 const postImage = document.createElement('img');
                 postImage.src = `../images/${post.imageName}/`;
-
                 postImage.alt = "Blog post image";
 
                 const postText = document.createElement('p');
@@ -23,4 +52,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 postsGrid.appendChild(postElement);
             });
         });
-});
+}

@@ -42,7 +42,8 @@ public class BlogPostController {
 
 
     @GetMapping("/getPosts")
-    public List<BlogPost> getAllBlogPosts() {
-        return blogPostService.getAllBlogPosts();
+    public List<BlogPost> getAllBlogPosts(@RequestParam Long userId) {
+        return blogPostService.getAllBlogPostsByUserId(userId);
     }
+
 }
